@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registracija | MokykisPro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="auth-bg">
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="index.html" class="logo">Mokykis<span>Pro</span></a>
+                <h2>Sukurti paskyrą</h2>
+                <p>Prisijunk prie tūkstančių besimokančių</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <div class="input-group">
+                    <label for="regName">Vardas</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="regName" placeholder="Jonas" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="regEmail">El. paštas</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="regEmail" placeholder="pavyzdys@mail.lt" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="regPassword">Slaptažodis</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="regPassword" placeholder="Min. 6 simboliai" required minlength="6">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Registruotis</button>
+            </form>
+
+            <p class="auth-footer">
+                Jau turite paskyrą? <a href="login.html">Prisijungti</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

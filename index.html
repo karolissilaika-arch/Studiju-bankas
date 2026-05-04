@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudijųBankas | Tavo AI Korepetitorius</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigacija -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">Studijų<span>Bankas</span></div>
+            <ul class="nav-links">
+                <li><a href="#temos">Temos</a></li>
+                <li><a href="#analitika">Mokomoji medžiaga</a></li>
+                <li><a href="#funkcijos">Užduotys</a></li>
+                <li><a href="#kainos" class="premium-badge">Premium</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-primary" style="text-decoration: none;">Prisijungti</a>
+                <a href="register.html" class="btn-primary">Registruotis</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Sekcija -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Pasiruošk egzaminams su <span class="highlight">dirbtiniu intelektu</span></h1>
+            <p>Interaktyvios matematikos pamokos, egzaminų užduotys ir asmeninis AI mokytojas vienoje vietoje.</p>
+            <div class="hero-btns">
+                <button class="btn-primary btn-lg">Pradėti mokytis nemokamai</button>
+                <button class="btn-outline btn-lg">Išbandyti AI asistentą</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="mockup-card">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                <div class="mockup-text">
+                    <p class="code-comment">// Tavo progresas</p>
+                    <p>Matematika: 85%</p>
+                    <div class="progress-bar"><div class="fill"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Funkcijų sekcija -->
+    <section id="funkcijos" class="features">
+        <div class="feature">
+            <i class="fas fa-brain"></i>
+            <h3>AI Pagalba</h3>
+            <p>Nesupranti uždavinio? Mūsų AI paaiškins sprendimą žingsnis po žingsnio.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-file-alt"></i>
+            <h3>Egzaminų Užduotys</h3>
+            <p>Tūkstančiai klausimų skirti pasiruošti egzaminams.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-chart-line"></i>
+            <h3>Analitika</h3>
+            <p>Stebėk savo silpnąsias vietas ir sužinok, kurias temas reikia pasikartoti.</p>
+        </div>
+    </section>
+
+    <!-- Prenumeratos planas -->
+    <section id="kainos" class="pricing">
+        <h2>Pasirink savo planą</h2>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <h3>Nemokamas</h3>
+                <p class="price">0€<span>/mėn</span></p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Visos pagrindinės temos</li>
+                    <li><i class="fas fa-check"></i> Egzaminų testai</li>
+                    <li class="disabled"><i class="fas fa-times"></i> AI asistentas</li>
+                    <li class="disabled"><i class="fas fa-times"></i> Jokių reklamų</li>
+                </ul>
+                <button class="btn-outline">Pradėti</button>
+            </div>
+            <div class="price-card featured">
+                <div class="popular">Populiariausias</div>
+                <h3>Premium</h3>
+                <p class="price">9.99€<span>/mėn</span></p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Viskas, kas nemokama</li>
+                    <li><i class="fas fa-check"></i> <b>Neribotas AI asistentas</b></li>
+                    <li><i class="fas fa-check"></i> <b>Jokių reklamų</b></li>
+                    <li><i class="fas fa-check"></i> PDF konspektai</li>
+                </ul>
+                <button class="btn-primary">Rinktis Premium</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

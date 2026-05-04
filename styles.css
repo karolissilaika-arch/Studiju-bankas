@@ -1,0 +1,275 @@
+/* Pagrindiniai nustatymai */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --bg: #ffffff;
+    --text: #1f2937;
+    --gray-light: #f9fafb;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+/* Navigacija */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 8%; background: white; border-bottom: 1px solid #eee;
+    position: sticky; top: 0; z-index: 1000;
+}
+.logo { font-size: 1.5rem; font-weight: 800; cursor: pointer; }
+.logo span { color: var(--primary); }
+.nav-links { list-style: none; display: flex; gap: 30px; }
+.nav-links a { text-decoration: none; color: var(--text); font-weight: 500; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary); }
+
+/* Hero Sekcija */
+.hero {
+    display: flex; align-items: center; padding: 80px 8%;
+    background: radial-gradient(circle at top right, #eef2ff, #ffffff);
+    min-height: 80vh;
+}
+.hero-content { flex: 1; }
+.hero-content h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+.highlight { color: var(--primary); }
+.hero-btns { display: flex; gap: 15px; margin-top: 30px; }
+
+/* Mygtukai */
+.btn-primary { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+.btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+/* Funkcijos */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 80px 8%; background: white; }
+.feature { text-align: center; padding: 20px; }
+.feature i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+
+/* Kainodara */
+.pricing { padding: 80px 8%; text-align: center; background: var(--gray-light); }
+.pricing-grid { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.price-card { background: white; padding: 40px; border-radius: 20px; width: 320px; border: 1px solid #eee; position: relative; }
+.price-card.featured { border: 2px solid var(--primary); transform: scale(1.05); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2); }
+.price { font-size: 2.5rem; font-weight: 800; margin: 20px 0; }
+.price span { font-size: 1rem; color: #666; }
+.price-card ul { list-style: none; text-align: left; margin-bottom: 30px; }
+.price-card li { margin-bottom: 10px; }
+.disabled { color: #ccc; text-decoration: line-through; }
+.popular { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; }
+/* Autentifikacijos stiliai */
+.auth-bg {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h2 {
+    margin-top: 15px;
+    font-size: 1.8rem;
+    color: var(--text);
+}
+
+.auth-header p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Formos elementai */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.input-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 15px;
+    color: #9ca3af;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-wrapper input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.forgot-pw {
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.btn-full {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Skiriamoji linija */
+.divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #eee;
+    z-index: 1;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    color: #999;
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 2;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.auth-footer a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+/* Dashboard Išdėstymas */
+.dashboard-bg { background: #f0f2f5; }
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar-nav {
+    width: 250px;
+    background: white;
+    padding: 30px 20px;
+    border-right: 1px solid #e5e7eb;
+}
+
+.sidebar-nav nav { display: flex; flex-direction: column; gap: 10px; margin-top: 40px; }
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: #4b5563;
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-nav a.active, .sidebar-nav a:hover {
+    background: #eef2ff;
+    color: var(--primary);
+}
+
+.sidebar-nav a.logout { margin-top: 20px; color: #ef4444; }
+
+/* Pagrindinė dalis */
+.dashboard-main { flex: 1; padding: 40px; }
+
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-card i { font-size: 1.5rem; color: var(--primary); }
+
+.course-list { display: flex; flex-direction: column; gap: 15px; }
+
+.course-item {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dash-ad {
+    margin-top: 40px;
+    background: #e5e7eb;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px dashed #9ca3af;
+    color: #6b7280;
+}

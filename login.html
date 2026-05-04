@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prisijungti | StudijųBankas</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="auth-bg">
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
+                <h2>Sveiki sugrįžę!</h2>
+                <p>Prisijunkite prie savo paskyros</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <label for="email">El. paštas</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="pavyzdys@mail.lt" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label for="password">Slaptažodis</label>
+                        <a href="#" class="forgot-pw">Pamiršote?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Prisijungti</button>
+            </form>
+
+            <div class="divider">
+                <span>arba</span>
+            </div>
+
+            <div class="social-login">
+                <button class="btn-outline btn-full">
+                    <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width="18"> 
+                    Prisijungti su Google
+                </button>
+            </div>
+
+            <p class="auth-footer">
+                Neturite paskyros? <a href="#">Registruotis</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
