@@ -1,4 +1,3 @@
-/* Pagrindiniai nustatymai */
 :root {
     --primary: #6366f1;
     --primary-dark: #4f46e5;
@@ -10,7 +9,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-/* Navigacija */
 .navbar {
     display: flex; justify-content: space-between; align-items: center;
     padding: 20px 8%; background: white; border-bottom: 1px solid #eee;
@@ -22,7 +20,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
 .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* Hero Sekcija */
 .hero {
     display: flex; align-items: center; padding: 80px 8%;
     background: radial-gradient(circle at top right, #eef2ff, #ffffff);
@@ -33,17 +30,14 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
 .highlight { color: var(--primary); }
 .hero-btns { display: flex; gap: 15px; margin-top: 30px; }
 
-/* Mygtukai */
 .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
 .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; }
 
-/* Funkcijos */
 .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 80px 8%; background: white; }
 .feature { text-align: center; padding: 20px; }
 .feature i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
 
-/* Kainodara */
 .pricing { padding: 80px 8%; text-align: center; background: var(--gray-light); }
 .pricing-grid { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
 .price-card { background: white; padding: 40px; border-radius: 20px; width: 320px; border: 1px solid #eee; position: relative; }
@@ -54,7 +48,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
 .price-card li { margin-bottom: 10px; }
 .disabled { color: #ccc; text-decoration: line-through; }
 .popular { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; }
-/* Autentifikacijos stiliai */
 .auth-bg {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     min-height: 100vh;
@@ -92,7 +85,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
     font-size: 0.95rem;
 }
 
-/* Formos elementai */
 .input-group {
     margin-bottom: 20px;
 }
@@ -150,7 +142,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
     gap: 10px;
 }
 
-/* Skiriamoji linija */
 .divider {
     text-align: center;
     margin: 25px 0;
@@ -189,7 +180,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
     font-weight: 600;
     text-decoration: none;
 }
-/* Dashboard Išdėstymas */
 .dashboard-bg { background: #f0f2f5; }
 
 .dashboard-layout {
@@ -224,7 +214,6 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
 
 .sidebar-nav a.logout { margin-top: 20px; color: #ef4444; }
 
-/* Pagrindinė dalis */
 .dashboard-main { flex: 1; padding: 40px; }
 
 .dash-header {
@@ -273,3 +262,34 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
     border: 2px dashed #9ca3af;
     color: #6b7280;
 }
+
+/* Admin lentelių stilius */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.admin-table th, .admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-table tr:hover {
+    background-color: #f1f4f9;
+}
+
+/* Veiksmų mygtukai */
+.btn-edit { color: #4a90e2; cursor: pointer; margin-right: 10px; }
+.btn-delete { color: #e74c3c; cursor: pointer; }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panelė | MokykisPro</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        <!-- Šoninis meniu (Toks pat kaip dashboard) -->
+        <aside class="sidebar-nav">
+            <div class="logo">Studijų<span>Bankas</span></div>
+            <nav>
+                <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="#" class="active"><i class="fas fa-tools"></i> Admin Panelė</a>
+                <hr>
+                <a href="index.html" class="logout"><i class="fas fa-sign-out-alt"></i> Atsijungti</a>
+            </nav>
+        </aside>
+
+        <!-- Pagrindinis turinis -->
+        <main class="dashboard-main">
+            <header class="dash-header">
+                <h2>Turinio valdymas</h2>
+            </header>
+
+            <h3>Sukurti naują pamoką</h3>
+            <div class="course-item" style="display: block; margin-bottom: 30px;">
+                <form id="topicForm">
+                    <div class="input-group">
+                        <label>Pavadinimas</label>
+                        <input type="text" id="topicTitle" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Trumpas aprašymas</label>
+                        <input type="text" id="topicDesc">
+                    </div>
+                    <div class="input-group">
+                        <label>Pamokos turinys (HTML/Tekstas)</label>
+                        <textarea id="topicContent" rows="10" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top:10px;">Skelbti pamoką</button>
+                </form>
+            </div>
+
+            <h3>Sukurti naują testą</h3>
+            <div class="course-item" style="display: block;">
+                <form id="quizForm">
+                    <div class="input-group">
+                        <label>Testo pavadinimas</label>
+                        <input type="text" id="quizTitle" required>
+                    </div>
+                    <div id="questions-container"></div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
+                        <button type="submit" class="btn-primary">Išsaugoti testą</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pamoka | MokykisPro</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Supabase biblioteka (BŪTINA) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        <aside class="sidebar-nav">
+            <div class="logo">Studijų<span>Bankas</span></div>
+            <nav>
+                <a href="dashboard.html"><i class="fas fa-home"></i> Grįžti į pradžią</a>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dash-header">
+                <h2 id="lesson-title">Kraunama...</h2>
+            </header>
+
+            <div class="course-item" style="display: block; padding: 30px; line-height: 1.8;">
+                <div id="lesson-content">
+                    <!-- Turinys iš JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Tavo pagrindinis skriptas (kad veiktų supabaseClient kintamasis) -->
+    <script src="scripts.js"></script>
+
+    <script>
+    async function loadLessonDetail() {
+        // 1. Pasiimame pavadinimą iš adreso juostos (pvz., ?id=Ganjos%20mokslai)
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonId = urlParams.get('id'); 
+
+        if (!lessonId) {
+            document.getElementById('lesson-title').innerText = "Pamoka nerasta";
+            return;
+        }
+
+        // 2. Traukiame duomenis naudodami 'title', nes tavo DB tai yra Primary Key
+        const { data: topic, error } = await supabaseClient
+            .from('topics')
+            .select('*')
+            .eq('title', lessonId) // Ieškome sutapimo 'title' stulpelyje
+            .single();
+
+        if (error || !topic) {
+            console.error("Supabase klaida:", error);
+            document.getElementById('lesson-title').innerText = "Klaida užkraunant turinį";
+            document.getElementById('lesson-content').innerHTML = "<p>Nepavyko rasti pamokos duomenų bazėje.</p>";
+            return;
+        }
+
+        // 3. Atvaizduojame gautą informaciją
+        document.title = `${topic.title} | MokykisPro`; // Pakeičia naršyklės tab'o pavadinimą
+        document.getElementById('lesson-title').innerText = topic.title;
+        document.getElementById('lesson-content').innerHTML = topic.content;
+    }
+
+    // Paleidžiame funkciją, kai puslapis užsikrauna
+    window.onload = loadLessonDetail;
+ </script>
+
+    <style>
+        .lesson-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+        .lesson-text {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .lesson-text h1, .lesson-text h2 { color: #2c3e50; }
+        .lesson-text img { max-width: 100%; border-radius: 8px; }
+    </style>
+</body>
+</html>
