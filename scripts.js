@@ -324,65 +324,94 @@ function addQuestion() {
 }
 
 /// 1. Tik deklaruojame kintamąjį (neimame .value iškart!)
-const quizForm = document.getElementById('quizForm');
+// --- ADMINO FUNKCIJOS ---
 
-if (quizForm) {
-    quizForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+// 1. Funkcija, kuri prideda naują klausimo bloką į formą
+function addQuestion() {
+    const container = document.getElementById('questions-container');
+    if (!container) return; // Saugiklis: jei konteinerio nėra, nieko nedarom
 
-        // 2. Vertes imame TIK tada, kai forma pateikiama
-        const titleEl = document.getElementById('quizTitle');
-        const descEl = document.getElementById('quizDesc');
-        const qContainer = document.getElementById('questions-container');
+    const qBlock = document.createElement('div');
+    qBlock.className = 'course-item question-block'; 
+    qBlock.style.display = 'block'; 
+    qBlock.style.marginTop = '15px';
 
-        if (!titleEl || !descEl) {
-            console.error("Trūksta formos laukelių!");
-            return;
-        }
+    qBlock.innerHTML = `
+        <div class="input-group">
+            <label style="display:block; font-weight:600; margin-bottom:5px;">Klausimas</label>
+            <input type="text" class="q-text" placeholder="Įrašykite klausimą" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
+        </div>
+        <div class="input-group" style="margin-top:10px;">
+            <label style="display:block; font-weight:600; margin-bottom:5px;">Atsakymai (atskirti kableliais)</label>
+            <input type="text" class="q-options" placeholder="pvz: 2, 4, 5" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
+        </div>
+        <div class="input-group" style="margin-top:10px;">
+            <label style="display:block; font-weight:600; margin-bottom:5px;">Teisingo atsakymo numeris (nuo 0)</label>
+            <input type="number" class="q-correct" placeholder="0" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
+        </div>
+        <button type="button" onclick="this.parentElement.remove()" class="btn-outline" style="margin-top:10px; color:red; border-color:red;">Pašalinti</button>
+    `;
+    
+    container.appendChild(qBlock);
+}
 
-        const title = titleEl.value;
-        const desc = descEl.value;
-        
-        const questionBlocks = document.querySelectorAll('.question-block');
-        const questionsArray = [];
+// 2. Formos pateikimo klausytojas (Save/Insert logika)
+document.addEventListener('DOMContentLoaded', () => {
+    const quizForm = document.getElementById('quizForm');
+    
+    if (quizForm) {
+        quizForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        questionBlocks.forEach(block => {
-            const qInput = block.querySelector('.q-text');
-            const oInput = block.querySelector('.q-options');
-            const cInput = block.querySelector('.q-correct');
+            const titleEl = document.getElementById('quizTitle');
+            const descEl = document.getElementById('quizDesc');
+            const qContainer = document.getElementById('questions-container');
 
-            if (qInput && oInput && cInput) {
-                const q = qInput.value;
-                const options = oInput.value.split(',').map(s => s.trim());
-                const correct = parseInt(cInput.value);
+            // Jei nerandame pagrindinių laukų - stabdome
+            if (!titleEl || !descEl) {
+                console.error("Klaida: Nerasti formos laukai (quizTitle/quizDesc)!");
+                return;
+            }
 
-                if (q && options.length > 0) {
-                    questionsArray.push({ q, a: options, c: correct });
+            const title = titleEl.value;
+            const desc = descEl.value;
+            const questionBlocks = document.querySelectorAll('.question-block');
+            const questionsArray = [];
+
+            questionBlocks.forEach(block => {
+                const qInput = block.querySelector('.q-text');
+                const oInput = block.querySelector('.q-options');
+                const cInput = block.querySelector('.q-correct');
+
+                if (qInput && oInput && cInput) {
+                    const q = qInput.value;
+                    const options = oInput.value.split(',').map(s => s.trim());
+                    const correct = parseInt(cInput.value) || 0;
+
+                    if (q && options.length > 0) {
+                        questionsArray.push({ q, a: options, c: correct });
+                    }
                 }
+            });
+
+            // Siuntimas į DB (Naudojame UPSERT, kad atnaujintų esamą arba sukurtų naują)
+            const { error } = await supabaseClient
+                .from('quizzes')
+                .upsert([{ 
+                    title: title, 
+                    description: desc, 
+                    questions: questionsArray 
+                }], { onConflict: 'title' });
+
+            if (error) {
+                alert("Klaida saugant: " + error.message);
+            } else {
+                alert("Testas sėkmingai išsaugotas!");
+                window.location.reload(); // Perkraunam, kad matytųsi pokyčiai
             }
         });
-
-        // 3. Siuntimas į DB
-        const { error } = await supabaseClient
-            .from('quizzes')
-            .insert([{ 
-                title: title, 
-                description: desc, 
-                questions: questionsArray 
-            }]);
-
-        if (error) {
-            alert("Klaida: " + error.message);
-        } else {
-            alert("Testas sėkmingai sukurtas!");
-            quizForm.reset();
-            if (qContainer) qContainer.innerHTML = '';
-            
-            // Jei admino puslapyje turi sąrašą, jį atnaujiname
-            if (typeof loadQuizzes === "function") loadQuizzes();
-        }
-    });
-}
+    }
+})
 // 1. Funkcija, kuri paima testus iš DB ir sukuria korteles
 async function loadQuizzes() {
     console.log("1. loadQuizzes funkcija paleista...");

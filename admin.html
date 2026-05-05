@@ -2,13 +2,14 @@
 <html lang="lt">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panelė | MokykisPro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panelė | StudijųBankas</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="dashboard-bg">
     <div class="dashboard-layout">
-        <!-- Šoninis meniu (Toks pat kaip dashboard) -->
+        <!-- Šoninis meniu -->
         <aside class="sidebar-nav">
             <div class="logo">Studijų<span>Bankas</span></div>
             <nav>
@@ -25,6 +26,7 @@
                 <h2>Turinio valdymas</h2>
             </header>
 
+            <!-- PAMOKOS KŪRIMAS -->
             <h3>Sukurti naują pamoką</h3>
             <div class="course-item" style="display: block; margin-bottom: 30px;">
                 <form id="topicForm">
@@ -44,22 +46,34 @@
                 </form>
             </div>
 
+            <!-- TESTO KŪRIMAS -->
             <h3>Sukurti naują testą</h3>
             <div class="course-item" style="display: block;">
                 <form id="quizForm">
                     <div class="input-group">
                         <label>Testo pavadinimas</label>
+                        <!-- Užtikriname ID: quizTitle -->
                         <input type="text" id="quizTitle" required>
                     </div>
+                    <!-- Pridėtas aprašymo laukas, nes scripts.js jo reikalauja -->
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label>Trumpas testo aprašymas</label>
+                        <input type="text" id="quizDesc" required>
+                    </div>
+
                     <div id="questions-container"></div>
+
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
                         <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
-                        <button type="submit" class="btn-primary">Išsaugoti testą</button>
+                        <!-- Mygtukas dabar yra formos viduje ir tipo 'submit' -->
+                        <button type="submit" id="save-quiz-btn" class="btn-primary">Išsaugoti testą</button>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    <!-- Bibliotekos -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts.js"></script>
 </body>
