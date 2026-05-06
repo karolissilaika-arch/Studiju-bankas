@@ -174,82 +174,20 @@ async function editQuiz(title) {
     }
 }
 
-function addQuestion(q = '', answers = ['', '', '', ''], correctIndex = 0) {
+function addQuestion() {
     const container = document.getElementById('questions-container');
     const qBlock = document.createElement('div');
-    qBlock.className = 'question-block-advanced';
-    qBlock.style = 'background: #fff; border: 2px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 30px; position: relative;';
-
+    qBlock.className = 'course-item question-block'; 
+    qBlock.style = 'display: block; margin-top: 15px; padding: 15px; border: 1px solid #eee;';
     qBlock.innerHTML = `
-        <div style="margin-bottom: 15px;">
-            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Klausimo tekstas:</label>
-            <input type="text" class="q-text" placeholder="Įrašykite klausimą..." value="${q}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-        </div>
-        
-        <label style="font-weight: bold; display: block; margin-bottom: 10px;">Atsakymų variantai (pažymėkite teisingą):</label>
-        <div class="options-container">
-            ${answers.map((ans, i) => `
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                    <input type="radio" name="correct_${Date.now()}_${Math.random()}" class="q-correct-radio" ${i === correctIndex ? 'checked' : ''}>
-                    <input type="text" class="q-option-input" placeholder="Variantas ${i + 1}" value="${ans}" style="flex: 1; padding: 8px; border: 1px solid #eee; border-radius: 5px;">
-                </div>
-            `).join('')}
-        </div>
-        
-        <button type="button" onclick="this.parentElement.remove()" style="margin-top: 10px; color: #ff4d4d; background: none; border: none; cursor: pointer; font-size: 14px;">
-            <i class="fas fa-trash"></i> Pašalinti šią užduotį
-        </button>
+        <input type="text" class="q-text" placeholder="Klausimas" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <input type="text" class="q-options" placeholder="Atsakymai (pvz: 2, 4, 6)" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <input type="number" class="q-correct" placeholder="Teisingo indeksas (0, 1...)" style="width:100%; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <button type="button" onclick="this.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer; margin-top:5px;">[ Pašalinti ]</button>
     `;
     container.appendChild(qBlock);
-    // Persukame vaizdą į naujai pridėtą klausimą
-    qBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Atnaujinta išsaugojimo funkcija, kuri surenka duomenis iš atskirų laukelių
-async function saveQuiz() {
-    const title = document.getElementById('quizTitle').value;
-    const desc = document.getElementById('quizDesc').value;
-    const blocks = document.querySelectorAll('.question-block-advanced');
-    const questionsArray = [];
-
-    blocks.forEach(block => {
-        const questionText = block.querySelector('.q-text').value;
-        const optionInputs = block.querySelectorAll('.q-option-input');
-        const radioButtons = block.querySelectorAll('.q-correct-radio');
-        
-        const options = [];
-        let correctIdx = 0;
-
-        optionInputs.forEach((input, index) => {
-            if (input.value.trim() !== "") {
-                options.push(input.value.trim());
-                if (radioButtons[index].checked) {
-                    correctIdx = options.length - 1;
-                }
-            }
-        });
-
-        if (questionText && options.length > 0) {
-            questionsArray.push({ q: questionText, a: options, c: correctIdx });
-        }
-    });
-
-    if (!title || questionsArray.length === 0) {
-        alert("Užpildykite testo pavadinimą ir pridėkite bent vieną klausimą!");
-        return;
-    }
-
-    const { error } = await supabaseClient.from('quizzes').upsert([{ 
-        title, description: desc, questions: questionsArray 
-    }], { onConflict: 'title' });
-
-    if (error) alert("Klaida: " + error.message);
-    else {
-        alert("Išsaugota!");
-        resetQuizForm();
-        loadAdminQuizzes();
-    }
-}
 function resetTopicForm() {
     const form = document.getElementById('topicForm');
     form.reset();
