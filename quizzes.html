@@ -9,23 +9,45 @@
 </head>
 <body class="dashboard-bg">
     <div class="dashboard-layout">
-      <aside class="sidebar-nav">
-    <div class="logo">Studijų<span>Bankas</span></div>
-    <nav id="main-nav">
-        <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
-        <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
-        <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
-        <hr>
-        <!-- Ši dalis bus keičiama dinamiškai per JS -->
-        <div id="auth-section"></div>
-    </nav>
-</aside>
+        <aside class="sidebar-nav">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+            <nav id="main-nav">
+                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+                <a href="quizzes.html" id="nav-quizzes" class="active"><i class="fas fa-vial"></i> Testai</a>
+                <hr>
+                <div id="auth-section"></div>
+            </nav>
+        </aside>
 
         <main class="dashboard-main">
             <header class="dash-header">
                 <h2>Žinių patikrinimas</h2>
                 <p>Pasirinkite testą ir pasitikrinkite savo žinias.</p>
             </header>
+
+            <!-- NAUJA DALIS: Paieškos ir filtravimo juosta -->
+            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="flex: 1; min-width: 250px; position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
+                    <input type="text" id="searchInput" placeholder="Ieškoti testo pagal pavadinimą..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                </div>
+                
+                <select id="category-filter" onchange="loadQuizzes()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="all">Visos kategorijos</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Istorija">Istorija</option>
+                    <option value="Fizika">Fizika</option>
+                </select>
+
+                <select id="sortFilter" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="newest">Naujausi viršuje</option>
+                    <option value="az">A-Z</option>
+                    <option value="oldest">Seniausi viršuje</option>
+                </select>
+            </div>
 
             <!-- Testų sąrašas -->
             <div id="quizzes-container" class="topics-grid">
@@ -47,51 +69,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts.js"></script>
     <script src="quizzes.js"></script>
+    
     <style>
-        /* Konteineris, kuriame yra testai */
-#quizzes-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Tai sukuria tarpus tarp kortelių */
-}
+        /* Tavo originalus stilius */
+        #quizzes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-/* Atskira testo kortelė */
-.quiz-card {
-    display: flex !important; /* Naudojame flex, kad elementai būtų vienoje eilėje */
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    border: 1px solid #eee;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    margin-bottom: 5px; /* Papildomas saugumas dėl tarpų */
-}
+        /* Ištaisytas kortelės dizainas, kad atitiktų JS generuojamą HTML */
+        .course-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-.quiz-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-color: var(--primary-color);
-}
+        .course-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
 
-.quiz-info h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-.quiz-info p {
-    margin: 5px 0 0;
-    color: #777;
-    font-size: 0.9rem;
-}
-
-.quiz-action span {
-    font-weight: 600;
-    color: var(--primary-color);
-    font-size: 0.9rem;
-}
+        /* Paieškos juostos pritaikymas mobiliesiems */
+        @media (max-width: 768px) {
+            .search-sort-bar {
+                flex-direction: column;
+            }
+            .search-sort-bar > * {
+                width: 100%;
+            }
+        }
     </style>
 </body>
 </html>

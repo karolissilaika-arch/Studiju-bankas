@@ -11,7 +11,9 @@
     <div class="dashboard-layout">
         <!-- Šoninis meniu -->
        <aside class="sidebar-nav">
-    <div class="logo">Studijų<span>Bankas</span></div>
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
     <nav id="main-nav">
         <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
         <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
@@ -47,57 +49,81 @@
             <hr style="margin-bottom: 30px; border: 0; border-top: 1px solid #eee;">
 
             <!-- 2 SEKCIJA: Pamokos forma -->
-            <h3 id="topic-form-title">Sukurti / Redaguoti pamoką</h3>
-            <div class="course-item" style="display: block; margin-bottom: 30px;">
-                <form id="topicForm">
-                    <div class="input-group">
-                        <label>Pavadinimas</label>
-                        <input type="text" id="topicTitle" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Trumpas aprašymas</label>
-                        <input type="text" id="topicDesc">
-                    </div>
-                    <div class="input-group">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <label>Pamokos turinys (HTML/Tekstas)</label>
-                            <button type="button" onclick="insertImageTag()" class="btn-outline" style="padding: 2px 8px; font-size: 12px; margin-bottom: 5px;">
-                                <i class="fas fa-image"></i> Įterpti nuotrauką
-                            </button>
-                        </div>
-                        <textarea id="topicContent" rows="10" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd; font-family: monospace;"></textarea>
-                    </div>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <button type="submit" class="btn-primary">Skelbti temą</button>
-                        <button type="button" onclick="resetTopicForm()" class="btn-outline" style="border: none;">Atšaukti</button>
-                    </div>
-                </form>
+<h3 id="topic-form-title">Sukurti / Redaguoti pamoką</h3>
+<div class="course-item" style="display: block; margin-bottom: 30px;">
+    <form id="topicForm">
+        <div class="input-group">
+            <label>Pavadinimas</label>
+            <input type="text" id="topicTitle" required>
+        </div>
+
+        <!-- PRIDĖTA: Pamokos kategorija -->
+        <div class="input-group" style="margin-top: 10px;">
+            <label>Kategorija</label>
+            <select id="topicCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
+                <option value="bendra">Bendra</option>
+                <option value="Matematika">Matematika</option>
+                <option value="Istorija">Istorija</option>
+                <option value="Fizika">Fizika</option>
+                <option value="Lietuvių kalba">Lietuvių kalba</option>
+            </select>
+        </div>
+
+        <div class="input-group" style="margin-top: 10px;">
+            <label>Trumpas aprašymas</label>
+            <input type="text" id="topicDesc">
+        </div>
+        
+        <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label>Pamokos turinys (HTML/Tekstas)</label>
+                <button type="button" onclick="insertImageTag()" class="btn-outline" style="padding: 2px 8px; font-size: 12px; margin-bottom: 5px;">
+                    <i class="fas fa-image"></i> Įterpti nuotrauką
+                </button>
             </div>
+            <textarea id="topicContent" rows="10" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd; font-family: monospace;"></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button type="submit" class="btn-primary">Skelbti temą</button>
+            <button type="button" onclick="resetTopicForm()" class="btn-outline" style="border: none;">Atšaukti</button>
+        </div>
+    </form>
+</div>
 
-            <!-- 3 SEKCIJA: Testo forma -->
-            <h3 id="quiz-form-title">Sukurti / Redaguoti testą</h3>
-            <div class="course-item" style="display: block;">
-                <form id="quizForm">
-                    <div class="input-group">
-                        <label>Testo pavadinimas</label>
-                        <input type="text" id="quizTitle" required>
-                    </div>
-                    <div class="input-group" style="margin-top: 10px;">
-                        <label>Trumpas testo aprašymas</label>
-                        <input type="text" id="quizDesc" required>
-                    </div>
+<!-- 3 SEKCIJA: Testo forma -->
+<h3 id="quiz-form-title">Sukurti / Redaguoti testą</h3>
+<div class="course-item" style="display: block;">
+    <form id="quizForm">
+        <div class="input-group">
+            <label>Testo pavadinimas</label>
+            <input type="text" id="quizTitle" required>
+        </div>
 
-                    <div id="questions-container"></div>
+        <!-- PRIDĖTA: Testo kategorija -->
+        <div class="input-group" style="margin-top: 10px;">
+            <label>Kategorija</label>
+            <select id="quizCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
+                <option value="bendra">Bendra</option>
+                <option value="Matematika">Matematika</option>
+                <option value="Istorija">Istorija</option>
+                <option value="Fizika">Fizika</option>
+            </select>
+        </div>
 
-                    <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
-                        <button type="submit" id="save-quiz-btn" class="btn-primary">Išsaugoti testą</button>
-                        <button type="button" onclick="resetQuizForm()" class="btn-outline" style="border: none;">Valyti</button>
-                    </div>
-                </form>
-            </div>
-        </main>
-    </div>
+        <div class="input-group" style="margin-top: 10px;">
+            <label>Trumpas testo aprašymas</label>
+            <input type="text" id="quizDesc" required>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
+            <button type="submit" id="save-quiz-btn" class="btn-primary">Išsaugoti testą</button>
+            <button type="button" onclick="resetQuizForm()" class="btn-outline" style="border: none;">Valyti</button>
+        </div>
+    </form>
+</div>
 
     <!-- Bibliotekos -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -1,87 +1,63 @@
-// Paleidžiame vartotojo patikrą kaskart užkrovus bet kurį puslapį
-checkUserStatus();
-// 1. Funkcija, kuri paima testus iš DB ir sukuria korteles
-async function loadQuizzes() {
-    console.log("1. loadQuizzes funkcija paleista...");
-    const quizContainer = document.getElementById('quiz-list');
-    
-    if (!quizContainer) {
-        console.error("2. Klaida: Nerastas elementas su id 'quiz-list'!");
-        return;
-    }
-
-    const { data: quizzes, error } = await supabaseClient
-        .from('quizzes')
-        .select('*');
-
-    if (error) {
-        console.error("3. Supabase klaida:", error.message);
-        return;
-    }
-
-    console.log("4. Gauti duomenys iš DB:", quizzes);
-
-    if (!quizzes || quizzes.length === 0) {
-        quizContainer.innerHTML = '<p>Testų bazėje nerasta.</p>';
-        return;
-    }
-
-    quizContainer.innerHTML = ''; 
-    quizzes.forEach(quiz => {
-        const card = document.createElement('div');
-        card.className = 'course-item'; 
-        // PAKEITIMAS: Siunčiame quiz.id vietoj quiz.title, kad būtų lengviau rasti DB
-        card.innerHTML = `
-            <div class="course-info">
-        <h4>📝 ${quiz.title}</h4>
-        <p>${quiz.description || ''}</p>
-    </div>
-    <button class="btn-primary" onclick="window.location.href='quiz.html?id=${encodeURIComponent(quiz.title)}'">Spręsti</button>
-        `;
-        quizContainer.appendChild(card);
-    });
-    console.log("5. Testai sėkmingai sudėti į puslapį.");
-}
-// 2. Paleidžiame abi funkcijas (temų ir testų)
-// Surask savo dabartinį window.onload arba DOMContentLoaded ir papildyk jį:
+// 1. Patikriname vartotoją ir užkrauname pamoką, kai DOM paruoštas
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('topics-container')) {
-        loadTopics();
+    // Patikriname statusą (funkcija iš scripts.js)
+    if (typeof checkUserStatus === 'function') {
+        checkUserStatus();
     }
-    if (document.getElementById('quiz-list')) {
-        loadQuizzes();
-    }
+    
+    // Užkrauname pamokos turinį
+    loadLessonDetail();
 });
 
- async function loadLessonDetail() {
-        // 1. Pasiimame pavadinimą iš adreso juostos (pvz., ?id=Ganjos%20mokslai)
-        const urlParams = new URLSearchParams(window.location.search);
-        const lessonId = urlParams.get('id'); 
+async function loadLessonDetail() {
+    // 1. Pasiimame ID iš URL (pvz., lesson.html?id=123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const lessonId = urlParams.get('id'); 
 
-        if (!lessonId) {
-            document.getElementById('lesson-title').innerText = "Pamoka nerasta";
-            return;
-        }
+    const titleElement = document.getElementById('lesson-title');
+    const contentElement = document.getElementById('lesson-content');
 
-        // 2. Traukiame duomenis naudodami 'title', nes tavo DB tai yra Primary Key
-        const { data: topic, error } = await supabaseClient
-            .from('topics')
-            .select('*')
-            .eq('title', lessonId) // Ieškome sutapimo 'title' stulpelyje
-            .single();
-
-        if (error || !topic) {
-            console.error("Supabase klaida:", error);
-            document.getElementById('lesson-title').innerText = "Klaida užkraunant turinį";
-            document.getElementById('lesson-content').innerHTML = "<p>Nepavyko rasti pamokos duomenų bazėje.</p>";
-            return;
-        }
-
-        // 3. Atvaizduojame gautą informaciją
-        document.title = `${topic.title} | MokykisPro`; // Pakeičia naršyklės tab'o pavadinimą
-        document.getElementById('lesson-title').innerText = topic.title;
-        document.getElementById('lesson-content').innerHTML = topic.content;
+    if (!lessonId) {
+        if (titleElement) titleElement.innerText = "Pamoka nerasta";
+        return;
     }
 
-    // Paleidžiame funkciją, kai puslapis užsikrauna
-    window.onload = loadLessonDetail;
+    // Rodyti krovimo būseną (pasirinktinai)
+    if (contentElement) contentElement.innerHTML = "<p>Kraunama pamoka...</p>";
+
+    // 2. Traukiame duomenis naudodami 'id'
+    // Jei tavo DB ID yra skaičius, Supabase jį atpažins automatiškai
+    const { data: topic, error } = await supabaseClient
+        .from('topics')
+        .select('*')
+        .eq('title', lessonId) 
+        .single();
+
+    if (error || !topic) {
+        console.error("Supabase klaida:", error);
+        if (titleElement) titleElement.innerText = "Klaida užkraunant turinį";
+        if (contentElement) contentElement.innerHTML = `
+            <div style="background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #feb2b2;">
+                <p>Nepavyko rasti pamokos duomenų bazėje.</p>
+                <small style="color: #666;">ID: ${lessonId}</small>
+                <br><br>
+                <a href="topics.html" style="color: #5d5fef; text-decoration: underline;">Grįžti į temas</a>
+            </div>
+        `;
+        return;
+    }
+
+    // 3. Atvaizduojame gautą informaciją
+    document.title = `${topic.title} | StudijųBankas`; 
+    
+    if (titleElement) {
+        titleElement.innerText = topic.title;
+    }
+    
+    if (contentElement) {
+        // Naudojame innerHTML, nes pamokos turinys gali turėti HTML formatavimą (pvz. iš Editoriaus)
+        contentElement.innerHTML = topic.content || '<p>Ši pamoka dar neturi turinio.</p>';
+    }
+
+    console.log("Pamoka sėkmingai užkrauta:", topic.title);
+}

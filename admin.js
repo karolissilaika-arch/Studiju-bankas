@@ -2,7 +2,7 @@
 let editingTitle = null; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    checkUserStatus(); // Užtikrink, kad ši funkcija yra scripts.js
+    checkUserStatus(); 
     loadAdminTopics();
     loadAdminQuizzes();
     
@@ -14,26 +14,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const titleInput = document.getElementById('topicTitle');
             const desc = document.getElementById('topicDesc').value;
             const content = document.getElementById('topicContent').value;
+            
+            // NAUJA: Nuskaityti kategoriją
+            const category = document.getElementById('topicCategory').value;
+            
             const title = titleInput.value;
             const isUpdate = editingTitle !== null;
 
             let result;
             if (isUpdate) {
+                // PRIDĖTA: category atnaujinimui
                 result = await supabaseClient.from('topics').update({ 
-                    description: desc, content: content 
+                    description: desc, 
+                    content: content,
+                    category: category 
                 }).eq('title', editingTitle);
             } else {
-                result = await supabaseClient.from('topics').insert([{ title, description: desc, content }]);
+                // PRIDĖTA: category naujam įrašui
+                result = await supabaseClient.from('topics').insert([{ 
+                    title, 
+                    description: desc, 
+                    content,
+                    category: category 
+                }]);
             }
 
             if (result.error) {
                 alert("Klaida: " + result.error.message);
             } else {
                 alert(isUpdate ? "Atnaujinta sėkmingai!" : "Tema sukurta!");
-                topicForm.reset();
-                editingTitle = null;
-                titleInput.disabled = false;
-                topicForm.querySelector('button').innerText = "Skelbti temą";
+                resetTopicForm(); // Naudojame jūsų reset funkciją
                 loadAdminTopics();
             }
         });
@@ -46,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const title = document.getElementById('quizTitle').value;
             const desc = document.getElementById('quizDesc').value;
+            
+            // NAUJA: Nuskaityti kategoriją
+            const category = document.getElementById('quizCategory').value;
+            
             const questionBlocks = document.querySelectorAll('.question-block');
             const questionsArray = [];
 
@@ -58,16 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // PRIDĖTA: category į upsert užklausą
             const { error } = await supabaseClient.from('quizzes').upsert([{ 
-                title: title, description: desc, questions: questionsArray 
+                title: title, 
+                description: desc, 
+                questions: questionsArray,
+                category: category 
             }], { onConflict: 'title' });
 
             if (error) {
                 alert("Klaida saugant testą: " + error.message);
             } else {
                 alert("Testas sėkmingai išsaugotas!");
-                quizForm.reset();
-                document.getElementById('questions-container').innerHTML = '';
+                resetQuizForm(); // Naudojame jūsų reset funkciją
                 loadAdminQuizzes();
             }
         });
@@ -83,7 +100,7 @@ async function loadAdminTopics() {
 
     container.innerHTML = topics.map(topic => `
         <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span><strong>${topic.title}</strong></span>
+            <span><strong>${topic.title}</strong> <small style="color: gray;">(${topic.category || 'bendra'})</small></span>
             <div>
                 <button onclick="editTopic('${topic.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
                 <button onclick="deleteTopic('${topic.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: red; border-color: red;">Trinti</button>
@@ -98,6 +115,12 @@ async function editTopic(title) {
         document.getElementById('topicTitle').value = topic.title;
         document.getElementById('topicDesc').value = topic.description || '';
         document.getElementById('topicContent').value = topic.content || '';
+        
+        // PRIDĖTA: Nustatyti kategoriją redagavimo metu
+        if (topic.category) {
+            document.getElementById('topicCategory').value = topic.category;
+        }
+
         editingTitle = topic.title;
         document.querySelector('#topicForm button').innerText = "Atnaujinti temą";
         document.getElementById('topicTitle').disabled = true;
@@ -115,11 +138,11 @@ async function deleteTopic(title) {
 async function loadAdminQuizzes() {
     const container = document.getElementById('admin-quizzes-list');
     if (!container) return;
-    const { data: quizzes } = await supabaseClient.from('quizzes').select('title');
+    const { data: quizzes } = await supabaseClient.from('quizzes').select('*');
     
     container.innerHTML = quizzes.map(q => `
         <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <span><strong>${q.title}</strong></span>
+            <span><strong>${q.title}</strong> <small style="color: gray;">(${q.category || 'bendra'})</small></span>
             <button onclick="editQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
         </div>
     `).join('');
@@ -130,6 +153,12 @@ async function editQuiz(title) {
     if (quiz) {
         document.getElementById('quizTitle').value = quiz.title;
         document.getElementById('quizDesc').value = quiz.description || '';
+        
+        // PRIDĖTA: Nustatyti kategoriją redagavimo metu
+        if (quiz.category) {
+            document.getElementById('quizCategory').value = quiz.category;
+        }
+
         const container = document.getElementById('questions-container');
         container.innerHTML = ''; 
         
@@ -158,20 +187,19 @@ function addQuestion() {
     `;
     container.appendChild(qBlock);
 }
+
 function resetTopicForm() {
     const form = document.getElementById('topicForm');
     form.reset();
     editingTitle = null;
     document.getElementById('topicTitle').disabled = false;
     form.querySelector('button[type="submit"]').innerText = "Skelbti temą";
-    document.getElementById('topic-form-title').innerText = "Sukurti / Redaguoti pamoką";
 }
 
 function resetQuizForm() {
     const form = document.getElementById('quizForm');
     form.reset();
     document.getElementById('questions-container').innerHTML = '';
-    document.getElementById('quiz-form-title').innerText = "Sukurti / Redaguoti testą";
 }
 
 function insertImageTag() {

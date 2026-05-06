@@ -10,8 +10,10 @@
 <body class="dashboard-bg">
     <div class="dashboard-layout">
         <!-- Šoninis meniu (toks pat kaip kituose puslapiuose) -->
-       <aside class="sidebar-nav">
-    <div class="logo">Studijų<span>Bankas</span></div>
+        <aside class="sidebar-nav">
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
     <nav id="main-nav">
         <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
         <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
@@ -30,18 +32,26 @@
                 </div>
             </header>
 
-            <!-- Paieškos ir filtravimo sekcija -->
-            <div class="course-item" style="display: flex; gap: 15px; margin-bottom: 30px; align-items: center;">
-                <div class="input-group" style="flex: 2; margin-bottom: 0;">
-                    <input type="text" id="searchInput" placeholder="Ieškoti temos pagal pavadinimą..." style="width:100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+         
+            <!-- NAUJA DALIS: Paieškos ir filtravimo juosta -->
+            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="flex: 1; min-width: 250px; position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
+                    <input type="text" id="searchInput" placeholder="Ieškoti testo pagal pavadinimą..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
                 </div>
-                <div class="input-group" style="flex: 1; margin-bottom: 0;">
-                    <select id="sortFilter" style="width:100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
-                        <option value="newest">Naujausi viršuje</option>
-                        <option value="oldest">Seniausi viršuje</option>
-                        <option value="az">A-Z</option>
-                    </select>
-                </div>
+                
+                <select id="category-filter" onchange="loadPublicTopics()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="all">Visos kategorijos</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Istorija">Istorija</option>
+                    <option value="Fizika">Fizika</option>
+                </select>
+
+                <select id="sortFilter" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="newest">Naujausi viršuje</option>
+                    <option value="az">A-Z</option>
+                    <option value="oldest">Seniausi viršuje</option>
+                </select>
             </div>
 
             <!-- Temų sąrašas -->
@@ -55,116 +65,7 @@
     <!-- Bibliotekos -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts.js"></script>
-    <script>
-        // Papildoma logika būtent šiam puslapiui
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPublicTopics();
-            setupSearch();
-            updateSidebarAuth();
-        });
-
-  async function loadPublicTopics() {
-    const { data, error } = await supabaseClient
-    .from('topics')
-    .select('*')
-    .order('created_at', { ascending: false }); 
-
-    if (error) {
-        console.error("Išsami Supabase klaida:", error.message, error.details, error.hint);
-        document.getElementById('topics-container').innerHTML = `Klaida: ${error.message}. Patikrinkite konsolę (F12).`;
-        return;
-    }
-    renderTopics(data);
-}
-
-        function renderTopics(topics) {
-            const container = document.getElementById('topics-container');
-            if (topics.length === 0) {
-                container.innerHTML = "<p>Temų nerasta.</p>";
-                return;
-            }
-
-            container.innerHTML = topics.map(topic => `
-                <div class="course-item topic-card" style="display: block; margin-bottom: 20px; transition: transform 0.2s;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleTopic(this)">
-                        <div>
-                            <h3 style="margin: 0; color: #333;">${topic.title}</h3>
-                            <p style="margin: 5px 0 0; color: #666; font-size: 14px;">${topic.description || 'Nėra aprašymo'}</p>
-                        </div>
-                        <i class="fas fa-chevron-down arrow-icon"></i>
-                    </div>
-                    
-                    <div class="topic-content" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-                        <div class="rich-text-content">
-                            ${topic.content}
-                        </div>
-                        <div style="margin-top: 20px; text-align: right;">
-                             <small style="color: #999;">Paskelbta: ${new Date(topic.created_at).toLocaleDateString('lt-LT')}</small>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function toggleTopic(element) {
-            const card = element.parentElement;
-            const content = card.querySelector('.topic-content');
-            const arrow = card.querySelector('.arrow-icon');
-            
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                arrow.style.transform = 'rotate(180deg)';
-                card.style.borderColor = 'var(--primary-color)';
-            } else {
-                content.style.display = 'none';
-                arrow.style.transform = 'rotate(0deg)';
-                card.style.borderColor = 'transparent';
-            }
-        }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const sortFilter = document.getElementById('sortFilter');
-
-            const filterData = async () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                let { data: topics } = await supabaseClient.from('topics').select('*');
-
-                // Filtruojame pagal paiešką
-                let filtered = topics.filter(t => 
-                    t.title.toLowerCase().includes(searchTerm) || 
-                    (t.description && t.description.toLowerCase().includes(searchTerm))
-                );
-
-                // Rūšiuojame
-                if (sortFilter.value === 'az') {
-                    filtered.sort((a, b) => a.title.localeCompare(b.title));
-                } else if (sortFilter.value === 'oldest') {
-                    filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-                } else {
-                    filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                }
-
-                renderTopics(filtered);
-            };
-
-            searchInput.addEventListener('input', filterData);
-            sortFilter.addEventListener('change', filterData);
-        }
-
-        function updateSidebarAuth() {
-            const authLinks = document.getElementById('auth-links');
-            // Čia paprasta logika: patikriname localStorage ar Supabase session
-            const user = JSON.parse(localStorage.getItem('sb-user-session')); // Pavyzdys
-            
-            if (user) {
-                authLinks.innerHTML = `<a href="index.html" class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Atsijungti</a>`;
-            } else {
-                authLinks.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt"></i> Prisijungti</a>`;
-            }
-        }
-    </script>
-
+    <script src="topics.js"></script>
     <style>
         .topic-card:hover {
             transform: translateY(-2px);
