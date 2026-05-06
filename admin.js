@@ -1,239 +1,186 @@
-// Paleidžiame vartotojo patikrą kaskart užkrovus bet kurį puslapį
-checkUserStatus();
-let topicForm = document.getElementById('topicForm');
+// --- BENDRA BŪSENA ---
 let editingTitle = null; 
 
-// 2. Tikriname, ar forma išvis egzistuoja šiame puslapyje
-if (topicForm) {
-    topicForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const titleInput = document.getElementById('topicTitle');
-        const desc = document.getElementById('topicDesc').value;
-        const content = document.getElementById('topicContent').value;
-        const title = titleInput.value;
-        
-        const isUpdate = editingTitle !== null;
+document.addEventListener('DOMContentLoaded', () => {
+    checkUserStatus(); // Užtikrink, kad ši funkcija yra scripts.js
+    loadAdminTopics();
+    loadAdminQuizzes();
+    
+    // Pamokų formos klausytojas
+    const topicForm = document.getElementById('topicForm');
+    if (topicForm) {
+        topicForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const titleInput = document.getElementById('topicTitle');
+            const desc = document.getElementById('topicDesc').value;
+            const content = document.getElementById('topicContent').value;
+            const title = titleInput.value;
+            const isUpdate = editingTitle !== null;
 
-        let result;
-        if (isUpdate) {
-            // Atnaujinimas (UPDATE)
-            result = await supabaseClient
-                .from('topics')
-                .update({ 
-                    description: desc, 
-                    content: content 
-                })
-                .eq('title', editingTitle);
-        } else {
-            // Kūrimas (INSERT)
-            result = await supabaseClient
-                .from('topics')
-                .insert([{ title, description: desc, content }]);
-        }
+            let result;
+            if (isUpdate) {
+                result = await supabaseClient.from('topics').update({ 
+                    description: desc, content: content 
+                }).eq('title', editingTitle);
+            } else {
+                result = await supabaseClient.from('topics').insert([{ title, description: desc, content }]);
+            }
 
-        if (result.error) {
-            alert("Klaida: " + result.error.message);
-        } else {
-            alert(isUpdate ? "Atnaujinta sėkmingai!" : "Tema sukurta!");
-            
-            // Atstatome formą į pradinę būseną
-            topicForm.reset();
-            editingTitle = null; 
-            
-            const submitBtn = topicForm.querySelector('button');
-            if (submitBtn) submitBtn.innerText = "Skelbti temą";
-            
-            if (titleInput) titleInput.disabled = false;
-            
-            // Atnaujiname sąrašą, jei tokia funkcija yra tame puslapyje
-            if (typeof loadAdminTopics === "function") {
+            if (result.error) {
+                alert("Klaida: " + result.error.message);
+            } else {
+                alert(isUpdate ? "Atnaujinta sėkmingai!" : "Tema sukurta!");
+                topicForm.reset();
+                editingTitle = null;
+                titleInput.disabled = false;
+                topicForm.querySelector('button').innerText = "Skelbti temą";
                 loadAdminTopics();
             }
-        }
-    });
-}
-// Kai paspaudi "Redaguoti", nepamiršk nustatyti editingTitle
-async function editTopic(title) {
-    const { data: topic, error } = await supabaseClient
-        .from('topics')
-        .select('*')
-        .eq('title', title)
-        .single();
-
-    if (topic) {
-        document.getElementById('topicTitle').value = topic.title;
-        document.getElementById('topicDesc').value = topic.description;
-        document.getElementById('topicContent').value = topic.content;
-        
-        editingTitle = topic.title; // Įsimename pavadinimą redagavimui
-        document.querySelector('#topicForm button').innerText = "Atnaujinti temą";
-        document.getElementById('topicTitle').disabled = true;
-    }
-}
-async function loadAdminTopics() {
-    const container = document.getElementById('admin-topics-list');
-    if (!container) return;
-
-    const { data: topics, error } = await supabaseClient.from('topics').select('*');
-
-    if (error) {
-        container.innerHTML = "Klaida: " + error.message;
-        return;
+        });
     }
 
-    container.innerHTML = '';
-    topics.forEach(topic => {
-        const div = document.createElement('div');
-        div.style = "border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;";
-        div.innerHTML = `
-            <div>
-                <strong>${topic.title}</strong>
-            </div>
-            <div>
-                <button onclick="editTopic('${topic.title.replace(/'/g, "\\'")}')" style="background: orange; color: white;">Redaguoti</button>
-                <button onclick="deleteTopic('${topic.title.replace(/'/g, "\\'")}')" style="background: red; color: white;">Trinti</button>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-}
-
-// Iškviečiame krovimą, jei esame admin puslapyje
-if (document.getElementById('admin-topics-list')) {
-    loadAdminTopics();
-}
-async function deleteTopic(title) {
-    if (!confirm(`Ar tikrai norite ištrinti temą: ${title}?`)) return;
-
-    const { error } = await supabaseClient
-        .from('topics')
-        .delete()
-        .eq('title', title);
-
-    if (error) {
-        alert("Nepavyko ištrinti: " + error.message);
-    } else {
-        alert("Ištrinta sėkmingai!");
-        loadAdminTopics(); // Atnaujiname sąrašą
-    }
-}
-//TESTU LOGIKA
-// Funkcija, kuri prideda naują klausimo bloką į formą
-function addQuestion() {
-    const container = document.getElementById('questions-container');
-    
-    // Sukuriame naują klausimo bloką, kuris atrodo kaip dashboard kortelė
-    const qBlock = document.createElement('div');
-    qBlock.className = 'course-item question-block'; 
-    qBlock.style.display = 'block'; 
-    qBlock.style.marginTop = '15px';
-
-    qBlock.innerHTML = `
-        <div class="input-group">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Klausimas</label>
-            <input type="text" class="q-text" placeholder="Įrašykite klausimą" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <div class="input-group" style="margin-top:10px;">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Atsakymai (atskirti kableliais)</label>
-            <input type="text" class="q-options" placeholder="pvz: 2, 4, 5" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <div class="input-group" style="margin-top:10px;">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Teisingo atsakymo numeris (nuo 0)</label>
-            <input type="number" class="q-correct" placeholder="0" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <button type="button" onclick="this.parentElement.remove()" class="btn-outline" style="margin-top:10px; color:red; border-color:red;">Pašalinti</button>
-    `;
-    
-    container.appendChild(qBlock);
-}
-
-/// 1. Tik deklaruojame kintamąjį (neimame .value iškart!)
-// --- ADMINO FUNKCIJOS ---
-
-// 1. Funkcija, kuri prideda naują klausimo bloką į formą
-function addQuestion() {
-    const container = document.getElementById('questions-container');
-    if (!container) return; // Saugiklis: jei konteinerio nėra, nieko nedarom
-
-    const qBlock = document.createElement('div');
-    qBlock.className = 'course-item question-block'; 
-    qBlock.style.display = 'block'; 
-    qBlock.style.marginTop = '15px';
-
-    qBlock.innerHTML = `
-        <div class="input-group">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Klausimas</label>
-            <input type="text" class="q-text" placeholder="Įrašykite klausimą" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <div class="input-group" style="margin-top:10px;">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Atsakymai (atskirti kableliais)</label>
-            <input type="text" class="q-options" placeholder="pvz: 2, 4, 5" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <div class="input-group" style="margin-top:10px;">
-            <label style="display:block; font-weight:600; margin-bottom:5px;">Teisingo atsakymo numeris (nuo 0)</label>
-            <input type="number" class="q-correct" placeholder="0" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <button type="button" onclick="this.parentElement.remove()" class="btn-outline" style="margin-top:10px; color:red; border-color:red;">Pašalinti</button>
-    `;
-    
-    container.appendChild(qBlock);
-}
-
-// 2. Formos pateikimo klausytojas (Save/Insert logika)
-document.addEventListener('DOMContentLoaded', () => {
+    // Testų formos klausytojas
     const quizForm = document.getElementById('quizForm');
-    
     if (quizForm) {
         quizForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            const titleEl = document.getElementById('quizTitle');
-            const descEl = document.getElementById('quizDesc');
-            const qContainer = document.getElementById('questions-container');
-
-            // Jei nerandame pagrindinių laukų - stabdome
-            if (!titleEl || !descEl) {
-                console.error("Klaida: Nerasti formos laukai (quizTitle/quizDesc)!");
-                return;
-            }
-
-            const title = titleEl.value;
-            const desc = descEl.value;
+            const title = document.getElementById('quizTitle').value;
+            const desc = document.getElementById('quizDesc').value;
             const questionBlocks = document.querySelectorAll('.question-block');
             const questionsArray = [];
 
             questionBlocks.forEach(block => {
-                const qInput = block.querySelector('.q-text');
-                const oInput = block.querySelector('.q-options');
-                const cInput = block.querySelector('.q-correct');
-
-                if (qInput && oInput && cInput) {
-                    const q = qInput.value;
-                    const options = oInput.value.split(',').map(s => s.trim());
-                    const correct = parseInt(cInput.value) || 0;
-
-                    if (q && options.length > 0) {
-                        questionsArray.push({ q, a: options, c: correct });
-                    }
+                const q = block.querySelector('.q-text').value;
+                const options = block.querySelector('.q-options').value.split(',').map(s => s.trim());
+                const correct = parseInt(block.querySelector('.q-correct').value) || 0;
+                if (q && options.length > 0) {
+                    questionsArray.push({ q, a: options, c: correct });
                 }
             });
 
-            // Siuntimas į DB (Naudojame UPSERT, kad atnaujintų esamą arba sukurtų naują)
-            const { error } = await supabaseClient
-                .from('quizzes')
-                .upsert([{ 
-                    title: title, 
-                    description: desc, 
-                    questions: questionsArray 
-                }], { onConflict: 'title' });
+            const { error } = await supabaseClient.from('quizzes').upsert([{ 
+                title: title, description: desc, questions: questionsArray 
+            }], { onConflict: 'title' });
 
             if (error) {
-                alert("Klaida saugant: " + error.message);
+                alert("Klaida saugant testą: " + error.message);
             } else {
                 alert("Testas sėkmingai išsaugotas!");
-                window.location.reload(); // Perkraunam, kad matytųsi pokyčiai
+                quizForm.reset();
+                document.getElementById('questions-container').innerHTML = '';
+                loadAdminQuizzes();
             }
         });
     }
-})
+});
+
+// --- TEMŲ (TOPICS) FUNKCIJOS ---
+async function loadAdminTopics() {
+    const container = document.getElementById('admin-topics-list');
+    if (!container) return;
+    const { data: topics, error } = await supabaseClient.from('topics').select('*');
+    if (error) return;
+
+    container.innerHTML = topics.map(topic => `
+        <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span><strong>${topic.title}</strong></span>
+            <div>
+                <button onclick="editTopic('${topic.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
+                <button onclick="deleteTopic('${topic.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: red; border-color: red;">Trinti</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function editTopic(title) {
+    const { data: topic } = await supabaseClient.from('topics').select('*').eq('title', title).single();
+    if (topic) {
+        document.getElementById('topicTitle').value = topic.title;
+        document.getElementById('topicDesc').value = topic.description || '';
+        document.getElementById('topicContent').value = topic.content || '';
+        editingTitle = topic.title;
+        document.querySelector('#topicForm button').innerText = "Atnaujinti temą";
+        document.getElementById('topicTitle').disabled = true;
+        document.getElementById('topicForm').scrollIntoView();
+    }
+}
+
+async function deleteTopic(title) {
+    if (!confirm(`Trinti temą: ${title}?`)) return;
+    await supabaseClient.from('topics').delete().eq('title', title);
+    loadAdminTopics();
+}
+
+// --- TESTŲ (QUIZZES) FUNKCIJOS ---
+async function loadAdminQuizzes() {
+    const container = document.getElementById('admin-quizzes-list');
+    if (!container) return;
+    const { data: quizzes } = await supabaseClient.from('quizzes').select('title');
+    
+    container.innerHTML = quizzes.map(q => `
+        <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span><strong>${q.title}</strong></span>
+            <button onclick="editQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
+        </div>
+    `).join('');
+}
+
+async function editQuiz(title) {
+    const { data: quiz } = await supabaseClient.from('quizzes').select('*').eq('title', title).single();
+    if (quiz) {
+        document.getElementById('quizTitle').value = quiz.title;
+        document.getElementById('quizDesc').value = quiz.description || '';
+        const container = document.getElementById('questions-container');
+        container.innerHTML = ''; 
+        
+        quiz.questions.forEach(q => {
+            addQuestion();
+            const blocks = container.querySelectorAll('.question-block');
+            const last = blocks[blocks.length - 1];
+            last.querySelector('.q-text').value = q.q;
+            last.querySelector('.q-options').value = q.a.join(', ');
+            last.querySelector('.q-correct').value = q.c;
+        });
+        document.getElementById('quizForm').scrollIntoView();
+    }
+}
+
+function addQuestion() {
+    const container = document.getElementById('questions-container');
+    const qBlock = document.createElement('div');
+    qBlock.className = 'course-item question-block'; 
+    qBlock.style = 'display: block; margin-top: 15px; padding: 15px; border: 1px solid #eee;';
+    qBlock.innerHTML = `
+        <input type="text" class="q-text" placeholder="Klausimas" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <input type="text" class="q-options" placeholder="Atsakymai (pvz: 2, 4, 6)" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <input type="number" class="q-correct" placeholder="Teisingo indeksas (0, 1...)" style="width:100%; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <button type="button" onclick="this.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer; margin-top:5px;">[ Pašalinti ]</button>
+    `;
+    container.appendChild(qBlock);
+}
+function resetTopicForm() {
+    const form = document.getElementById('topicForm');
+    form.reset();
+    editingTitle = null;
+    document.getElementById('topicTitle').disabled = false;
+    form.querySelector('button[type="submit"]').innerText = "Skelbti temą";
+    document.getElementById('topic-form-title').innerText = "Sukurti / Redaguoti pamoką";
+}
+
+function resetQuizForm() {
+    const form = document.getElementById('quizForm');
+    form.reset();
+    document.getElementById('questions-container').innerHTML = '';
+    document.getElementById('quiz-form-title').innerText = "Sukurti / Redaguoti testą";
+}
+
+function insertImageTag() {
+    const url = prompt("Įklijuokite nuotraukos nuorodą (URL):");
+    if (url) {
+        const textArea = document.getElementById('topicContent');
+        const imgTag = `<img src="${url}" alt="nuotrauka" style="max-width:100%; border-radius:10px; margin: 10px 0;">`;
+        const start = textArea.selectionStart;
+        const end = textArea.selectionEnd;
+        textArea.value = textArea.value.substring(0, start) + imgTag + textArea.value.substring(end);
+    }
+}

@@ -1,82 +1,78 @@
-// 5. TEMŲ KROVIMAS IŠ DUOMENŲ BAZĖS
-// --- 5. TEMŲ KROVIMAS IŠ DUOMENŲ BAZĖS ---
 async function loadTopics() {
-    const topicsContainer = document.getElementById('topics-list');
-    if (!topicsContainer) return;
+    const topicsContainer = document.getElementById('dashboard-topics');
+    
+    if (!topicsContainer) {
+        console.error("KLAIDA: Nerastas HTML elementas temoms (id: dashboard-topics)");
+        return;
+    }
 
-    console.log("Bandoma krauti temas..."); 
+    topicsContainer.innerHTML = "<p>Kraunama...</p>";
 
     try {
+        // 1. Pakeitimas: Išimame .order(), kad eliminuotume klaidos galimybę dėl stulpelio pavadinimo
         const { data: topics, error } = await supabaseClient
             .from('topics')
             .select('*');
 
         if (error) {
-            console.error("Supabase klaida:", error.message);
-            topicsContainer.innerHTML = `<p style="color:red">Klaida: ${error.message}</p>`;
+            console.error("Supabase klaida:", error.message, error.details);
+            topicsContainer.innerHTML = `<p style="color:red">Supabase klaida: ${error.message}</p>`;
             return;
         }
 
-        console.log("Gauti duomenys iš DB:", topics); 
+        console.log("Gauti duomenys:", topics);
 
         if (!topics || topics.length === 0) {
             topicsContainer.innerHTML = "<p>Lentelė tuščia. Pridėkite temą per Admin panelę.</p>";
             return;
         }
 
+        // 2. Jei nori rūšiuoti pagal datą saugiai per JavaScript (ne per DB užklausą):
+        // topics.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
         topicsContainer.innerHTML = '';
-     topics.forEach(topic => {
+        topics.slice(0, 3).forEach(topic => { // Rodyti tik pirmas 3
             const topicCard = document.createElement('div');
             topicCard.className = 'course-item';
-            
-            // Kadangi tavo Primary Key yra 'title', naudojame jį vietoj 'id'
-            const lessonId = topic.title; 
-
+    topicCard.style.marginBottom = "15px"; // Sukuria tarpą tarp kortelių
+    topicCard.style.display = "flex";      // Išlygiuoja turinį ir mygtuką
+    topicCard.style.justifyContent = "space-between";
+    topicCard.style.alignItems = "center";
+    topicCard.style.padding = "20px";
+    topicCard.style.background = "white";
+    topicCard.style.borderRadius = "12px";
+    topicCard.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
             topicCard.innerHTML = `
                 <div class="course-info">
                     <h4>${topic.title}</h4>
-                    <p>${topic.description}</p>
+                    <p>${topic.description || ''}</p>
                 </div>
-                <button class="btn-primary" onclick="openLesson('${lessonId}')">Pradėti</button>
+                <button class="btn-primary" onclick="window.location.href='topics.html'">Pradėti</button>
             `;
             topicsContainer.appendChild(topicCard);
         });
+
     } catch (err) {
-        console.error("Netikėta klaida:", err);
-        topicsContainer.innerHTML = "<p>Sistemos klaida. Žiūrėti Console.</p>";
+        console.error("Netikėta JS klaida:", err);
+        topicsContainer.innerHTML = "<p>Netikėta klaida kodo vykdyme.</p>";
     }
 }
-
-// Funkcija, kurią iškviečiame paspaudus "Pradėti"
-function openLesson(id) {
-    // Nukreipiame vartotoją į universalų pamokos puslapį su konkrečiu ID
-    window.location.href = `lesson.html?id=${id}`;
-}
-
-// Iškviečiame krovimą, kai puslapis užsikrauna
-if (window.location.pathname.includes("dashboard.html")) {
-    loadTopics();
-}
-// 1. Funkcija, kuri paima testus iš DB ir sukuria korteles
+// --- TESTŲ KROVIMAS ---
 async function loadQuizzes() {
-    console.log("1. loadQuizzes funkcija paleista...");
+    console.log("loadQuizzes funkcija paleista...");
     const quizContainer = document.getElementById('quiz-list');
     
-    if (!quizContainer) {
-        console.error("2. Klaida: Nerastas elementas su id 'quiz-list'!");
-        return;
-    }
+    if (!quizContainer) return;
 
     const { data: quizzes, error } = await supabaseClient
         .from('quizzes')
-        .select('*');
+        .select('*')
+        .limit(3);
 
     if (error) {
-        console.error("3. Supabase klaida:", error.message);
+        console.error("Supabase klaida:", error.message);
         return;
     }
-
-    console.log("4. Gauti duomenys iš DB:", quizzes);
 
     if (!quizzes || quizzes.length === 0) {
         quizContainer.innerHTML = '<p>Testų bazėje nerasta.</p>';
@@ -87,25 +83,29 @@ async function loadQuizzes() {
     quizzes.forEach(quiz => {
         const card = document.createElement('div');
         card.className = 'course-item'; 
-        // PAKEITIMAS: Siunčiame quiz.id vietoj quiz.title, kad būtų lengviau rasti DB
+    card.style.marginBottom = "15px"; // Sukuria tarpą tarp kortelių
+    card.style.display = "flex";      // Išlygiuoja turinį ir mygtuką
+    card.style.justifyContent = "space-between";
+    card.style.alignItems = "center";
+    card.style.padding = "20px";
+    card.style.background = "white";
+    card.style.borderRadius = "12px";
+    card.style.boxShadow = "0 2px 5px rgba(0,0,0,0.05)";
         card.innerHTML = `
             <div class="course-info">
-        <h4>📝 ${quiz.title}</h4>
-        <p>${quiz.description || ''}</p>
-    </div>
-    <button class="btn-primary" onclick="window.location.href='quiz.html?id=${encodeURIComponent(quiz.title)}'">Spręsti</button>
+                <h4>📝 ${quiz.title}</h4>
+                <p>${quiz.description || ''}</p>
+            </div>
+            <button class="btn-primary" onclick="window.location.href='quizzes.html'">Spręsti</button>
         `;
         quizContainer.appendChild(card);
     });
-    console.log("5. Testai sėkmingai sudėti į puslapį.");
 }
-// 2. Paleidžiame abi funkcijas (temų ir testų)
-// Surask savo dabartinį window.onload arba DOMContentLoaded ir papildyk jį:
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('topics-container')) {
-        loadTopics();
-    }
-    if (document.getElementById('quiz-list')) {
-        loadQuizzes();
-    }
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log("Puslapis užkrautas, pradedamas duomenų krovimas...");
+    
+    // Naudojame await, kad funkcijos nekonkuruotų tarpusavyje
+    await loadTopics();
+    await loadQuizzes();
 });
+

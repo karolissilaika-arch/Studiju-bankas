@@ -12,16 +12,16 @@
     <div class="dashboard-layout">
         <!-- Šoninis meniu -->
         <aside class="sidebar-nav">
-            <div class="logo">Studijų<span>Bankas</span></div>
-            <nav>
-                <a href="#" class="active"><i class="fas fa-home"></i> Pradžia</a>
-                <a href="#"><i class="fas fa-book"></i> Mano Kursai</a>
-                <a href="#"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
-                <a href="#"><i class="fas fa-user-circle"></i> Profilis</a>
-                <hr>
-                <a href="index.html" class="logout"><i class="fas fa-sign-out-alt"></i> Atsijungti</a>
-            </nav>
-        </aside>
+    <div class="logo">Studijų<span>Bankas</span></div>
+    <nav id="main-nav">
+        <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+        <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+        <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+        <hr>
+        <!-- Ši dalis bus keičiama dinamiškai per JS -->
+        <div id="auth-section"></div>
+    </nav>
+</aside>
 
         <!-- Pagrindinis turinis -->
         <main class="dashboard-main">
@@ -49,14 +49,16 @@
             </section>
 
             <!-- Temos -->
+<!-- Temų sekcija -->
 <h3>Tęsti mokymąsi</h3>
-<div id="topics-list" class="course-list">
-    <!-- Čia temos atsiras automatiškai -->
-    <p>Kraunamos temos...</p>
+<div id="dashboard-topics">
+    <p>Kraunama...</p>
 </div>
-<h2>Prieinami testai</h2>
-<div id="quiz-list" class="courses-grid"></div>
-    <!-- Testai atsiras čia -->
+
+<!-- Testų sekcija -->
+<h3>Prieinami testai</h3>
+<div id="quiz-list">
+    <p>Kraunama...</p>
 </div>
 
             <!-- Reklamos vieta (Free vartotojams) -->

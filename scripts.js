@@ -113,3 +113,41 @@ if (registerForm) {
         }
     });
 }
+async function updateNavigation() {
+    const authSection = document.getElementById('auth-section');
+    if (!authSection) return;
+
+    // Patikriname, ar vartotojas yra prisijungęs
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (session) {
+        // Jei prisijungęs - rodome "Atsijungti"
+        authSection.innerHTML = `
+            <a href="index.html" onclick="handleLogout()" class="logout">
+                <i class="fas fa-sign-out-alt"></i> Atsijungti
+            </a>
+        `;
+    } else {
+        // Jei neprisijungęs - rodome "Prisijungti"
+        authSection.innerHTML = `
+            <a href="login.html" class="login-link">
+                <i class="fas fa-sign-in-alt"></i> Prisijungti
+            </a>
+        `;
+    }
+
+    // Papildoma logika: paryškinti dabartinį puslapį
+    const currentPage = window.location.pathname.split("/").pop();
+    if (currentPage === 'dashboard.html') document.getElementById('nav-home')?.classList.add('active');
+    if (currentPage === 'topics.html') document.getElementById('nav-topics')?.classList.add('active');
+    if (currentPage === 'quizzes.html') document.getElementById('nav-quizzes')?.classList.add('active');
+}
+
+// Funkcija atsijungimui
+async function handleLogout() {
+    await supabaseClient.auth.signOut();
+    window.location.href = 'index.html';
+}
+
+// Paleidžiame funkciją kai puslapis užsikrauna
+document.addEventListener('DOMContentLoaded', updateNavigation);

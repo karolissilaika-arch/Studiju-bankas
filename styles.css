@@ -293,3 +293,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
 /* Veiksmų mygtukai */
 .btn-edit { color: #4a90e2; cursor: pointer; margin-right: 10px; }
 .btn-delete { color: #e74c3c; cursor: pointer; }
+.course-item {
+    margin-bottom: 10px !important;
+    border: 1px solid #eee; /* Prideda švelnų rėmelį */
+}

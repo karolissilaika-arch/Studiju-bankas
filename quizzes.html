@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testai | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+      <aside class="sidebar-nav">
+    <div class="logo">Studijų<span>Bankas</span></div>
+    <nav id="main-nav">
+        <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+        <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+        <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+        <hr>
+        <!-- Ši dalis bus keičiama dinamiškai per JS -->
+        <div id="auth-section"></div>
+    </nav>
+</aside>
+
+        <main class="dashboard-main">
+            <header class="dash-header">
+                <h2>Žinių patikrinimas</h2>
+                <p>Pasirinkite testą ir pasitikrinkite savo žinias.</p>
+            </header>
+
+            <!-- Testų sąrašas -->
+            <div id="quizzes-container" class="topics-grid">
+                <div class="loader">Kraunami testai...</div>
+            </div>
+
+            <!-- Testo sprendimo modalas/langas -->
+            <div id="quiz-window" class="course-item" style="display: none; margin-top: 20px;">
+                <button onclick="closeQuiz()" class="btn-outline" style="float: right;">Uždaryti</button>
+                <h2 id="active-quiz-title"></h2>
+                <hr>
+                <div id="quiz-questions"></div>
+                <button id="submit-quiz-btn" class="btn-primary" style="margin-top: 20px; width: 100%;">Baigti testą</button>
+                <div id="quiz-result" style="margin-top: 20px; font-weight: bold; text-align: center;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+    <script src="quizzes.js"></script>
+    <style>
+        /* Konteineris, kuriame yra testai */
+#quizzes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Tai sukuria tarpus tarp kortelių */
+}
+
+/* Atskira testo kortelė */
+.quiz-card {
+    display: flex !important; /* Naudojame flex, kad elementai būtų vienoje eilėje */
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 5px; /* Papildomas saugumas dėl tarpų */
+}
+
+.quiz-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+
+.quiz-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.quiz-info p {
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.quiz-action span {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+    </style>
+</body>
+</html>
