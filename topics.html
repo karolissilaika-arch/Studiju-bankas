@@ -1,3 +1,76 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temos | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        
+        <aside class="sidebar-nav">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+            <nav id="main-nav">
+                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="topics.html" id="nav-topics" class="active"><i class="fas fa-book"></i> Temos</a>
+                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
+                <hr>
+                <div id="auth-section"></div>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <div>
+                    <h2 style="margin: 0;">Mokymosi temos</h2>
+                    <p style="margin: 5px 0 0 0; color: #666;">Gilinkite žinias skaitydami paruoštą medžiagą.</p>
+                </div>
+
+                <div id="user-header-info" onclick="window.location.href='profile.html'" 
+                     style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: 1px solid #eee;">
+                    <div style="text-align: right; line-height: 1.2;">
+                        <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Moksleivis</div>
+                        <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+                    </div>
+                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis" 
+                         style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef; background: #f8f9ff; object-fit: cover;">
+                </div>
+            </header>
+
+            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="flex: 1; min-width: 250px; position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
+                    <input type="text" id="searchInput" placeholder="Ieškoti temos..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                </div>
+                
+                <select id="category-filter" onchange="loadPublicTopics()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="all">Visos kategorijos</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Istorija">Istorija</option>
+                    <option value="Fizika">Fizika</option>
+                </select>
+
+                <select id="sortFilter" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="newest">Naujausios</option>
+                    <option value="az">A-Z</option>
+                </select>
+            </div>
+
+            <div id="topics-container" class="topics-grid">
+                <div class="loader">Kraunamos temos...</div>
+            </div>
+        </main>
+    </div> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+    <script src="topics.js"></script>
+</body>
+=======
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -87,4 +160,5 @@
         }
     </style>
 </body>
+>>>>>>> 931a4b5c8c01a3b79707f71745ffba8ffd640e8a
 </html>

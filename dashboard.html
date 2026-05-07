@@ -1,3 +1,86 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mano Skydelis | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        <aside class="sidebar-nav">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+            <nav id="main-nav">
+                <a href="dashboard.html" id="nav-home" class="active"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
+                <hr>
+                <div id="auth-section"></div>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <div>
+                    <h2 style="margin: 0;">Statistika</h2>
+                </div>
+
+                <div id="user-header-info" onclick="window.location.href='profile.html'" 
+                     style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: 1px solid #eee;">
+                    
+                    <div style="text-align: right; line-height: 1.2;">
+                        <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Moksleivis</div>
+                        <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+                    </div>
+
+                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis" 
+                         style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef; background: #f8f9ff; object-fit: cover;">
+                </div>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h4>Išmoktos temos</h4>
+                        <p id="learned-topics-count">0 / 0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-fire"></i>
+                    <div>
+                        <h4>Mokymosi serija</h4>
+                        <p>1 diena</p>
+                    </div>
+                </div>
+            </section>
+
+            <h3>Tęsti mokymąsi</h3>
+            <div id="dashboard-topics">
+                <p>Kraunama...</p>
+            </div>
+
+            <h3>Prieinami testai</h3>
+            <div id="quiz-list">
+                <p>Kraunama...</p>
+            </div>
+
+            <div class="dash-ad">
+                <p>Reklama: Gauk 20% nuolaidą kanceliarinėms prekėms!</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+=======
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -74,4 +157,5 @@
     <script src="scripts.js"></script>
     <script src="dashboard.js"></script>
 </body>
+>>>>>>> 931a4b5c8c01a3b79707f71745ffba8ffd640e8a
 </html>

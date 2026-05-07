@@ -1,3 +1,124 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testai | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        <!-- Šoninis meniu -->
+       <aside class="sidebar-nav">
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav id="main-nav">
+        <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+        <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+        <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+        <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
+        <hr>
+        <div id="auth-section"></div>
+    </nav>
+</aside>
+
+        <main class="dashboard-main">
+    <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h2 style="margin: 0;">Žinių patikrinimas</h2>
+            <p style="margin: 5px 0 0 0; color: #666;">Pasirinkite testą ir pasitikrinkite savo žinias.</p>
+        </div>
+
+        <div id="user-header-info" onclick="window.location.href='profile.html'" 
+             style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: 1px solid #eee;">
+            
+            <div style="text-align: right; line-height: 1.2;">
+                <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Moksleivis</div>
+                <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+            </div>
+
+            <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis" 
+                 style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef; background: #f8f9ff; object-fit: cover;">
+        </div>
+    </header>
+
+    <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        <div style="flex: 1; min-width: 250px; position: relative;">
+            <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
+            <input type="text" id="searchInput" placeholder="Ieškoti testo pagal pavadinimą..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+        </div>
+        
+        <select id="category-filter" onchange="loadQuizzes()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+            <option value="all">Visos kategorijos</option>
+            <option value="Matematika">Matematika</option>
+            <option value="Istorija">Istorija</option>
+            <option value="Fizika">Fizika</option>
+        </select>
+
+        <select id="sortFilter" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+            <option value="newest">Naujausi viršuje</option>
+            <option value="az">A-Z</option>
+            <option value="oldest">Seniausi viršuje</option>
+        </select>
+    </div>
+
+    <div id="quizzes-container" class="topics-grid">
+        <div class="loader">Kraunami testai...</div>
+    </div>
+
+    <div id="quiz-window" class="course-item" style="display: none; margin-top: 20px;">
+        <button onclick="closeQuiz()" class="btn-outline" style="float: right;">Uždaryti</button>
+        <h2 id="active-quiz-title"></h2>
+        <hr>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz-btn" class="btn-primary" style="margin-top: 20px; width: 100%;">Baigti testą</button>
+        <div id="quiz-result" style="margin-top: 20px; font-weight: bold; text-align: center;"></div>
+    </div>
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+    <script src="quizzes.js"></script>
+    
+    <style>
+        /* Tavo originalus stilius */
+        #quizzes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Ištaisytas kortelės dizainas, kad atitiktų JS generuojamą HTML */
+        .course-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .course-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+
+        /* Paieškos juostos pritaikymas mobiliesiems */
+        @media (max-width: 768px) {
+            .search-sort-bar {
+                flex-direction: column;
+            }
+            .search-sort-bar > * {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+=======
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -105,4 +226,5 @@
         }
     </style>
 </body>
+>>>>>>> 931a4b5c8c01a3b79707f71745ffba8ffd640e8a
 </html>
