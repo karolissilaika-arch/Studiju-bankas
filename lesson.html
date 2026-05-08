@@ -4,29 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pamoka | MokykisPro</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Supabase biblioteka (BŪTINA) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="dashboard-bg">
-
-<body class="dashboard-bg">
     <div class="dashboard-layout">
-        <!-- Šoninis meniu -->
-       <aside class="sidebar-nav">
-    <a href="index.html" style="text-decoration: none; color: inherit;">
-        <div class="logo">Studijų<span>Bankas</span></div>
-    </a>
-    <nav id="main-nav">
-        <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
-        <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
-        <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
-        <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
-        <hr>
-        <!-- Ši dalis bus keičiama dinamiškai per JS -->
-        <div id="auth-section"></div>
-    </nav>
-</aside>
+        <aside class="sidebar-nav">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+            <nav id="main-nav">
+                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+                <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
+                <hr>
+                <div id="auth-section"></div>
+            </nav>
+        </aside>
 
         <!-- Pagrindinis turinis -->
         <main class="dashboard-main">

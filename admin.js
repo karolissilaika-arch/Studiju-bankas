@@ -218,3 +218,167 @@ function insertImageTag() {
         textArea.value = textArea.value.substring(0, start) + imgTag + textArea.value.substring(end);
     }
 }
+// 1. Kintamasis redaguojamo klausimo ID saugoti (pačiame viršuje!)
+let editingQuestionId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Užkrauname klausimus iškart atidarius puslapį
+    loadAdminExamQuestions();
+
+    const examForm = document.getElementById('exam-question-form');
+    
+    if (examForm) {
+        examForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 2. Duomenų surinkimas iš formos
+            const grade = document.getElementById('exam-grade').value;
+            const category = document.getElementById('exam-category').value;
+            const topic = document.getElementById('exam-topic').value;
+            const question_text = document.getElementById('exam-q-text').value;
+            const explanation = document.getElementById('exam-explanation').value; // Naujas laukas
+            
+            const optionsElements = document.querySelectorAll('.exam-opt');
+            const options = Array.from(optionsElements).map(el => el.value);
+            
+            const selectedRadio = document.querySelector('input[name="correct-opt"]:checked');
+            const correct_option = selectedRadio ? parseInt(selectedRadio.value) : 0;
+
+            // Paruošiame objektą siuntimui
+            const questionData = { 
+                grade: parseInt(grade), 
+                category, 
+                topic, 
+                question_text, 
+                options, 
+                correct_option,
+                explanation: explanation || null // Jei tuščia, siunčiame NULL
+            };
+
+            try {
+                if (editingQuestionId) {
+                    // REDAGAVIMO REŽIMAS
+                    const { error } = await supabaseClient
+                        .from('exam_questions')
+                        .update(questionData)
+                        .eq('id', editingQuestionId);
+
+                    if (error) throw error;
+                    alert("Klausimas sėkmingai atnaujintas!");
+                } else {
+                    // KŪRIMO REŽIMAS
+                    const { error } = await supabaseClient
+                        .from('exam_questions')
+                        .insert([questionData]);
+
+                    if (error) throw error;
+                    alert("Klausimas sėkmingai pridėtas!");
+                }
+
+                // Po sėkmingo veiksmo:
+                resetExamForm();
+                loadAdminExamQuestions();
+            } catch (err) {
+                alert("Klaida: " + err.message);
+            }
+        });
+    }
+});
+
+// 3. Funkcija, kuri užpildo formą redagavimui
+function editQuestionInForm(q) {
+    editingQuestionId = q.id;
+    
+    // ... visi tavo esami laukų užpildymai (grade, category, topic ir t.t.) ...
+    document.getElementById('exam-grade').value = q.grade;
+    document.getElementById('exam-category').value = q.category;
+    document.getElementById('exam-topic').value = q.topic;
+    document.getElementById('exam-q-text').value = q.question_text;
+    document.getElementById('exam-explanation').value = q.explanation || "";
+    
+    const optionsInputs = document.querySelectorAll('.exam-opt');
+    q.options.forEach((opt, i) => {
+        if (optionsInputs[i]) optionsInputs[i].value = opt;
+    });
+
+    const radios = document.querySelectorAll('input[name="correct-opt"]');
+    if (radios[q.correct_option]) radios[q.correct_option].checked = true;
+
+    const submitBtn = document.querySelector('#exam-question-form button[type="submit"]');
+    submitBtn.innerText = "Išsaugoti pakeitimus";
+    submitBtn.style.background = "#f39c12"; 
+    
+    // PAKEITIMAS ČIA:
+    // Vietoj window.scrollTo({ top: 0 }), naudojame šitą:
+    const formSection = document.getElementById('exam-question-form').closest('.admin-card');
+    if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// 4. Funkcija formos atstatymui (Reset)
+function resetExamForm() {
+    editingQuestionId = null;
+    const form = document.getElementById('exam-question-form');
+    if (form) {
+        form.reset();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.innerText = "Išsaugoti klausimą į duomenų bazę";
+            submitBtn.style.background = "#27ae60"; // Grąžiname žalią spalvą
+        }
+    }
+}
+
+// 5. Sąrašo užkrovimas
+async function loadAdminExamQuestions() {
+    const listContainer = document.getElementById('admin-exam-list');
+    if (!listContainer) return;
+
+    const { data, error } = await supabaseClient
+        .from('exam_questions')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        listContainer.innerHTML = "<p style='color:red;'>Klaida kraunant klausimus.</p>";
+        return;
+    }
+
+    listContainer.innerHTML = data.map(q => `
+        <div style="border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <small style="color: #5d5fef; font-weight: 600;">${q.grade} kl. | ${q.category} | ${q.topic}</small>
+                <p style="margin: 5px 0; font-weight: 500;">${q.question_text}</p>
+                ${q.explanation ? `<small style="color: #888;">💡 ${q.explanation.substring(0, 50)}...</small>` : ''}
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button onclick='editQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' 
+                        style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-edit"></i> Redaguoti
+                </button>
+                <button onclick="deleteExamQuestion('${q.id}')" 
+                        style="background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// 6. Trynimo funkcija
+async function deleteExamQuestion(id) {
+    if (!confirm("Ar tikrai norite ištrinti šį klausimą?")) return;
+
+    const { error } = await supabaseClient
+        .from('exam_questions')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        alert("Klaida trinant: " + error.message);
+    } else {
+        if (editingQuestionId === id) resetExamForm(); // Jei triname tą, kurį redaguojame
+        loadAdminExamQuestions();
+    }
+}
