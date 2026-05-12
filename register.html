@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registracija | MokykisPro</title>
+    <title>Registracija | StudijųBankas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,7 +13,7 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <a href="index.html" class="logo">Mokykis<span>Pro</span></a>
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
                 <h2>Sukurti paskyrą</h2>
                 <p>Prisijunk prie tūkstančių besimokančių</p>
             </div>
@@ -45,10 +45,20 @@
 
                 <button type="submit" class="btn-primary btn-full">Registruotis</button>
             </form>
+               <div class="divider">
+                <span>arba</span>
+            </div>
+             <div class="social-login">
+                <button id="google-login-btn" class="google-btn">
+                    <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width="18"> 
+                    Prisijungti su Google
+                </button>
+            </div>
 
             <p class="auth-footer">
                 Jau turite paskyrą? <a href="login.html">Prisijungti</a>
             </p>
+            
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

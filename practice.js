@@ -63,11 +63,13 @@ function renderQuestion() {
     `;
 }
 
-function checkAnswer(selected, correct) {
+async function checkAnswer(selected, correct) {
     const options = document.querySelectorAll('.option-item');
     const feedback = document.getElementById('feedback-area');
     const nextBtn = document.getElementById('next-btn');
+    const currentQ = loadedQuestions[currentIndex]; // Gauname dabartinį klausimą
 
+    // Sustabdome papildomus paspaudimus
     options.forEach((opt, i) => {
         opt.style.pointerEvents = 'none';
         if (i === correct) {
@@ -79,7 +81,29 @@ function checkAnswer(selected, correct) {
         }
     });
 
-    feedback.innerHTML = (selected === correct) 
+    const isCorrect = (selected === correct);
+
+    // --- NAUJA DALIS: Įrašome į duomenų bazę ---
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        
+        if (user) {
+            const { error } = await supabaseClient
+                .from('exam_results')
+                .insert([{
+                    user_id: user.id,
+                    question_id: currentQ.id, // Naudojame klausimo UUID
+                    is_correct: isCorrect
+                }]);
+
+            if (error) console.error("Klaida saugant rezultatą:", error.message);
+        }
+    } catch (err) {
+        console.error("Sistemos klaida:", err);
+    }
+    // --- PABAIGA ---
+
+    feedback.innerHTML = isCorrect 
         ? "<span style='color: #27ae60;'><i class='fas fa-check'></i> Teisingai!</span>" 
         : "<span style='color: #e74c3c;'><i class='fas fa-times'></i> Neteisingai.</span>";
     

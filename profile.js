@@ -66,6 +66,9 @@ async function loadProfile(user) {
     } catch (err) {
         console.error("Kritinė klaida loadProfile funkcijoje:", err);
     }
+    const xp = profile.total_xp || 0;
+const level = Math.floor(xp / 100) + 1; // Kas 100 taškų naujas lygis
+document.getElementById('profile-level-display').innerText = `Lygis: ${level}`;
 }
 function renderGallery(xp, currentUrl) {
     const gallery = document.getElementById('avatar-gallery');
@@ -114,7 +117,3 @@ async function selectAvatar(url) {
         loadProfile(user);
     }
 }
-// profile.js viduje
-const xp = profile.total_xp || 0;
-const level = Math.floor(xp / 100) + 1; // Kas 100 taškų naujas lygis
-document.getElementById('profile-level-display').innerText = `Lygis: ${level}`;

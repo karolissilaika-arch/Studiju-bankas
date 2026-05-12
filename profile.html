@@ -18,6 +18,7 @@
                 <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
                 <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
                 <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+                <a href="analytics.html" id="nav-analytics"><i class="fas fa-chart-bar"></i> Analitika</a>
                 <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
                 <hr>
                 <div id="auth-section"></div>
@@ -52,6 +53,14 @@
                         <div id="avatar-gallery" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
                             </div>
                     </div>
+                    <div class="password-change-section">
+  <div class="password-card">
+    <h3><i class="fas fa-lock"></i> Keisti slaptažodį</h3>
+    <div class="password-input-group">
+        <input type="password" id="new-password" placeholder="Naujas slaptažodis">
+        <button onclick="changePassword()" class="btn-update">Atnaujinti</button>
+    </div>
+</div>
 
                     <button onclick="window.location.href='dashboard.html'" class="btn-outline" style="margin-top: 30px; width: 100%;">
                         Grįžti į pradžią

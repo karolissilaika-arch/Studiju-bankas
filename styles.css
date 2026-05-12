@@ -297,3 +297,154 @@ body { font-family: 'Inter', sans-serif; color: var(--text); line-height: 1.6; o
     margin-bottom: 10px !important;
     border: 1px solid #eee; /* Prideda švelnų rėmelį */
 }
+/* AI Burbulas */
+#ai-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color, #5d5fef);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: transform 0.3s;
+}
+
+#ai-bubble:hover { transform: scale(1.1); }
+
+/* Chat Langas */
+#ai-chat-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.chat-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.chat-header {
+    background: #5d5fef;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+#chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.msg { padding: 10px 15px; border-radius: 15px; max-width: 85%; font-size: 14px; }
+.bot { background: #f0f0f0; align-self: flex-start; }
+.user { background: #5d5fef; color: white; align-self: flex-end; }
+
+.chat-input { padding: 10px; border-top: 1px solid #eee; display: flex; gap: 5px; }
+#ai-input { flex: 1; border: none; outline: none; padding: 5px; }
+#ai-send-btn { background: none; border: none; color: #5d5fef; cursor: pointer; font-size: 18px; }
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #3c4043;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.google-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.google-btn img {
+  width: 18px;
+  height: 18px;
+}
+.password-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Lengvas šešėlis */
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.password-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.password-input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Laukėlio stilius */
+.password-input-group input {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+    flex: 1;
+}
+
+.password-input-group input:focus {
+    border-color: #5d5fef; /* Fokusavimo spalva kaip tavo mygtuko */
+}
+
+/* Atnaujinti mygtuko stilius */
+.btn-update {
+    background-color: #5d5fef;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-update:hover {
+    background-color: #4a4cd9;
+    transform: translateY(-2px); /* Lengvas pakėlimas užvedus */
+}
+
+.btn-update:active {
+    transform: translateY(0);
+}

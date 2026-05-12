@@ -30,7 +30,7 @@
                 <div class="input-group">
                     <div class="label-row">
                         <label for="password">Slaptažodis</label>
-                        <a href="#" class="forgot-pw">Pamiršote?</a>
+                        <a href="#" class="forgot-pw" onclick="resetPasswordRequest(event)">Pamiršote?</a>
                     </div>
                     <div class="input-wrapper">
                         <i class="fas fa-lock"></i>
@@ -46,14 +46,13 @@
             </div>
 
             <div class="social-login">
-                <button class="btn-outline btn-full">
+                <button id="google-login-btn" class="google-btn">
                     <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width="18"> 
                     Prisijungti su Google
                 </button>
             </div>
-
             <p class="auth-footer">
-                Neturite paskyros? <a href="#">Registruotis</a>
+                Neturite paskyros? <a href="register.html">Registruotis</a>
             </p>
         </div>
     </div>

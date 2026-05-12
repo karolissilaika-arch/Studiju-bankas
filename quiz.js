@@ -74,9 +74,14 @@ async function loadActiveQuiz() {
 }
 
 // --- 2. REZULTATŲ SKAIČIAVIMAS ---
+// --- 2. REZULTATŲ SKAIČIAVIMAS (Papildyta) ---
 async function calculateResults() {
     let score = 0;
     let answeredCount = 0;
+    
+    // Gauname testo pavadinimą iš URL, kad galėtume įrašyti į DB
+    const params = new URLSearchParams(window.location.search);
+    const quizTitle = params.get('id');
 
     currentQuizQuestions.forEach((q, index) => {
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
@@ -88,20 +93,40 @@ async function calculateResults() {
         }
     });
 
-    // Patikriname, ar atsakyta į visus klausimus
     if (answeredCount < currentQuizQuestions.length) {
         if (!confirm("Atsakėte ne į visus klausimus. Ar tikrai norite baigti?")) return;
     }
 
-    // Paslepiame pateikimo mygtuką
     const submitBtn = document.getElementById('submit-quiz-btn');
     if (submitBtn) submitBtn.style.display = 'none';
 
-    // Parodome rezultatą ekrane
     showResultUI(score, currentQuizQuestions.length);
 
-    // --- IŠSAUGOME XP Į DUOMENŲ BAZĘ ---
-    await saveXP(score);
+    // --- IŠSAUGOME DUOMENIS Į ANALITIKĄ IR XP ---
+    await saveQuizStats(quizTitle, score, currentQuizQuestions.length); // NAUJA: įrašome statistiką
+    await saveXP(score); // Tavo esama XP funkcija
+}
+
+// --- 5. STATISTIKOS ĮRAŠYMAS Į quiz_results LENTELĘ (NAUJA) ---
+async function saveQuizStats(quizTitle, score, total) {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+
+        const { error } = await supabaseClient
+            .from('quiz_results')
+            .insert([{
+                user_id: user.id,
+                quiz_id: quizTitle, // Čia tavo 'title', nes jis yra Primary Key
+                score: score,
+                total_questions: total
+            }]);
+
+        if (error) throw error;
+        console.log("Statistika sėkmingai išsaugota analitikai.");
+    } catch (err) {
+        console.error("Klaida saugant statistiką:", err.message);
+    }
 }
 
 // --- 3. REZULTATŲ ATVAZDAVIMAS (UI) ---

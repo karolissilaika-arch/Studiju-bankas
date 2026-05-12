@@ -22,10 +22,18 @@
                 <li><a href="quizzes.html">Užduotys</a></li>
                 <li><a href="#kainos" class="premium-badge">Premium</a></li>
             </ul>
-            <div class="auth-buttons">
-                <a href="login.html" class="btn-primary" style="text-decoration: none;">Prisijungti</a>
-                <a href="register.html" class="btn-primary">Registruotis</a>
-            </div>
+          <div class="auth-buttons" id="nav-auth-container">
+    <div id="logged-out-view" style="display: flex; gap: 10px;">
+        <a href="login.html" class="btn-primary" style="text-decoration: none;">Prisijungti</a>
+        <a href="register.html" class="btn-primary" style="text-decoration: none;">Registruotis</a>
+    </div>
+
+    <div id="logged-in-view" style="display: none; align-items: center; gap: 15px; cursor: pointer;" onclick="window.location.href='dashboard.html'">
+        <span id="nav-username" style="font-weight: 600; color: #333;"></span>
+        <img id="nav-avatar" src="assets/default-avatar.png" alt="Avataras" 
+             style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #5d5fef; object-fit: cover;">
+    </div>
+</div>
         </nav>
     </header>
 
@@ -43,8 +51,6 @@
             <div class="mockup-card">
                 <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
                 <div class="mockup-text">
-                    <p class="code-comment">// Tavo progresas</p>
-                    <p>Matematika: 85%</p>
                     <div class="progress-bar"><div class="fill"></div></div>
                 </div>
             </div>
