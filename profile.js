@@ -37,21 +37,18 @@ async function loadProfile(user) {
         document.getElementById('profile-email').innerText = user.email || '';
         document.getElementById('xp-count').innerText = profile.total_xp || 0;
         document.getElementById('quizzes-count').innerText = profile.quizzes_completed || 0;
-        
+
         // 2. Saugus avataro nustatymas
-        const defaultAvatar = availableAvatars[0].url; // Pirmas robotukas iš tavo sąrašo
+        const defaultAvatar = availableAvatars[0].url;
         const currentXP = profile.total_xp || 0;
-        
-        // Prioritetas: DB reikšmė -> Jei nėra, default reikšmė
-        const currentAvatar = profile.avatar_url && profile.avatar_url.trim() !== "" 
-            ? profile.avatar_url 
+
+        const currentAvatar = profile.avatar_url && profile.avatar_url.trim() !== ''
+            ? profile.avatar_url
             : defaultAvatar;
-        
+
         const avatarImg = document.getElementById('user-avatar');
         if (avatarImg) {
             avatarImg.src = currentAvatar;
-            
-            // APSAUGA: Jei paveikslėlis vis tiek nesikrauna (pvz. blogas URL DB), grąžiname default
             avatarImg.onerror = function() {
                 this.src = defaultAvatar;
                 console.warn("DB esantis avatar_url neveikia, panaudotas standartinis.");
@@ -63,13 +60,39 @@ async function loadProfile(user) {
             renderGallery(currentXP, currentAvatar);
         }
 
+        // 4. Premium sekcija profilio puslapyje
+        // PATAISYTA: visas kodas dabar yra try bloko VIDUJE, kur 'profile' pasiekiamas
+        const premiumSection = document.getElementById('premium-section');
+        if (premiumSection) {
+            if (profile.is_premium) {
+                premiumSection.innerHTML = `
+                    <div style="background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; padding: 16px; border-radius: 12px; text-align: center;">
+                        <i class="fas fa-crown" style="margin-right: 8px;"></i>
+                        <strong>Premium narys</strong>
+                        <p style="margin: 8px 0 12px; opacity: 0.9; font-size: 13px;">
+                            Naudojatės nuo ${new Date(profile.premium_since).toLocaleDateString('lt-LT')}
+                        </p>
+                        <button id="cancel-sub-btn" onclick="cancelSubscription()"
+                                style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;">
+                            Atšaukti prenumeratą
+                        </button>
+                    </div>
+                `;
+            } else {
+                premiumSection.innerHTML = `
+                    <button onclick="startCheckout()" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 15px;">
+                        <i class="fas fa-crown" style="margin-right: 8px;"></i>
+                        Gauti Premium — 5€/mėn
+                    </button>
+                `;
+            }
+        }
+
     } catch (err) {
         console.error("Kritinė klaida loadProfile funkcijoje:", err);
     }
-    const xp = profile.total_xp || 0;
-const level = Math.floor(xp / 100) + 1; // Kas 100 taškų naujas lygis
-document.getElementById('profile-level-display').innerText = `Lygis: ${level}`;
 }
+
 function renderGallery(xp, currentUrl) {
     const gallery = document.getElementById('avatar-gallery');
     if (!gallery) return;
@@ -77,23 +100,23 @@ function renderGallery(xp, currentUrl) {
     gallery.innerHTML = availableAvatars.map(avatar => {
         const isLocked = xp < avatar.price;
         const isActive = currentUrl === avatar.url;
-        
+
         return `
-            <div onclick="${isLocked ? '' : `selectAvatar('${avatar.url}')`}" 
-                 style="cursor: ${isLocked ? 'not-allowed' : 'pointer'}; 
-                        position: relative; 
-                        padding: 5px; 
-                        border-radius: 12px; 
+            <div onclick="${isLocked ? '' : `selectAvatar('${avatar.url}')`}"
+                 style="cursor: ${isLocked ? 'not-allowed' : 'pointer'};
+                        position: relative;
+                        padding: 5px;
+                        border-radius: 12px;
                         transition: 0.2s;
                         border: 2px solid ${isActive ? '#5d5fef' : 'transparent'};
                         background: ${isActive ? '#f0f0ff' : 'transparent'};
                         opacity: ${isLocked ? '0.4' : '1'};">
-                
+
                 <img src="${avatar.url}" style="width: 100%; border-radius: 10px; background: #eee;">
-                
-                ${isLocked ? 
-                    `<div style="font-size: 9px; color: #666; margin-top: 3px;">🔒 ${avatar.price} XP</div>` : 
-                    `<div style="font-size: 9px; color: #48bb78; margin-top: 3px;">Atrakinta</div>`
+
+                ${isLocked
+                    ? `<div style="font-size: 9px; color: #666; margin-top: 3px;">🔒 ${avatar.price} XP</div>`
+                    : `<div style="font-size: 9px; color: #48bb78; margin-top: 3px;">Atrakinta</div>`
                 }
             </div>
         `;
@@ -102,7 +125,7 @@ function renderGallery(xp, currentUrl) {
 
 async function selectAvatar(url) {
     const { data: { user } } = await supabaseClient.auth.getUser();
-    
+
     const { error } = await supabaseClient
         .from('profiles')
         .update({ avatar_url: url })
@@ -111,9 +134,7 @@ async function selectAvatar(url) {
     if (error) {
         alert("Klaida keičiant avatarą.");
     } else {
-        // Atnaujiname nuotrauką viršuje ir perbraižome galeriją
         document.getElementById('user-avatar').src = url;
-        // Perkaitome duomenis, kad atsinaujintų rėmeliai galerijoje
         loadProfile(user);
     }
 }
