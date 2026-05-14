@@ -32,13 +32,11 @@ async function loadProfile(user) {
             return;
         }
 
-        // 1. Užpildome tekstinę informaciją
         document.getElementById('profile-name').innerText = profile.username || 'Moksleivis';
         document.getElementById('profile-email').innerText = user.email || '';
         document.getElementById('xp-count').innerText = profile.total_xp || 0;
         document.getElementById('quizzes-count').innerText = profile.quizzes_completed || 0;
 
-        // 2. Saugus avataro nustatymas
         const defaultAvatar = availableAvatars[0].url;
         const currentXP = profile.total_xp || 0;
 
@@ -51,17 +49,15 @@ async function loadProfile(user) {
             avatarImg.src = currentAvatar;
             avatarImg.onerror = function() {
                 this.src = defaultAvatar;
-                console.warn("DB esantis avatar_url neveikia, panaudotas standartinis.");
             };
         }
 
-        // 3. Generuojame galeriją
         if (typeof renderGallery === 'function') {
             renderGallery(currentXP, currentAvatar);
         }
 
-        // 4. Premium sekcija profilio puslapyje
-        // PATAISYTA: visas kodas dabar yra try bloko VIDUJE, kur 'profile' pasiekiamas
+        // Premium sekcija — PATAISYTA: mygtukas turi id="profile-checkout-btn"
+        // kad subscription.js startCheckout() galėtų jį rasti
         const premiumSection = document.getElementById('premium-section');
         if (premiumSection) {
             if (profile.is_premium) {
@@ -80,7 +76,17 @@ async function loadProfile(user) {
                 `;
             } else {
                 premiumSection.innerHTML = `
-                    <button onclick="startCheckout()" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 15px;">
+                    <button id="profile-checkout-btn" onclick="startCheckout(this)" style="
+                        width: 100%;
+                        padding: 14px;
+                        background: linear-gradient(135deg, #5d5fef, #7c3aed);
+                        color: white;
+                        border: none;
+                        border-radius: 12px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        font-size: 15px;
+                    ">
                         <i class="fas fa-crown" style="margin-right: 8px;"></i>
                         Gauti Premium — 5€/mėn
                     </button>
@@ -111,9 +117,7 @@ function renderGallery(xp, currentUrl) {
                         border: 2px solid ${isActive ? '#5d5fef' : 'transparent'};
                         background: ${isActive ? '#f0f0ff' : 'transparent'};
                         opacity: ${isLocked ? '0.4' : '1'};">
-
                 <img src="${avatar.url}" style="width: 100%; border-radius: 10px; background: #eee;">
-
                 ${isLocked
                     ? `<div style="font-size: 9px; color: #666; margin-top: 3px;">🔒 ${avatar.price} XP</div>`
                     : `<div style="font-size: 9px; color: #48bb78; margin-top: 3px;">Atrakinta</div>`

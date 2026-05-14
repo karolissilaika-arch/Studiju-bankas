@@ -2,10 +2,10 @@
 // subscription.js — Premium apsauga ir valdymas
 // ============================================================
 
-// Globalus premium statusas (užkraunamas vieną kartą)
 window.userIsPremium = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // SVARBU: await užtikrina, kad premium statusas žinomas PRIEŠ taikant apsaugą
     await initPremiumStatus();
     applyPremiumFeatures();
     showPremiumSuccessIfRedirected();
@@ -138,11 +138,12 @@ function blockPage(title, description, feature) {
 }
 
 // --- 4. STRIPE CHECKOUT PALEIDIMAS ---
-// PATAISYTA: priimame mygtuko elementą tiesiogiai, nebepasikliaujame globaliu 'event'
+// PATAISYTA: veikia ir su mygtuku (this), ir be argumento (profile.html atveju)
 async function startCheckout(btnElement) {
-    // Jei iškviesta iš onclick="startCheckout(this)" - naudojame perduotą elementą
-    // Jei iškviesta be argumento (senas kodas) - bandome rasti mygtukus
-    const btn = btnElement || document.getElementById('checkout-btn-block') || null;
+    // Jei iškviesta be argumento iš profile.html — ieškome mygtuko pagal id
+    const btn = btnElement instanceof Element
+        ? btnElement
+        : document.getElementById('profile-checkout-btn') || null;
 
     if (btn) {
         btn.disabled = true;
@@ -150,9 +151,8 @@ async function startCheckout(btnElement) {
     }
 
     try {
-        // Tikriname ar supabaseClient pasiekiamas
         if (typeof supabaseClient === 'undefined') {
-            throw new Error("Supabase klientas nepasiekiamas. Patikrinkite scripts.js įkėlimą.");
+            throw new Error("Supabase klientas nepasiekiamas.");
         }
 
         const { data: { session } } = await supabaseClient.auth.getSession();
@@ -161,9 +161,8 @@ async function startCheckout(btnElement) {
             return;
         }
 
-        // Tikriname ar globalūs kintamieji apibrėžti (iš scripts.js)
         if (typeof supabaseUrl === 'undefined' || typeof supabaseKey === 'undefined') {
-            throw new Error("supabaseUrl arba supabaseKey neapibrėžti. Patikrinkite scripts.js.");
+            throw new Error("supabaseUrl arba supabaseKey neapibrėžti.");
         }
 
         const res = await fetch(`${supabaseUrl}/functions/v1/create-checkout`, {
@@ -174,11 +173,10 @@ async function startCheckout(btnElement) {
                 'apikey': supabaseKey,
             },
             body: JSON.stringify({ origin: 'https://karolissilaika-arch.github.io/Studiju-bankas' }),
+        });
 
-        // Tikriname HTTP atsakymo statusą prieš parse'inant JSON
         if (!res.ok) {
             const errorText = await res.text();
-            console.error("Edge Function HTTP klaida:", res.status, errorText);
             throw new Error(`Serverio klaida (${res.status}): ${errorText}`);
         }
 
@@ -206,7 +204,7 @@ async function startCheckout(btnElement) {
     }
 }
 
-// --- 5. ATŠAUKIMO FUNKCIJA (naudojama profile.html) ---
+// --- 5. ATŠAUKIMO FUNKCIJA ---
 async function cancelSubscription() {
     if (!confirm("Ar tikrai norite atšaukti Premium prenumeratą?\n\nGalėsite naudotis Premium iki šio mėnesio pabaigos.")) return;
 
