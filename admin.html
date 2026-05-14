@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panelė | StudijųBankas</title>
-<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="dashboard-bg">
@@ -17,7 +17,8 @@
                 <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
                 <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
                 <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
-                <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+                <a href="exam-prep.html" id="nav-exam"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+                <a href="vbe.html" id="nav-vbe"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
                 <a href="analytics.html" id="nav-analytics"><i class="fas fa-chart-bar"></i> Analitika</a>
                 <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
                 <hr>
@@ -25,7 +26,6 @@
             </nav>
         </aside>
 
-        <!-- Pagrindinis turinis -->
         <main class="dashboard-main">
             <header class="dash-header">
                 <h2>Turinio valdymas</h2>
@@ -33,162 +33,263 @@
 
             <!-- 1 SEKCIJA: Esamo turinio valdymas -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
-                <section>
-                    <h3>Egzistuojančios pamokos</h3>
-                    <div id="admin-topics-list" class="course-item" style="display: block; max-height: 300px; overflow-y: auto;">
+                
+                <!-- Temos -->
+                <section style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 12px;">Egzistuojančios pamokos</h3>
+                    <input type="text" id="search-topics" placeholder="🔍 Ieškoti temos..." 
+                           style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; outline: none; font-size: 14px;">
+                    <div id="admin-topics-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 8px; padding: 5px;">
                         <p>Kraunama...</p>
                     </div>
                 </section>
-                <section>
-                    <h3>Egzistuojantys testai</h3>
-                    <div id="admin-quizzes-list" class="course-item" style="display: block; max-height: 300px; overflow-y: auto;">
+
+                <!-- Testai -->
+                <section style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 12px;">Egzistuojantys testai</h3>
+                    <input type="text" id="search-quizzes" placeholder="🔍 Ieškoti testo..." 
+                           style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; outline: none; font-size: 14px;">
+                    <div id="admin-quizzes-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 8px; padding: 5px;">
                         <p>Kraunama...</p>
                     </div>
                 </section>
-                <section class="admin-card" style="margin-top: 30px; background: white; padding: 30px; border-radius: 15px;">
-    <h3>Esami egzaminų klausimai</h3>
-    <div id="admin-exam-list" style="margin-top: 15px;">
-        </div>
-</section>
+
+                <!-- Egzaminų klausimai -->
+                <section class="admin-card" style="grid-column: 1 / -1; margin-top: 10px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <h3 style="margin-bottom: 12px;">Esami egzaminų klausimai</h3>
+                    <input type="text" id="search-exams" placeholder="🔍 Ieškoti klausimo, kategorijos ar temos..." 
+                           style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; outline: none; font-size: 14px;">
+                    <div id="admin-exam-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 8px; padding: 5px 10px;">
+                        <p>Kraunama...</p>
+                    </div>
+                </section>
+
+                <!-- VBE klausimai -->
+                <section class="admin-card" style="grid-column: 1 / -1; margin-top: 10px; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 4px solid #7c3aed;">
+                    <h3 style="margin-bottom: 12px;"><i class="fas fa-star" style="color:#7c3aed;"></i> Esami VBE klausimai</h3>
+                    <input type="text" id="search-vbe" placeholder="🔍 Ieškoti VBE klausimo, dalyko ar temos..." 
+                           style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; outline: none; font-size: 14px;">
+                    <div id="admin-vbe-list" style="max-height: 350px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 8px; padding: 5px 10px;">
+                        <p>Kraunama...</p>
+                    </div>
+                </section>
             </div>
 
             <hr style="margin-bottom: 30px; border: 0; border-top: 1px solid #eee;">
-<section class="admin-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-top: 30px;">
-    <h3><i class="fas fa-plus-circle"></i> Pridėti Egzamino Klausimą</h3>
-    <hr>
-    <form id="exam-question-form">
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-            <div>
-                <label>Klasė</label>
-                <select id="exam-grade" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                    <option value="11">11 klasė</option>
-                    <option value="12">12 klasė</option>
-                    <option value="10">10 klasė</option>
-                </select>
+
+            <!-- Egzamino klausimo forma -->
+            <section class="admin-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-top: 30px;">
+                <h3><i class="fas fa-plus-circle"></i> Pridėti Egzamino Klausimą</h3>
+                <hr style="margin: 15px 0;">
+                <form id="exam-question-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label>Klasė</label>
+                            <select id="exam-grade" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                <option value="11">11 klasė</option>
+                                <option value="12">12 klasė</option>
+                                <option value="10">10 klasė</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Dalykas (Kategorija)</label>
+                            <input type="text" id="exam-category" placeholder="Pvz: Matematika" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                        <div>
+                            <label>Tema</label>
+                            <input type="text" id="exam-topic" placeholder="Pvz: Išvestinės" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label>Klausimo tekstas</label>
+                        <textarea id="exam-q-text" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                    </div>
+
+                    <div id="exam-options-container" style="margin-bottom: 15px;">
+                        <label>Atsakymai (pažymėkite teisingą)</label>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="correct-opt" value="0" checked>
+                            <input type="text" class="exam-opt" placeholder="Atsakymas A" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="correct-opt" value="1">
+                            <input type="text" class="exam-opt" placeholder="Atsakymas B" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="correct-opt" value="2">
+                            <input type="text" class="exam-opt" placeholder="Atsakymas C" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="correct-opt" value="3">
+                            <input type="text" class="exam-opt" placeholder="Atsakymas D" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label>Paaiškinimas (nebūtina)</label>
+                        <textarea id="exam-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" style="flex: 1; background: #27ae60; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Išsaugoti klausimą į duomenų bazę
+                        </button>
+                        <button type="button" onclick="resetExamForm()" style="background: #eee; color: #555; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Atšaukti
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- VBE klausimo forma -->
+            <section class="admin-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-top: 30px; border-left: 4px solid #7c3aed;">
+                <h3><i class="fas fa-star" style="color:#7c3aed;"></i> Pridėti VBE Klausimą</h3>
+                <hr style="margin: 15px 0;">
+                <form id="vbe-question-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label>Dalykas</label>
+                            <input type="text" id="vbe-subject" placeholder="Pvz: Matematika" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                        <div>
+                            <label>Tema</label>
+                            <input type="text" id="vbe-topic" placeholder="Pvz: Integralai" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                        <div>
+                            <label>Metai</label>
+                            <input type="number" id="vbe-year" placeholder="Pvz: 2023" min="2000" max="2099" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                        <div>
+                            <label>Klausimo tipas</label>
+                            <select id="vbe-type" onchange="toggleVbeAnswerFields()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer;">
+                                <option value="test">Testinis</option>
+                                <option value="open">Laisvas atsakymas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label>Klausimo tekstas</label>
+                        <textarea id="vbe-q-text" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                    </div>
+
+                    <!-- Testinio klausimo atsakymai -->
+                    <div id="vbe-test-options" style="margin-bottom: 15px;">
+                        <label>Atsakymai (pažymėkite teisingą)</label>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="vbe-correct-opt" value="0" checked>
+                            <input type="text" class="vbe-opt" placeholder="Atsakymas A" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="vbe-correct-opt" value="1">
+                            <input type="text" class="vbe-opt" placeholder="Atsakymas B" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="vbe-correct-opt" value="2">
+                            <input type="text" class="vbe-opt" placeholder="Atsakymas C" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <input type="radio" name="vbe-correct-opt" value="3">
+                            <input type="text" class="vbe-opt" placeholder="Atsakymas D" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
+
+                    <!-- Laisvo atsakymo laukas -->
+                    <div id="vbe-open-answer" style="display: none; margin-bottom: 15px;">
+                        <label>Pavyzdinis teisingas atsakymas</label>
+                        <textarea id="vbe-correct-answer" rows="4" placeholder="Pilnas pavyzdinis atsakymas..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <div style="margin-top: 10px;">
+                            <label>Maks. taškai (nebūtina)</label>
+                            <input type="number" id="vbe-max-points" placeholder="Pvz: 4" min="1" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label>Paaiškinimas (nebūtina)</label>
+                        <textarea id="vbe-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" style="flex: 1; background: #7c3aed; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Išsaugoti VBE klausimą
+                        </button>
+                        <button type="button" onclick="resetVbeForm()" style="background: #eee; color: #555; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            Atšaukti
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Pamokos forma -->
+            <h3 id="topic-form-title" style="margin-top: 40px;">Sukurti / Redaguoti pamoką</h3>
+            <div class="course-item" style="display: block; margin-bottom: 30px;">
+                <form id="topicForm">
+                    <div class="input-group">
+                        <label>Pavadinimas</label>
+                        <input type="text" id="topicTitle" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label>Kategorija</label>
+                        <select id="topicCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
+                            <option value="bendra">Bendra</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Istorija">Istorija</option>
+                            <option value="Fizika">Fizika</option>
+                            <option value="Lietuvių kalba">Lietuvių kalba</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label>Trumpas aprašymas</label>
+                        <input type="text" id="topicDesc">
+                    </div>
+                    <div class="input-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label>Pamokos turinys (HTML/Tekstas)</label>
+                            <button type="button" onclick="insertImageTag()" class="btn-outline" style="padding: 2px 8px; font-size: 12px; margin-bottom: 5px;">
+                                <i class="fas fa-image"></i> Įterpti nuotrauką
+                            </button>
+                        </div>
+                        <textarea id="topicContent" rows="10" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd; font-family: monospace;"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button type="submit" class="btn-primary">Skelbti temą</button>
+                        <button type="button" onclick="resetTopicForm()" class="btn-outline" style="border: none;">Atšaukti</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label>Dalykas (Kategorija)</label>
-                <input type="text" id="exam-category" placeholder="Pvz: Matematika" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+
+            <!-- Testo forma -->
+            <h3 id="quiz-form-title">Sukurti / Redaguoti testą</h3>
+            <div class="course-item" style="display: block;">
+                <form id="quizForm">
+                    <div class="input-group">
+                        <label>Testo pavadinimas</label>
+                        <input type="text" id="quizTitle" required>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label>Kategorija</label>
+                        <select id="quizCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
+                            <option value="bendra">Bendra</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Istorija">Istorija</option>
+                            <option value="Fizika">Fizika</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label>Trumpas testo aprašymas</label>
+                        <input type="text" id="quizDesc" required>
+                    </div>
+                    <div id="questions-container"></div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
+                        <button type="submit" id="save-quiz-btn" class="btn-primary">Išsaugoti testą</button>
+                        <button type="button" onclick="resetQuizForm()" class="btn-outline" style="border: none;">Valyti</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label>Tema</label>
-                <input type="text" id="exam-topic" placeholder="Pvz: Išvestinės" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-            </div>
-        </div>
+        </main>
+    </div>
 
-        <div style="margin-bottom: 15px;">
-            <label>Klausimo tekstas</label>
-            <textarea id="exam-q-text" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
-        </div>
-
-        <div id="exam-options-container" style="margin-bottom: 15px;">
-            <label>Atsakymai (pažymėkite teisingą)</label>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <input type="radio" name="correct-opt" value="0" checked>
-                <input type="text" class="exam-opt" placeholder="Atsakymas A" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <input type="radio" name="correct-opt" value="1">
-                <input type="text" class="exam-opt" placeholder="Atsakymas B" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <input type="radio" name="correct-opt" value="2">
-                <input type="text" class="exam-opt" placeholder="Atsakymas C" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <input type="radio" name="correct-opt" value="3">
-                <input type="text" class="exam-opt" placeholder="Atsakymas D" required style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
-            </div>
-        </div>
-        <div style="margin-bottom: 15px;">
-    <label>Paaiškinimas (nebūtina)</label>
-    <textarea id="exam-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
-</div>
-
-        <button type="submit" style="background: #27ae60; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%;">
-            Išsaugoti klausimą į duomenų bazę
-        </button>
-    </form>
-</section>
-
-            <!-- 2 SEKCIJA: Pamokos forma -->
-<h3 id="topic-form-title">Sukurti / Redaguoti pamoką</h3>
-<div class="course-item" style="display: block; margin-bottom: 30px;">
-    <form id="topicForm">
-        <div class="input-group">
-            <label>Pavadinimas</label>
-            <input type="text" id="topicTitle" required>
-        </div>
-
-        <!-- PRIDĖTA: Pamokos kategorija -->
-        <div class="input-group" style="margin-top: 10px;">
-            <label>Kategorija</label>
-            <select id="topicCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
-                <option value="bendra">Bendra</option>
-                <option value="Matematika">Matematika</option>
-                <option value="Istorija">Istorija</option>
-                <option value="Fizika">Fizika</option>
-                <option value="Lietuvių kalba">Lietuvių kalba</option>
-            </select>
-        </div>
-
-        <div class="input-group" style="margin-top: 10px;">
-            <label>Trumpas aprašymas</label>
-            <input type="text" id="topicDesc">
-        </div>
-        
-        <div class="input-group">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <label>Pamokos turinys (HTML/Tekstas)</label>
-                <button type="button" onclick="insertImageTag()" class="btn-outline" style="padding: 2px 8px; font-size: 12px; margin-bottom: 5px;">
-                    <i class="fas fa-image"></i> Įterpti nuotrauką
-                </button>
-            </div>
-            <textarea id="topicContent" rows="10" style="width:100%; border-radius:10px; padding:10px; border:1px solid #ddd; font-family: monospace;"></textarea>
-        </div>
-        <div style="display: flex; gap: 10px; margin-top: 10px;">
-            <button type="submit" class="btn-primary">Skelbti temą</button>
-            <button type="button" onclick="resetTopicForm()" class="btn-outline" style="border: none;">Atšaukti</button>
-        </div>
-    </form>
-</div>
-
-<!-- 3 SEKCIJA: Testo forma -->
-<h3 id="quiz-form-title">Sukurti / Redaguoti testą</h3>
-<div class="course-item" style="display: block;">
-    <form id="quizForm">
-        <div class="input-group">
-            <label>Testo pavadinimas</label>
-            <input type="text" id="quizTitle" required>
-        </div>
-
-        <!-- PRIDĖTA: Testo kategorija -->
-        <div class="input-group" style="margin-top: 10px;">
-            <label>Kategorija</label>
-            <select id="quizCategory" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; outline: none; cursor: pointer;">
-                <option value="bendra">Bendra</option>
-                <option value="Matematika">Matematika</option>
-                <option value="Istorija">Istorija</option>
-                <option value="Fizika">Fizika</option>
-            </select>
-        </div>
-
-        <div class="input-group" style="margin-top: 10px;">
-            <label>Trumpas testo aprašymas</label>
-            <input type="text" id="quizDesc" required>
-        </div>
-
-        <div id="questions-container"></div>
-
-        <div style="margin-top: 15px; display: flex; gap: 10px;">
-            <button type="button" onclick="addQuestion()" class="btn-outline">Pridėti klausimą</button>
-            <button type="submit" id="save-quiz-btn" class="btn-primary">Išsaugoti testą</button>
-            <button type="button" onclick="resetQuizForm()" class="btn-outline" style="border: none;">Valyti</button>
-        </div>
-    </form>
-</div>
-
-    <!-- Bibliotekos -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="scripts.js"></script>
     <script src="admin.js"></script>

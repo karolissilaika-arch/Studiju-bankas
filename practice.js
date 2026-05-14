@@ -2,13 +2,11 @@ let loadedQuestions = [];
 let currentIndex = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Gauname parametrus iš URL
     const params = new URLSearchParams(window.location.search);
     const grade = params.get('grade');
     const category = params.get('category');
     const topic = params.get('topic');
 
-    // 2. Užkrauname klausimus
     let query = supabaseClient.from('exam_questions').select('*');
     if (grade && grade !== 'all') query = query.eq('grade', parseInt(grade));
     if (category && category !== 'all') query = query.eq('category', category);
@@ -67,9 +65,8 @@ async function checkAnswer(selected, correct) {
     const options = document.querySelectorAll('.option-item');
     const feedback = document.getElementById('feedback-area');
     const nextBtn = document.getElementById('next-btn');
-    const currentQ = loadedQuestions[currentIndex]; // Gauname dabartinį klausimą
+    const currentQ = loadedQuestions[currentIndex];
 
-    // Sustabdome papildomus paspaudimus
     options.forEach((opt, i) => {
         opt.style.pointerEvents = 'none';
         if (i === correct) {
@@ -83,25 +80,33 @@ async function checkAnswer(selected, correct) {
 
     const isCorrect = (selected === correct);
 
-    // --- NAUJA DALIS: Įrašome į duomenų bazę ---
+    // Išsaugome rezultatą TIK premium vartotojams
     try {
         const { data: { user } } = await supabaseClient.auth.getUser();
         
         if (user) {
-            const { error } = await supabaseClient
-                .from('exam_results')
-                .insert([{
-                    user_id: user.id,
-                    question_id: currentQ.id, // Naudojame klausimo UUID
-                    is_correct: isCorrect
-                }]);
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('is_premium')
+                .eq('id', user.id)
+                .single();
 
-            if (error) console.error("Klaida saugant rezultatą:", error.message);
+            if (profile?.is_premium === true) {
+                const { error } = await supabaseClient
+                    .from('exam_results')
+                    .insert([{
+                        user_id: user.id,
+                        question_id: currentQ.id,
+                        is_correct: isCorrect
+                    }]);
+
+                if (error) console.error("Klaida saugant rezultatą:", error.message);
+                else console.log("Rezultatas išsaugotas (Premium vartotojas).");
+            }
         }
     } catch (err) {
         console.error("Sistemos klaida:", err);
     }
-    // --- PABAIGA ---
 
     feedback.innerHTML = isCorrect 
         ? "<span style='color: #27ae60;'><i class='fas fa-check'></i> Teisingai!</span>" 

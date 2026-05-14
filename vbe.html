@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBE Pasiruošimas | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard-layout">
+        <aside class="sidebar-nav">
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+            <nav id="main-nav">
+                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
+                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
+                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
+                <a href="exam-prep.html" id="nav-exam"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+                <a href="vbe.html" class="active"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+                <a href="analytics.html" id="nav-analytics"><i class="fas fa-chart-bar"></i> Analitika</a>
+                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
+                <hr>
+                <div id="auth-section"></div>
+            </nav>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <div>
+                    <h2 style="margin: 0;">VBE Pasiruošimas</h2>
+                    <p style="margin: 5px 0 0 0; color: #666;">Ruoškis valstybiniam brandos egzaminui</p>
+                </div>
+                <div id="user-header-info" onclick="window.location.href='profile.html'"
+                     style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer;">
+                    <div style="text-align: right; line-height: 1.2;">
+                        <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Kraunama...</div>
+                        <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+                    </div>
+                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis"
+                         style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef;">
+                </div>
+            </header>
+
+            <!-- Filtrai -->
+            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <select id="filter-subject" onchange="handleSubjectChange()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 160px; cursor: pointer;">
+                    <option value="all">Visi dalykai</option>
+                </select>
+
+                <select id="filter-year" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 130px; cursor: pointer;">
+                    <option value="all">Visi metai</option>
+                </select>
+
+                <select id="filter-topic" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                    <option value="all">Visos temos</option>
+                </select>
+
+                <select id="filter-type" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 160px; cursor: pointer;">
+                    <option value="all">Visi tipai</option>
+                    <option value="test">Testinis</option>
+                    <option value="open">Laisvas atsakymas</option>
+                </select>
+            </div>
+
+            <!-- Statistika -->
+            <div id="vbe-stats" style="margin: 0 0 20px 0; color: #666; font-size: 15px;">
+                Rasta klausimų: <strong id="vbe-q-count">0</strong>
+            </div>
+
+            <!-- Pradėti mygtukas -->
+            <button id="start-vbe-btn" onclick="openVbePractice()" style="display: none; width: 100%; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; margin-bottom: 30px; box-shadow: 0 6px 20px rgba(93,95,239,0.3);">
+                <i class="fas fa-play" style="margin-right: 10px;"></i> Pradėti VBE praktiką
+            </button>
+
+            <!-- Klausimų peržiūra -->
+            <div id="vbe-questions-preview" style="display: none;">
+                <h3 style="margin-bottom: 15px; color: #444;">Klausimų peržiūra</h3>
+                <div id="vbe-preview-list"></div>
+            </div>
+
+            <!-- Tuščias pranešimas -->
+            <div id="no-vbe-msg" style="margin-top: 50px; text-align: center; color: #999;">
+                <i class="fas fa-graduation-cap" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3; display: block;"></i>
+                <p style="font-size: 16px;">Pasirinkite filtrus, kad užkrautumėte VBE klausimus.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="scripts.js"></script>
+    <script src="vbe.js"></script>
+    <script src="subscription.js"></script>
+</body>
+</html>

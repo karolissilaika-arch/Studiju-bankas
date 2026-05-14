@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     checkUserStatus(); 
     loadAdminTopics();
     loadAdminQuizzes();
+    loadAdminExamQuestions();
+    loadAdminVbeQuestions();
     
     // Pamokų formos klausytojas
     const topicForm = document.getElementById('topicForm');
@@ -14,23 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const titleInput = document.getElementById('topicTitle');
             const desc = document.getElementById('topicDesc').value;
             const content = document.getElementById('topicContent').value;
-            
-            // NAUJA: Nuskaityti kategoriją
             const category = document.getElementById('topicCategory').value;
-            
             const title = titleInput.value;
             const isUpdate = editingTitle !== null;
 
             let result;
             if (isUpdate) {
-                // PRIDĖTA: category atnaujinimui
                 result = await supabaseClient.from('topics').update({ 
                     description: desc, 
                     content: content,
                     category: category 
                 }).eq('title', editingTitle);
             } else {
-                // PRIDĖTA: category naujam įrašui
                 result = await supabaseClient.from('topics').insert([{ 
                     title, 
                     description: desc, 
@@ -43,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Klaida: " + result.error.message);
             } else {
                 alert(isUpdate ? "Atnaujinta sėkmingai!" : "Tema sukurta!");
-                resetTopicForm(); // Naudojame jūsų reset funkciją
+                resetTopicForm();
                 loadAdminTopics();
             }
         });
@@ -56,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const title = document.getElementById('quizTitle').value;
             const desc = document.getElementById('quizDesc').value;
-            
-            // NAUJA: Nuskaityti kategoriją
             const category = document.getElementById('quizCategory').value;
             
             const questionBlocks = document.querySelectorAll('.question-block');
@@ -72,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // PRIDĖTA: category į upsert užklausą
             const { error } = await supabaseClient.from('quizzes').upsert([{ 
                 title: title, 
                 description: desc, 
@@ -84,20 +78,99 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Klaida saugant testą: " + error.message);
             } else {
                 alert("Testas sėkmingai išsaugotas!");
-                resetQuizForm(); // Naudojame jūsų reset funkciją
+                resetQuizForm();
                 loadAdminQuizzes();
+            }
+        });
+    }
+
+    // Paieškos klausytojai
+    document.getElementById('search-topics')?.addEventListener('input', filterTopics);
+    document.getElementById('search-quizzes')?.addEventListener('input', filterQuizzes);
+    document.getElementById('search-exams')?.addEventListener('input', filterExamQuestions);
+    document.getElementById('search-vbe')?.addEventListener('input', filterVbeQuestions);
+
+    // Egzaminų formos klausytojas
+    const examForm = document.getElementById('exam-question-form');
+    if (examForm) {
+        examForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const grade = document.getElementById('exam-grade').value;
+            const category = document.getElementById('exam-category').value;
+            const topic = document.getElementById('exam-topic').value;
+            const question_text = document.getElementById('exam-q-text').value;
+            const explanation = document.getElementById('exam-explanation').value;
+            
+            const optionsElements = document.querySelectorAll('.exam-opt');
+            const options = Array.from(optionsElements).map(el => el.value);
+            
+            const selectedRadio = document.querySelector('input[name="correct-opt"]:checked');
+            const correct_option = selectedRadio ? parseInt(selectedRadio.value) : 0;
+
+            const questionData = { 
+                grade: parseInt(grade), 
+                category, 
+                topic, 
+                question_text, 
+                options, 
+                correct_option,
+                explanation: explanation || null
+            };
+
+            try {
+                if (editingQuestionId) {
+                    const { error } = await supabaseClient
+                        .from('exam_questions')
+                        .update(questionData)
+                        .eq('id', editingQuestionId);
+                    if (error) throw error;
+                    alert("Klausimas sėkmingai atnaujintas!");
+                } else {
+                    const { error } = await supabaseClient
+                        .from('exam_questions')
+                        .insert([questionData]);
+                    if (error) throw error;
+                    alert("Klausimas sėkmingai pridėtas!");
+                }
+
+                resetExamForm();
+                loadAdminExamQuestions();
+            } catch (err) {
+                alert("Klaida: " + err.message);
             }
         });
     }
 });
 
 // --- TEMŲ (TOPICS) FUNKCIJOS ---
+let allAdminTopics = [];
+
 async function loadAdminTopics() {
     const container = document.getElementById('admin-topics-list');
     if (!container) return;
     const { data: topics, error } = await supabaseClient.from('topics').select('*');
     if (error) return;
+    allAdminTopics = topics;
+    renderAdminTopics(topics);
+}
 
+function filterTopics() {
+    const term = document.getElementById('search-topics').value.toLowerCase();
+    const filtered = allAdminTopics.filter(t => 
+        t.title.toLowerCase().includes(term) || 
+        (t.category || '').toLowerCase().includes(term)
+    );
+    renderAdminTopics(filtered);
+}
+
+function renderAdminTopics(topics) {
+    const container = document.getElementById('admin-topics-list');
+    if (!container) return;
+    if (topics.length === 0) {
+        container.innerHTML = '<p style="padding:10px; color:#999;">Nieko nerasta.</p>';
+        return;
+    }
     container.innerHTML = topics.map(topic => `
         <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
             <span><strong>${topic.title}</strong> <small style="color: gray;">(${topic.category || 'bendra'})</small></span>
@@ -115,16 +188,11 @@ async function editTopic(title) {
         document.getElementById('topicTitle').value = topic.title;
         document.getElementById('topicDesc').value = topic.description || '';
         document.getElementById('topicContent').value = topic.content || '';
-        
-        // PRIDĖTA: Nustatyti kategoriją redagavimo metu
-        if (topic.category) {
-            document.getElementById('topicCategory').value = topic.category;
-        }
-
+        if (topic.category) document.getElementById('topicCategory').value = topic.category;
         editingTitle = topic.title;
         document.querySelector('#topicForm button').innerText = "Atnaujinti temą";
         document.getElementById('topicTitle').disabled = true;
-        document.getElementById('topicForm').scrollIntoView();
+        document.getElementById('topicForm').scrollIntoView({ behavior: 'smooth' });
     }
 }
 
@@ -133,25 +201,49 @@ async function deleteTopic(title) {
     await supabaseClient.from('topics').delete().eq('title', title);
     loadAdminTopics();
 }
-async function deleteQuiz(title) {
-    if (!confirm(`Trinti testą: ${title}?`)) return;
-    await supabaseClient.from('quizzes').delete().eq('title', title);
-    loadAdminQuizzes();
-}
 
 // --- TESTŲ (QUIZZES) FUNKCIJOS ---
+let allAdminQuizzes = [];
+
 async function loadAdminQuizzes() {
     const container = document.getElementById('admin-quizzes-list');
     if (!container) return;
     const { data: quizzes } = await supabaseClient.from('quizzes').select('*');
-    
+    allAdminQuizzes = quizzes || [];
+    renderAdminQuizzes(quizzes || []);
+}
+
+function filterQuizzes() {
+    const term = document.getElementById('search-quizzes').value.toLowerCase();
+    const filtered = allAdminQuizzes.filter(q => 
+        q.title.toLowerCase().includes(term) || 
+        (q.category || '').toLowerCase().includes(term)
+    );
+    renderAdminQuizzes(filtered);
+}
+
+function renderAdminQuizzes(quizzes) {
+    const container = document.getElementById('admin-quizzes-list');
+    if (!container) return;
+    if (quizzes.length === 0) {
+        container.innerHTML = '<p style="padding:10px; color:#999;">Nieko nerasta.</p>';
+        return;
+    }
     container.innerHTML = quizzes.map(q => `
         <div style="border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
             <span><strong>${q.title}</strong> <small style="color: gray;">(${q.category || 'bendra'})</small></span>
-            <button onclick="editQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
-        <button onclick="deleteQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: red; border-color: red;">Trinti</button>
+            <div>
+                <button onclick="editQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: orange; border-color: orange;">Redaguoti</button>
+                <button onclick="deleteQuiz('${q.title.replace(/'/g, "\\'")}')" class="btn-outline" style="padding: 2px 10px; font-size: 12px; color: red; border-color: red;">Trinti</button>
             </div>
+        </div>
     `).join('');
+}
+
+async function deleteQuiz(title) {
+    if (!confirm(`Trinti testą: ${title}?`)) return;
+    await supabaseClient.from('quizzes').delete().eq('title', title);
+    loadAdminQuizzes();
 }
 
 async function editQuiz(title) {
@@ -159,11 +251,7 @@ async function editQuiz(title) {
     if (quiz) {
         document.getElementById('quizTitle').value = quiz.title;
         document.getElementById('quizDesc').value = quiz.description || '';
-        
-        // PRIDĖTA: Nustatyti kategoriją redagavimo metu
-        if (quiz.category) {
-            document.getElementById('quizCategory').value = quiz.category;
-        }
+        if (quiz.category) document.getElementById('quizCategory').value = quiz.category;
 
         const container = document.getElementById('questions-container');
         container.innerHTML = ''; 
@@ -176,7 +264,7 @@ async function editQuiz(title) {
             last.querySelector('.q-options').value = q.a.join(', ');
             last.querySelector('.q-correct').value = q.c;
         });
-        document.getElementById('quizForm').scrollIntoView();
+        document.getElementById('quizForm').scrollIntoView({ behavior: 'smooth' });
     }
 }
 
@@ -187,9 +275,8 @@ function addQuestion() {
     qBlock.style = 'display: block; margin-top: 15px; padding: 15px; border: 1px solid #eee;';
     qBlock.innerHTML = `
         <input type="text" class="q-text" placeholder="Klausimas" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
-        <input type="text" class="q-options" placeholder="Atsakymai (pvz: 2, 4, 6)" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
-        <input type="number" class="q-correct" placeholder="Teisingo indeksas (0, 1...)" style="width:100%; padding:8px; border-radius:5px; border:1px solid #ddd;">
-        <button type="button" onclick="this.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer; margin-top:5px;">[ Pašalinti ]</button>
+        <input type="text" class="q-options" placeholder="Atsakymai, atskirti kableliais (pvz: Taip, Ne, Galbūt)" style="width:100%; margin-bottom:5px; padding:8px; border-radius:5px; border:1px solid #ddd;">
+        <input type="number" class="q-correct" placeholder="Teisingo atsakymo indeksas (0, 1, 2...)" min="0" style="width:100%; padding:8px; border-radius:5px; border:1px solid #ddd;">
     `;
     container.appendChild(qBlock);
 }
@@ -218,78 +305,71 @@ function insertImageTag() {
         textArea.value = textArea.value.substring(0, start) + imgTag + textArea.value.substring(end);
     }
 }
-// 1. Kintamasis redaguojamo klausimo ID saugoti (pačiame viršuje!)
+
+// --- EGZAMINŲ KLAUSIMAI ---
 let editingQuestionId = null;
+let allAdminExamQuestions = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Užkrauname klausimus iškart atidarius puslapį
-    loadAdminExamQuestions();
+function filterExamQuestions() {
+    const term = document.getElementById('search-exams').value.toLowerCase();
+    const filtered = allAdminExamQuestions.filter(q => 
+        q.question_text.toLowerCase().includes(term) ||
+        (q.category || '').toLowerCase().includes(term) ||
+        (q.topic || '').toLowerCase().includes(term)
+    );
+    renderAdminExamQuestions(filtered);
+}
 
-    const examForm = document.getElementById('exam-question-form');
-    
-    if (examForm) {
-        examForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+function renderAdminExamQuestions(data) {
+    const listContainer = document.getElementById('admin-exam-list');
+    if (!listContainer) return;
 
-            // 2. Duomenų surinkimas iš formos
-            const grade = document.getElementById('exam-grade').value;
-            const category = document.getElementById('exam-category').value;
-            const topic = document.getElementById('exam-topic').value;
-            const question_text = document.getElementById('exam-q-text').value;
-            const explanation = document.getElementById('exam-explanation').value; // Naujas laukas
-            
-            const optionsElements = document.querySelectorAll('.exam-opt');
-            const options = Array.from(optionsElements).map(el => el.value);
-            
-            const selectedRadio = document.querySelector('input[name="correct-opt"]:checked');
-            const correct_option = selectedRadio ? parseInt(selectedRadio.value) : 0;
-
-            // Paruošiame objektą siuntimui
-            const questionData = { 
-                grade: parseInt(grade), 
-                category, 
-                topic, 
-                question_text, 
-                options, 
-                correct_option,
-                explanation: explanation || null // Jei tuščia, siunčiame NULL
-            };
-
-            try {
-                if (editingQuestionId) {
-                    // REDAGAVIMO REŽIMAS
-                    const { error } = await supabaseClient
-                        .from('exam_questions')
-                        .update(questionData)
-                        .eq('id', editingQuestionId);
-
-                    if (error) throw error;
-                    alert("Klausimas sėkmingai atnaujintas!");
-                } else {
-                    // KŪRIMO REŽIMAS
-                    const { error } = await supabaseClient
-                        .from('exam_questions')
-                        .insert([questionData]);
-
-                    if (error) throw error;
-                    alert("Klausimas sėkmingai pridėtas!");
-                }
-
-                // Po sėkmingo veiksmo:
-                resetExamForm();
-                loadAdminExamQuestions();
-            } catch (err) {
-                alert("Klaida: " + err.message);
-            }
-        });
+    if (data.length === 0) {
+        listContainer.innerHTML = '<p style="padding:10px; color:#999;">Nieko nerasta.</p>';
+        return;
     }
-});
 
-// 3. Funkcija, kuri užpildo formą redagavimui
+    listContainer.innerHTML = data.map(q => `
+        <div style="border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <small style="color: #5d5fef; font-weight: 600;">${q.grade} kl. | ${q.category} | ${q.topic}</small>
+                <p style="margin: 5px 0; font-weight: 500;">${q.question_text}</p>
+                ${q.explanation ? `<small style="color: #888;">💡 ${q.explanation.substring(0, 50)}...</small>` : ''}
+            </div>
+            <div style="display: flex; gap: 8px; flex-shrink: 0; margin-left: 10px;">
+                <button onclick='editQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' 
+                        style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-edit"></i> Redaguoti
+                </button>
+                <button onclick="deleteExamQuestion('${q.id}')" 
+                        style="background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function loadAdminExamQuestions() {
+    const listContainer = document.getElementById('admin-exam-list');
+    if (!listContainer) return;
+
+    const { data, error } = await supabaseClient
+        .from('exam_questions')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        listContainer.innerHTML = "<p style='color:red;'>Klaida kraunant klausimus.</p>";
+        return;
+    }
+
+    allAdminExamQuestions = data;
+    renderAdminExamQuestions(data);
+}
+
 function editQuestionInForm(q) {
     editingQuestionId = q.id;
-    
-    // ... visi tavo esami laukų užpildymai (grade, category, topic ir t.t.) ...
     document.getElementById('exam-grade').value = q.grade;
     document.getElementById('exam-category').value = q.category;
     document.getElementById('exam-topic').value = q.topic;
@@ -308,15 +388,12 @@ function editQuestionInForm(q) {
     submitBtn.innerText = "Išsaugoti pakeitimus";
     submitBtn.style.background = "#f39c12"; 
     
-    // PAKEITIMAS ČIA:
-    // Vietoj window.scrollTo({ top: 0 }), naudojame šitą:
     const formSection = document.getElementById('exam-question-form').closest('.admin-card');
     if (formSection) {
         formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
-// 4. Funkcija formos atstatymui (Reset)
 function resetExamForm() {
     editingQuestionId = null;
     const form = document.getElementById('exam-question-form');
@@ -325,48 +402,11 @@ function resetExamForm() {
         const submitBtn = form.querySelector('button[type="submit"]');
         if (submitBtn) {
             submitBtn.innerText = "Išsaugoti klausimą į duomenų bazę";
-            submitBtn.style.background = "#27ae60"; // Grąžiname žalią spalvą
+            submitBtn.style.background = "#27ae60";
         }
     }
 }
 
-// 5. Sąrašo užkrovimas
-async function loadAdminExamQuestions() {
-    const listContainer = document.getElementById('admin-exam-list');
-    if (!listContainer) return;
-
-    const { data, error } = await supabaseClient
-        .from('exam_questions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        listContainer.innerHTML = "<p style='color:red;'>Klaida kraunant klausimus.</p>";
-        return;
-    }
-
-    listContainer.innerHTML = data.map(q => `
-        <div style="border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <small style="color: #5d5fef; font-weight: 600;">${q.grade} kl. | ${q.category} | ${q.topic}</small>
-                <p style="margin: 5px 0; font-weight: 500;">${q.question_text}</p>
-                ${q.explanation ? `<small style="color: #888;">💡 ${q.explanation.substring(0, 50)}...</small>` : ''}
-            </div>
-            <div style="display: flex; gap: 8px;">
-                <button onclick='editQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' 
-                        style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-                    <i class="fas fa-edit"></i> Redaguoti
-                </button>
-                <button onclick="deleteExamQuestion('${q.id}')" 
-                        style="background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        </div>
-    `).join('');
-}
-
-// 6. Trynimo funkcija
 async function deleteExamQuestion(id) {
     if (!confirm("Ar tikrai norite ištrinti šį klausimą?")) return;
 
@@ -378,7 +418,179 @@ async function deleteExamQuestion(id) {
     if (error) {
         alert("Klaida trinant: " + error.message);
     } else {
-        if (editingQuestionId === id) resetExamForm(); // Jei triname tą, kurį redaguojame
+        if (editingQuestionId === id) resetExamForm();
         loadAdminExamQuestions();
+    }
+}
+
+// =============================================
+// --- VBE KLAUSIMAI ---
+// =============================================
+let editingVbeQuestionId = null;
+let allAdminVbeQuestions = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const vbeForm = document.getElementById('vbe-question-form');
+    if (vbeForm) {
+        vbeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const subject = document.getElementById('vbe-subject').value;
+            const topic = document.getElementById('vbe-topic').value;
+            const year = document.getElementById('vbe-year').value;
+            const question_type = document.getElementById('vbe-type').value;
+            const question_text = document.getElementById('vbe-q-text').value;
+            const explanation = document.getElementById('vbe-explanation').value;
+
+            let questionData = { subject, topic: topic || null, question_text, question_type, explanation: explanation || null };
+            if (year) questionData.year = parseInt(year);
+
+            if (question_type === 'test') {
+                const optEls = document.querySelectorAll('.vbe-opt');
+                const options = Array.from(optEls).map(el => el.value).filter(v => v.trim() !== '');
+                if (options.length < 2) { alert("Pridėkite bent 2 atsakymų variantus."); return; }
+                const selectedRadio = document.querySelector('input[name="vbe-correct-opt"]:checked');
+                const correct_option = selectedRadio ? parseInt(selectedRadio.value) : 0;
+                questionData.options = options;
+                questionData.correct_option = correct_option;
+            } else {
+                const correct_answer = document.getElementById('vbe-correct-answer').value;
+                const max_points = document.getElementById('vbe-max-points').value;
+                if (!correct_answer.trim()) { alert("Įveskite pavyzdinį atsakymą."); return; }
+                questionData.correct_answer = correct_answer;
+                if (max_points) questionData.max_points = parseInt(max_points);
+            }
+
+            try {
+                if (editingVbeQuestionId) {
+                    const { error } = await supabaseClient.from('vbe_questions').update(questionData).eq('id', editingVbeQuestionId);
+                    if (error) throw error;
+                    alert("VBE klausimas atnaujintas!");
+                } else {
+                    const { error } = await supabaseClient.from('vbe_questions').insert([questionData]);
+                    if (error) throw error;
+                    alert("VBE klausimas pridėtas!");
+                }
+                resetVbeForm();
+                loadAdminVbeQuestions();
+            } catch (err) {
+                alert("Klaida: " + err.message);
+            }
+        });
+    }
+});
+
+function toggleVbeAnswerFields() {
+    const type = document.getElementById('vbe-type').value;
+    document.getElementById('vbe-test-options').style.display = type === 'test' ? 'block' : 'none';
+    document.getElementById('vbe-open-answer').style.display = type === 'open' ? 'block' : 'none';
+}
+
+async function loadAdminVbeQuestions() {
+    const listContainer = document.getElementById('admin-vbe-list');
+    if (!listContainer) return;
+
+    const { data, error } = await supabaseClient
+        .from('vbe_questions')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        listContainer.innerHTML = "<p style='color:red;'>Klaida kraunant VBE klausimus.</p>";
+        return;
+    }
+
+    allAdminVbeQuestions = data;
+    renderAdminVbeQuestions(data);
+}
+
+function filterVbeQuestions() {
+    const term = document.getElementById('search-vbe').value.toLowerCase();
+    const filtered = allAdminVbeQuestions.filter(q =>
+        q.question_text.toLowerCase().includes(term) ||
+        (q.subject || '').toLowerCase().includes(term) ||
+        (q.topic || '').toLowerCase().includes(term)
+    );
+    renderAdminVbeQuestions(filtered);
+}
+
+function renderAdminVbeQuestions(data) {
+    const listContainer = document.getElementById('admin-vbe-list');
+    if (!listContainer) return;
+
+    if (data.length === 0) {
+        listContainer.innerHTML = '<p style="padding:10px; color:#999;">Nieko nerasta.</p>';
+        return;
+    }
+
+    listContainer.innerHTML = data.map(q => `
+        <div style="border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <small style="color: #7c3aed; font-weight: 600;">
+                    ${q.subject}${q.topic ? ' | ' + q.topic : ''}${q.year ? ' | ' + q.year + ' m.' : ''}
+                    <span style="background: ${q.question_type === 'open' ? '#fff3cd' : '#ede9fe'}; color: ${q.question_type === 'open' ? '#856404' : '#5d5fef'}; padding: 1px 6px; border-radius: 8px; margin-left: 5px; font-size: 10px;">${q.question_type === 'open' ? 'Laisvas' : 'Testinis'}</span>
+                </small>
+                <p style="margin: 5px 0; font-weight: 500;">${q.question_text}</p>
+                ${q.explanation ? `<small style="color: #888;">💡 ${q.explanation.substring(0, 60)}...</small>` : ''}
+            </div>
+            <div style="display: flex; gap: 8px; flex-shrink: 0; margin-left: 10px;">
+                <button onclick='editVbeQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' 
+                        style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-edit"></i> Redaguoti
+                </button>
+                <button onclick="deleteVbeQuestion('${q.id}')" 
+                        style="background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function editVbeQuestionInForm(q) {
+    editingVbeQuestionId = q.id;
+    document.getElementById('vbe-subject').value = q.subject || '';
+    document.getElementById('vbe-topic').value = q.topic || '';
+    document.getElementById('vbe-year').value = q.year || '';
+    document.getElementById('vbe-type').value = q.question_type || 'test';
+    document.getElementById('vbe-q-text').value = q.question_text || '';
+    document.getElementById('vbe-explanation').value = q.explanation || '';
+
+    toggleVbeAnswerFields();
+
+    if (q.question_type === 'test' && q.options) {
+        const optInputs = document.querySelectorAll('.vbe-opt');
+        q.options.forEach((opt, i) => { if (optInputs[i]) optInputs[i].value = opt; });
+        const radios = document.querySelectorAll('input[name="vbe-correct-opt"]');
+        if (radios[q.correct_option]) radios[q.correct_option].checked = true;
+    } else if (q.question_type === 'open') {
+        document.getElementById('vbe-correct-answer').value = q.correct_answer || '';
+        document.getElementById('vbe-max-points').value = q.max_points || '';
+    }
+
+    const submitBtn = document.querySelector('#vbe-question-form button[type="submit"]');
+    if (submitBtn) { submitBtn.innerText = "Išsaugoti pakeitimus"; submitBtn.style.background = "#f39c12"; }
+
+    document.getElementById('vbe-question-form').closest('.admin-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetVbeForm() {
+    editingVbeQuestionId = null;
+    const form = document.getElementById('vbe-question-form');
+    if (form) {
+        form.reset();
+        toggleVbeAnswerFields();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) { submitBtn.innerText = "Išsaugoti VBE klausimą"; submitBtn.style.background = "#7c3aed"; }
+    }
+}
+
+async function deleteVbeQuestion(id) {
+    if (!confirm("Ar tikrai norite ištrinti šį VBE klausimą?")) return;
+    const { error } = await supabaseClient.from('vbe_questions').delete().eq('id', id);
+    if (error) { alert("Klaida trinant: " + error.message); }
+    else {
+        if (editingVbeQuestionId === id) resetVbeForm();
+        loadAdminVbeQuestions();
     }
 }

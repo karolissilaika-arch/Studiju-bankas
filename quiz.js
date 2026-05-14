@@ -2,9 +2,7 @@
 let currentQuizQuestions = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Patikriname, ar esame testo sprendimo puslapyje (ar egzistuoja klausimų konteineris)
     if (document.getElementById('quiz-questions')) {
-        // Duodame šiek tiek laiko užsikrauti scripts.js (Supabase inicializacijai)
         setTimeout(() => loadActiveQuiz(), 300);
     }
 });
@@ -14,7 +12,6 @@ async function loadActiveQuiz() {
     const params = new URLSearchParams(window.location.search);
     const title = params.get('id');
     const questionsDiv = document.getElementById('quiz-questions');
-    const titleDisplay = document.getElementById('active-quiz-title');
     
     if (!title) {
         alert("Nenurodytas testo pavadinimas!");
@@ -25,7 +22,6 @@ async function loadActiveQuiz() {
     if (questionsDiv) questionsDiv.innerHTML = "<p>Kraunamas testas...</p>";
 
     try {
-        // Traukiame testo duomenis iš Supabase pagal pavadinimą
         const { data: quiz, error } = await supabaseClient
             .from('quizzes')
             .select('*')
@@ -39,13 +35,11 @@ async function loadActiveQuiz() {
             return;
         }
 
-        // Išsaugome klausimus į globalų kintamąjį
         currentQuizQuestions = quiz.questions;
         
-        // Atvaizduojame pavadinimą
+        const titleDisplay = document.getElementById('active-quiz-title');
         if (titleDisplay) titleDisplay.innerText = quiz.title;
         
-        // Generuojame klausimų HTML
         questionsDiv.innerHTML = currentQuizQuestions.map((q, index) => `
             <div class="course-item question-block" style="display: block; margin-bottom: 25px; padding: 20px; border: 1px solid #eee; border-radius: 15px; background: white;">
                 <h4 style="margin-bottom: 15px; color: #333;">${index + 1}. ${q.q}</h4>
@@ -60,7 +54,6 @@ async function loadActiveQuiz() {
             </div>
         `).join('');
 
-        // Prijungiame pateikimo mygtuko funkciją
         const submitBtn = document.getElementById('submit-quiz-btn');
         if (submitBtn) {
             submitBtn.style.display = 'block';
@@ -74,12 +67,10 @@ async function loadActiveQuiz() {
 }
 
 // --- 2. REZULTATŲ SKAIČIAVIMAS ---
-// --- 2. REZULTATŲ SKAIČIAVIMAS (Papildyta) ---
 async function calculateResults() {
     let score = 0;
     let answeredCount = 0;
     
-    // Gauname testo pavadinimą iš URL, kad galėtume įrašyti į DB
     const params = new URLSearchParams(window.location.search);
     const quizTitle = params.get('id');
 
@@ -87,9 +78,7 @@ async function calculateResults() {
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
         if (selected) {
             answeredCount++;
-            if (parseInt(selected.value) === q.c) {
-                score++;
-            }
+            if (parseInt(selected.value) === q.c) score++;
         }
     });
 
@@ -102,12 +91,36 @@ async function calculateResults() {
 
     showResultUI(score, currentQuizQuestions.length);
 
-    // --- IŠSAUGOME DUOMENIS Į ANALITIKĄ IR XP ---
-    await saveQuizStats(quizTitle, score, currentQuizQuestions.length); // NAUJA: įrašome statistiką
-    await saveXP(score); // Tavo esama XP funkcija
+    // Tikriname premium statusą prieš saugant
+    const isPremium = await checkIfPremium();
+    
+    if (isPremium) {
+        await saveQuizStats(quizTitle, score, currentQuizQuestions.length);
+    }
+    
+    // XP saugome visiems vartotojams (tai skatinimo sistema)
+    await saveXP(score);
 }
 
-// --- 5. STATISTIKOS ĮRAŠYMAS Į quiz_results LENTELĘ (NAUJA) ---
+// --- PREMIUM PATIKRA ---
+async function checkIfPremium() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return false;
+
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('is_premium')
+            .eq('id', user.id)
+            .single();
+
+        return profile?.is_premium === true;
+    } catch {
+        return false;
+    }
+}
+
+// --- 3. STATISTIKOS ĮRAŠYMAS (TIK PREMIUM) ---
 async function saveQuizStats(quizTitle, score, total) {
     try {
         const { data: { user } } = await supabaseClient.auth.getUser();
@@ -117,25 +130,25 @@ async function saveQuizStats(quizTitle, score, total) {
             .from('quiz_results')
             .insert([{
                 user_id: user.id,
-                quiz_id: quizTitle, // Čia tavo 'title', nes jis yra Primary Key
+                quiz_id: quizTitle,
                 score: score,
                 total_questions: total
             }]);
 
         if (error) throw error;
-        console.log("Statistika sėkmingai išsaugota analitikai.");
+        console.log("Statistika išsaugota (Premium vartotojas).");
     } catch (err) {
         console.error("Klaida saugant statistiką:", err.message);
     }
 }
 
-// --- 3. REZULTATŲ ATVAZDAVIMAS (UI) ---
+// --- 4. REZULTATŲ ATVAIZDAVIMAS ---
 function showResultUI(score, total) {
     const resultDiv = document.getElementById('quiz-result');
     if (!resultDiv) return;
 
     const percentage = Math.round((score / total) * 100);
-    const pointsEarned = score * 10; // 10 XP už kiekvieną teisingą
+    const pointsEarned = score * 10;
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
@@ -156,16 +169,12 @@ function showResultUI(score, total) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- 4. XP ĮRAŠYMAS Į DUOMENŲ BAZĘ ---
+// --- 5. XP ĮRAŠYMAS (VISIEMS VARTOTOJAMS) ---
 async function saveXP(score) {
     try {
         const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            console.warn("Vartotojas neprisijungęs, XP nebus išsaugotas.");
-            return;
-        }
+        if (!user) return;
 
-        // 1. Gauname esamą profilį
         const { data: profile, error: fetchError } = await supabaseClient
             .from('profiles')
             .select('total_xp, quizzes_completed')
@@ -174,23 +183,17 @@ async function saveXP(score) {
 
         if (fetchError) throw fetchError;
 
-        // 2. Apskaičiuojame naujas reikšmes
         const pointsToAdd = score * 10;
         const newXP = (profile.total_xp || 0) + pointsToAdd;
         const newCount = (profile.quizzes_completed || 0) + 1;
 
-        // 3. Atnaujiname profilio lentelę
         const { error: updateError } = await supabaseClient
             .from('profiles')
-            .update({ 
-                total_xp: newXP, 
-                quizzes_completed: newCount 
-            })
+            .update({ total_xp: newXP, quizzes_completed: newCount })
             .eq('id', user.id);
 
         if (updateError) throw updateError;
-        
-        console.log(`Sėkmingai pridėta ${pointsToAdd} XP. Viso: ${newXP} XP.`);
+        console.log(`+${pointsToAdd} XP. Viso: ${newXP} XP.`);
 
     } catch (err) {
         console.error("Klaida saugant XP:", err.message);
