@@ -437,13 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const subject = document.getElementById('vbe-subject').value;
             const topic = document.getElementById('vbe-topic').value;
-            const year = document.getElementById('vbe-year').value;
             const question_type = document.getElementById('vbe-type').value;
             const question_text = document.getElementById('vbe-q-text').value;
             const explanation = document.getElementById('vbe-explanation').value;
 
             let questionData = { subject, topic: topic || null, question_text, question_type, explanation: explanation || null };
-            if (year) questionData.year = parseInt(year);
 
             if (question_type === 'test') {
                 const optEls = document.querySelectorAll('.vbe-opt');
@@ -527,19 +525,17 @@ function renderAdminVbeQuestions(data) {
         <div style="border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <small style="color: #7c3aed; font-weight: 600;">
-                    ${q.subject}${q.topic ? ' | ' + q.topic : ''}${q.year ? ' | ' + q.year + ' m.' : ''}
+                    ${q.subject}${q.topic ? ' | ' + q.topic : ''}
                     <span style="background: ${q.question_type === 'open' ? '#fff3cd' : '#ede9fe'}; color: ${q.question_type === 'open' ? '#856404' : '#5d5fef'}; padding: 1px 6px; border-radius: 8px; margin-left: 5px; font-size: 10px;">${q.question_type === 'open' ? 'Laisvas' : 'Testinis'}</span>
                 </small>
                 <p style="margin: 5px 0; font-weight: 500;">${q.question_text}</p>
                 ${q.explanation ? `<small style="color: #888;">💡 ${q.explanation.substring(0, 60)}...</small>` : ''}
             </div>
             <div style="display: flex; gap: 8px; flex-shrink: 0; margin-left: 10px;">
-                <button onclick='editVbeQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' 
-                        style="background: #f39c12; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                <button onclick='editVbeQuestionInForm(${JSON.stringify(q).replace(/'/g, "&apos;")})' class="btn-edit-item">
                     <i class="fas fa-edit"></i> Redaguoti
                 </button>
-                <button onclick="deleteVbeQuestion('${q.id}')" 
-                        style="background: #ff4757; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+                <button onclick="deleteVbeQuestion('${q.id}')" class="btn-delete-item">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -551,7 +547,6 @@ function editVbeQuestionInForm(q) {
     editingVbeQuestionId = q.id;
     document.getElementById('vbe-subject').value = q.subject || '';
     document.getElementById('vbe-topic').value = q.topic || '';
-    document.getElementById('vbe-year').value = q.year || '';
     document.getElementById('vbe-type').value = q.question_type || 'test';
     document.getElementById('vbe-q-text').value = q.question_text || '';
     document.getElementById('vbe-explanation').value = q.explanation || '';

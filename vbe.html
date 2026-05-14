@@ -27,37 +27,31 @@
         </aside>
 
         <main class="dashboard-main">
-            <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <header class="page-header">
                 <div>
-                    <h2 style="margin: 0;">VBE Pasiruošimas</h2>
-                    <p style="margin: 5px 0 0 0; color: #666;">Ruoškis valstybiniam brandos egzaminui</p>
+                    <h2>VBE Pasiruošimas</h2>
+                    <p>Ruoškis valstybiniam brandos egzaminui</p>
                 </div>
-                <div id="user-header-info" onclick="window.location.href='profile.html'"
-                     style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer;">
-                    <div style="text-align: right; line-height: 1.2;">
-                        <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Kraunama...</div>
-                        <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+                <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
+                    <div>
+                        <div id="header-username" class="pill-name">Kraunama...</div>
+                        <small id="header-xp" class="pill-xp">0 XP</small>
                     </div>
-                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis"
-                         style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef;">
+                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
                 </div>
             </header>
 
             <!-- Filtrai -->
-            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <select id="filter-subject" onchange="handleSubjectChange()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 160px; cursor: pointer;">
+            <div class="filter-bar">
+                <select id="filter-subject" onchange="handleSubjectChange()" class="form-select">
                     <option value="all">Visi dalykai</option>
                 </select>
 
-                <select id="filter-year" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 130px; cursor: pointer;">
-                    <option value="all">Visi metai</option>
-                </select>
-
-                <select id="filter-topic" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                <select id="filter-topic" onchange="loadVbeQuestions()" class="form-select">
                     <option value="all">Visos temos</option>
                 </select>
 
-                <select id="filter-type" onchange="loadVbeQuestions()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 160px; cursor: pointer;">
+                <select id="filter-type" onchange="loadVbeQuestions()" class="form-select">
                     <option value="all">Visi tipai</option>
                     <option value="test">Testinis</option>
                     <option value="open">Laisvas atsakymas</option>
@@ -70,7 +64,7 @@
             </div>
 
             <!-- Pradėti mygtukas -->
-            <button id="start-vbe-btn" onclick="openVbePractice()" style="display: none; width: 100%; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; margin-bottom: 30px; box-shadow: 0 6px 20px rgba(93,95,239,0.3);">
+            <button id="start-vbe-btn" onclick="openVbePractice()" class="btn-start-practice">
                 <i class="fas fa-play" style="margin-right: 10px;"></i> Pradėti VBE praktiką
             </button>
 
@@ -81,9 +75,9 @@
             </div>
 
             <!-- Tuščias pranešimas -->
-            <div id="no-vbe-msg" style="margin-top: 50px; text-align: center; color: #999;">
-                <i class="fas fa-graduation-cap" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3; display: block;"></i>
-                <p style="font-size: 16px;">Pasirinkite filtrus, kad užkrautumėte VBE klausimus.</p>
+            <div id="no-vbe-msg" class="empty-state">
+                <i class="fas fa-graduation-cap"></i>
+                <p>Pasirinkite filtrus, kad užkrautumėte VBE klausimus.</p>
             </div>
         </main>
     </div>

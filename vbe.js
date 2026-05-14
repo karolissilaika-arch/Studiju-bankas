@@ -22,38 +22,32 @@ async function populateSubjectDropdown() {
     });
 }
 
-// Kai pasikeičia dalykas — atnaujiname temas ir metus
+// Kai pasikeičia dalykas — atnaujiname temas
 async function handleSubjectChange() {
-    await updateTopicAndYearDropdowns();
+    await updateTopicDropdown();
     await loadVbeQuestions();
 }
 
-// Dinamiškai atnaujina temų ir metų pasirinkimą
-async function updateTopicAndYearDropdowns() {
+// Dinamiškai atnaujina temų pasirinkimą
+async function updateTopicDropdown() {
     const subject = document.getElementById('filter-subject').value;
 
-    let query = supabaseClient.from('vbe_questions').select('topic, year');
+    let query = supabaseClient.from('vbe_questions').select('topic');
     if (subject !== 'all') query = query.eq('subject', subject);
 
     const { data, error } = await query;
     if (error || !data) return;
 
     const uniqueTopics = [...new Set(data.map(q => q.topic).filter(Boolean))];
-    const uniqueYears = [...new Set(data.map(q => q.year).filter(Boolean))].sort((a, b) => b - a);
 
     const topicSelect = document.getElementById('filter-topic');
     topicSelect.innerHTML = '<option value="all">Visos temos</option>' +
         uniqueTopics.map(t => `<option value="${t}">${t}</option>`).join('');
-
-    const yearSelect = document.getElementById('filter-year');
-    yearSelect.innerHTML = '<option value="all">Visi metai</option>' +
-        uniqueYears.map(y => `<option value="${y}">${y}</option>`).join('');
 }
 
 // Pagrindinė klausimų užkrovimo funkcija
 async function loadVbeQuestions() {
     const subject = document.getElementById('filter-subject').value;
-    const year = document.getElementById('filter-year').value;
     const topic = document.getElementById('filter-topic').value;
     const type = document.getElementById('filter-type').value;
 
@@ -64,7 +58,6 @@ async function loadVbeQuestions() {
 
     let query = supabaseClient.from('vbe_questions').select('*');
     if (subject !== 'all') query = query.eq('subject', subject);
-    if (year !== 'all') query = query.eq('year', parseInt(year));
     if (topic !== 'all') query = query.eq('topic', topic);
     if (type !== 'all') query = query.eq('question_type', type);
 
@@ -98,7 +91,7 @@ function renderPreview(questions) {
     list.innerHTML = preview.map((q, i) => `
         <div style="background: white; border-radius: 10px; padding: 15px 20px; margin-bottom: 10px; border-left: 4px solid ${q.question_type === 'open' ? '#f39c12' : '#5d5fef'}; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <small style="color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">${q.subject} • ${q.topic || ''} ${q.year ? '• ' + q.year + ' m.' : ''}</small>
+                <small style="color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">${q.subject}${q.topic ? ' • ' + q.topic : ''}</small>
                 <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${q.question_type === 'open' ? '#fff3cd' : '#ede9fe'}; color: ${q.question_type === 'open' ? '#856404' : '#5d5fef'}; font-weight: 600;">
                     ${q.question_type === 'open' ? 'Laisvas' : 'Testinis'}
                 </span>
@@ -115,10 +108,9 @@ function renderPreview(questions) {
 // Nukreipia į praktikos puslapį
 function openVbePractice() {
     const subject = document.getElementById('filter-subject').value;
-    const year = document.getElementById('filter-year').value;
     const topic = document.getElementById('filter-topic').value;
     const type = document.getElementById('filter-type').value;
 
-    const url = `vbe-practice.html?subject=${encodeURIComponent(subject)}&year=${encodeURIComponent(year)}&topic=${encodeURIComponent(topic)}&type=${encodeURIComponent(type)}`;
+    const url = `vbe-practice.html?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(topic)}&type=${encodeURIComponent(type)}`;
     window.location.href = url;
 }

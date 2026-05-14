@@ -6,13 +6,11 @@ let wrongCount = 0;
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const subject = params.get('subject');
-    const year = params.get('year');
     const topic = params.get('topic');
     const type = params.get('type');
 
     let query = supabaseClient.from('vbe_questions').select('*');
     if (subject && subject !== 'all') query = query.eq('subject', subject);
-    if (year && year !== 'all') query = query.eq('year', parseInt(year));
     if (topic && topic !== 'all') query = query.eq('topic', topic);
     if (type && type !== 'all') query = query.eq('question_type', type);
 
@@ -67,12 +65,9 @@ function renderQuestion() {
 // --- TESTINIS KLAUSIMAS ---
 function renderTestQuestion(q, container) {
     container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+        <div class="q-meta">
             <span>${q.subject}${q.topic ? ' • ' + q.topic : ''}</span>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                ${q.year ? `<span>${q.year} m.</span>` : ''}
-                <span style="background: #ede9fe; color: #5d5fef; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;">Testinis</span>
-            </div>
+            <span class="q-badge-test">Testinis</span>
         </div>
 
         <h2 style="margin-bottom: 30px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
@@ -141,12 +136,9 @@ function checkVbeAnswer(selected, correct) {
 // --- LAISVAS KLAUSIMAS ---
 function renderOpenQuestion(q, container) {
     container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+        <div class="q-meta">
             <span>${q.subject}${q.topic ? ' • ' + q.topic : ''}</span>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                ${q.year ? `<span>${q.year} m.</span>` : ''}
-                <span style="background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;">Laisvas atsakymas</span>
-            </div>
+            <span class="q-badge-open">Laisvas atsakymas</span>
         </div>
 
         <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>

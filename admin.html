@@ -82,10 +82,10 @@
                 <h3><i class="fas fa-plus-circle"></i> Pridėti Egzamino Klausimą</h3>
                 <hr style="margin: 15px 0;">
                 <form id="exam-question-form">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-row form-row-3">
                         <div>
                             <label>Klasė</label>
-                            <select id="exam-grade" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <select id="exam-grade" required class="form-select" style="width:100%;">
                                 <option value="11">11 klasė</option>
                                 <option value="12">12 klasė</option>
                                 <option value="10">10 klasė</option>
@@ -93,17 +93,17 @@
                         </div>
                         <div>
                             <label>Dalykas (Kategorija)</label>
-                            <input type="text" id="exam-category" placeholder="Pvz: Matematika" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <input type="text" id="exam-category" placeholder="Pvz: Matematika" required class="form-input">
                         </div>
                         <div>
                             <label>Tema</label>
-                            <input type="text" id="exam-topic" placeholder="Pvz: Išvestinės" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <input type="text" id="exam-topic" placeholder="Pvz: Išvestinės" required class="form-input">
                         </div>
                     </div>
 
                     <div style="margin-bottom: 15px;">
                         <label>Klausimo tekstas</label>
-                        <textarea id="exam-q-text" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <textarea id="exam-q-text" rows="3" required class="form-textarea"></textarea>
                     </div>
 
                     <div id="exam-options-container" style="margin-bottom: 15px;">
@@ -127,16 +127,12 @@
                     </div>
                     <div style="margin-bottom: 15px;">
                         <label>Paaiškinimas (nebūtina)</label>
-                        <textarea id="exam-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <textarea id="exam-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" class="form-textarea"></textarea>
                     </div>
 
-                    <div style="display: flex; gap: 10px;">
-                        <button type="submit" style="flex: 1; background: #27ae60; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            Išsaugoti klausimą į duomenų bazę
-                        </button>
-                        <button type="button" onclick="resetExamForm()" style="background: #eee; color: #555; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            Atšaukti
-                        </button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save btn-save-exam">Išsaugoti klausimą į duomenų bazę</button>
+                        <button type="button" onclick="resetExamForm()" class="btn-cancel">Atšaukti</button>
                     </div>
                 </form>
             </section>
@@ -146,22 +142,28 @@
                 <h3><i class="fas fa-star" style="color:#7c3aed;"></i> Pridėti VBE Klausimą</h3>
                 <hr style="margin: 15px 0;">
                 <form id="vbe-question-form">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-row form-row-3">
                         <div>
                             <label>Dalykas</label>
-                            <input type="text" id="vbe-subject" placeholder="Pvz: Matematika" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <select id="vbe-subject" required class="form-select" style="width:100%;">
+                                <option value="">— Pasirinkti —</option>
+                                <option value="Matematika">Matematika</option>
+                                <option value="Fizika">Fizika</option>
+                                <option value="Chemija">Chemija</option>
+                                <option value="Istorija">Istorija</option>
+                                <option value="Geografija">Geografija</option>
+                                <option value="Lietuvių kalba">Lietuvių kalba</option>
+                                <option value="Ekonomika">Ekonomika</option>
+                                <option value="IT">IT</option>
+                            </select>
                         </div>
                         <div>
                             <label>Tema</label>
-                            <input type="text" id="vbe-topic" placeholder="Pvz: Integralai" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                        </div>
-                        <div>
-                            <label>Metai</label>
-                            <input type="number" id="vbe-year" placeholder="Pvz: 2023" min="2000" max="2099" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <input type="text" id="vbe-topic" placeholder="Pvz: Integralai" class="form-input">
                         </div>
                         <div>
                             <label>Klausimo tipas</label>
-                            <select id="vbe-type" onchange="toggleVbeAnswerFields()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer;">
+                            <select id="vbe-type" onchange="toggleVbeAnswerFields()" class="form-select" style="width:100%;">
                                 <option value="test">Testinis</option>
                                 <option value="open">Laisvas atsakymas</option>
                             </select>
@@ -170,7 +172,7 @@
 
                     <div style="margin-bottom: 15px;">
                         <label>Klausimo tekstas</label>
-                        <textarea id="vbe-q-text" rows="3" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <textarea id="vbe-q-text" rows="3" required class="form-textarea"></textarea>
                     </div>
 
                     <!-- Testinio klausimo atsakymai -->
@@ -197,25 +199,21 @@
                     <!-- Laisvo atsakymo laukas -->
                     <div id="vbe-open-answer" style="display: none; margin-bottom: 15px;">
                         <label>Pavyzdinis teisingas atsakymas</label>
-                        <textarea id="vbe-correct-answer" rows="4" placeholder="Pilnas pavyzdinis atsakymas..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <textarea id="vbe-correct-answer" rows="4" placeholder="Pilnas pavyzdinis atsakymas..." class="form-textarea"></textarea>
                         <div style="margin-top: 10px;">
                             <label>Maks. taškai (nebūtina)</label>
-                            <input type="number" id="vbe-max-points" placeholder="Pvz: 4" min="1" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                            <input type="number" id="vbe-max-points" placeholder="Pvz: 4" min="1" class="form-input">
                         </div>
                     </div>
 
                     <div style="margin-bottom: 15px;">
                         <label>Paaiškinimas (nebūtina)</label>
-                        <textarea id="vbe-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
+                        <textarea id="vbe-explanation" rows="2" placeholder="Kodėl šis atsakymas teisingas?" class="form-textarea"></textarea>
                     </div>
 
-                    <div style="display: flex; gap: 10px;">
-                        <button type="submit" style="flex: 1; background: #7c3aed; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            Išsaugoti VBE klausimą
-                        </button>
-                        <button type="button" onclick="resetVbeForm()" style="background: #eee; color: #555; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            Atšaukti
-                        </button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save btn-save-vbe">Išsaugoti VBE klausimą</button>
+                        <button type="button" onclick="resetVbeForm()" class="btn-cancel">Atšaukti</button>
                     </div>
                 </form>
             </section>

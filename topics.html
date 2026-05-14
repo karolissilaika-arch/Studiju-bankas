@@ -27,37 +27,34 @@
         </aside>
 
         <main class="dashboard-main">
-            <header class="dash-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <header class="page-header">
                 <div>
-                    <h2 style="margin: 0;">Mokymosi temos</h2>
-                    <p style="margin: 5px 0 0 0; color: #666;">Gilinkite žinias skaitydami paruoštą medžiagą.</p>
+                    <h2>Mokymosi temos</h2>
+                    <p>Gilinkite žinias skaitydami paruoštą medžiagą.</p>
                 </div>
-
-                <div id="user-header-info" onclick="window.location.href='profile.html'" 
-                     style="display: flex; align-items: center; gap: 12px; background: white; padding: 6px 16px; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: 1px solid #eee;">
-                    <div style="text-align: right; line-height: 1.2;">
-                        <div id="header-username" style="font-weight: bold; color: #333; font-size: 14px;">Moksleivis</div>
-                        <small id="header-xp" style="color: #5d5fef; font-size: 11px; font-weight: 600;">0 XP</small>
+                <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
+                    <div>
+                        <div id="header-username" class="pill-name">Moksleivis</div>
+                        <small id="header-xp" class="pill-xp">0 XP</small>
                     </div>
-                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis" 
-                         style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #5d5fef; background: #f8f9ff; object-fit: cover;">
+                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
                 </div>
             </header>
 
-            <div class="search-sort-bar" style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div class="filter-bar">
                 <div style="flex: 1; min-width: 250px; position: relative;">
                     <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
-                    <input type="text" id="searchInput" placeholder="Ieškoti temos..." style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                    <input type="text" id="searchInput" placeholder="Ieškoti temos..." class="form-input" style="padding-left: 40px;">
                 </div>
                 
-                <select id="category-filter" onchange="loadPublicTopics()" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                <select id="category-filter" onchange="loadPublicTopics()" class="form-select">
                     <option value="all">Visos kategorijos</option>
                     <option value="Matematika">Matematika</option>
                     <option value="Istorija">Istorija</option>
                     <option value="Fizika">Fizika</option>
                 </select>
 
-                <select id="sortFilter" style="padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; outline: none; min-width: 150px; cursor: pointer;">
+                <select id="sortFilter" class="form-select">
                     <option value="newest">Naujausios</option>
                     <option value="az">A-Z</option>
                 </select>
