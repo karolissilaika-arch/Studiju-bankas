@@ -1,18 +1,14 @@
 // 1. Patikriname vartotoją ir užkrauname pamoką, kai DOM paruoštas
 document.addEventListener('DOMContentLoaded', () => {
-    // Patikriname statusą (funkcija iš scripts.js)
     if (typeof checkUserStatus === 'function') {
         checkUserStatus();
     }
-    
-    // Užkrauname pamokos turinį
     loadLessonDetail();
 });
 
 async function loadLessonDetail() {
-    // 1. Pasiimame ID iš URL (pvz., lesson.html?id=123)
     const urlParams = new URLSearchParams(window.location.search);
-    const lessonId = urlParams.get('id'); 
+    const lessonId = urlParams.get('id');
 
     const titleElement = document.getElementById('lesson-title');
     const contentElement = document.getElementById('lesson-content');
@@ -22,41 +18,41 @@ async function loadLessonDetail() {
         return;
     }
 
-    // Rodyti krovimo būseną (pasirinktinai)
-    if (contentElement) contentElement.innerHTML = "<p>Kraunama pamoka...</p>";
+    if (contentElement) contentElement.innerHTML = `
+        <div class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Kraunama pamoka...</span>
+        </div>
+    `;
 
-    // 2. Traukiame duomenis naudodami 'id'
-    // Jei tavo DB ID yra skaičius, Supabase jį atpažins automatiškai
     const { data: topic, error } = await supabaseClient
         .from('topics')
         .select('*')
-        .eq('title', lessonId) 
+        .eq('title', lessonId)
         .single();
 
     if (error || !topic) {
         console.error("Supabase klaida:", error);
         if (titleElement) titleElement.innerText = "Klaida užkraunant turinį";
         if (contentElement) contentElement.innerHTML = `
-            <div style="background: #fff5f5; padding: 20px; border-radius: 10px; border: 1px solid #feb2b2;">
-                <p>Nepavyko rasti pamokos duomenų bazėje.</p>
-                <small style="color: #666;">ID: ${lessonId}</small>
+            <div style="background: #fff5f5; padding: 25px; border-radius: var(--radius-md); border: 1px solid #feb2b2;">
+                <p style="color: var(--text-dark); margin-bottom: 8px;">Nepavyko rasti pamokos duomenų bazėje.</p>
+                <small style="color: var(--text-gray);">ID: ${lessonId}</small>
                 <br><br>
-                <a href="topics.html" style="color: #5d5fef; text-decoration: underline;">Grįžti į temas</a>
+                <a href="topics.html" class="back-link">← Grįžti į temas</a>
             </div>
         `;
         return;
     }
 
-    // 3. Atvaizduojame gautą informaciją
-    document.title = `${topic.title} | StudijųBankas`; 
-    
+    document.title = `${topic.title} | StudijųBankas`;
+
     if (titleElement) {
         titleElement.innerText = topic.title;
     }
-    
+
     if (contentElement) {
-        // Naudojame innerHTML, nes pamokos turinys gali turėti HTML formatavimą (pvz. iš Editoriaus)
-        contentElement.innerHTML = topic.content || '<p>Ši pamoka dar neturi turinio.</p>';
+        contentElement.innerHTML = topic.content || '<p style="color: var(--text-gray);">Ši pamoka dar neturi turinio.</p>';
     }
 
     console.log("Pamoka sėkmingai užkrauta:", topic.title);

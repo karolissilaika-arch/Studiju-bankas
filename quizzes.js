@@ -3,8 +3,8 @@ let currentQuizQuestions = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     loadQuizzes();
-    setupSearch(); // Inicializuojame paiešką ir rūšiavimą
-    if (typeof updateNavigation === 'function') updateNavigation(); // Jei naudoji bendrą nav
+    setupSearch();
+    if (typeof updateNavigation === 'function') updateNavigation();
 });
 
 async function loadQuizzes() {
@@ -12,12 +12,15 @@ async function loadQuizzes() {
     const categoryFilter = document.getElementById('category-filter');
     const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
 
-    container.innerHTML = "<p>Kraunama...</p>";
+    container.innerHTML = `
+        <div class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Kraunama...</span>
+        </div>
+    `;
 
-    // Pradedame užklausą
     let query = supabaseClient.from('quizzes').select('*');
 
-    // Filtruojame pagal kategoriją, jei ji pasirinkta
     if (selectedCategory !== 'all') {
         query = query.eq('category', selectedCategory);
     }
@@ -26,11 +29,11 @@ async function loadQuizzes() {
 
     if (error) {
         console.error("Klaida:", error.message);
-        container.innerHTML = "<p>Nepavyko užkrauti testų.</p>";
+        container.innerHTML = `<p style="color: var(--text-gray);">Nepavyko užkrauti testų.</p>`;
         return;
     }
 
-    allLoadedQuizzes = quizzes; // Išsaugojame duomenis filtravimui naršyklėje
+    allLoadedQuizzes = quizzes;
     renderQuizzes(quizzes);
 }
 
@@ -39,18 +42,24 @@ function renderQuizzes(quizzes) {
     if (!container) return;
 
     if (quizzes.length === 0) {
-        container.innerHTML = "<p>Testų nerasta.</p>";
+        container.innerHTML = `<p style="color: var(--text-gray);">Testų nerasta.</p>`;
         return;
     }
 
     container.innerHTML = quizzes.map(quiz => `
-        <div class="course-item" style="cursor: pointer; transition: 0.3s;" 
-             onclick="window.location.href='quiz.html?id=${encodeURIComponent(quiz.title)}'">
-            <h3><i class="fas fa-pen-nib"></i> ${quiz.title}</h3>
-            <p>${quiz.description || 'Pasitikrinkite žinias šiame teste.'}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                <small style="background: #f0f0f0; padding: 2px 8px; border-radius: 4px; color: #666;">${quiz.category || 'bendra'}</small>
-                <span style="color: var(--primary-color); font-size: 14px;">Pradėti testą →</span>
+        <div class="course-item" style="cursor: pointer; flex-direction: column; align-items: flex-start; gap: 8px; transition: box-shadow 0.2s, border-color 0.2s;"
+             onclick="window.location.href='quiz.html?id=${encodeURIComponent(quiz.title)}'"
+             onmouseenter="this.style.boxShadow='0 5px 15px rgba(93,95,239,0.1)'; this.style.borderColor='var(--primary)'"
+             onmouseleave="this.style.boxShadow=''; this.style.borderColor='#eee'">
+            <h3 style="margin: 0; color: var(--text-dark);">
+                <i class="fas fa-pen-nib" style="color: var(--primary); margin-right: 8px;"></i>${quiz.title}
+            </h3>
+            <p style="margin: 0; color: var(--text-gray); font-size: 14px;">
+                ${quiz.description || 'Pasitikrinkite žinias šiame teste.'}
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 4px;">
+                <span class="category-badge">${quiz.category || 'bendra'}</span>
+                <span style="color: var(--primary); font-size: 14px; font-weight: 600;">Pradėti testą →</span>
             </div>
         </div>
     `).join('');
@@ -63,13 +72,11 @@ function setupSearch() {
     const filterData = () => {
         const searchTerm = searchInput.value.toLowerCase();
 
-        // Filtruojame jau parsiųstus duomenis (pagal kategoriją)
         let filtered = allLoadedQuizzes.filter(q => 
             q.title.toLowerCase().includes(searchTerm) || 
             (q.description && q.description.toLowerCase().includes(searchTerm))
         );
 
-        // Rūšiavimas
         if (sortFilter.value === 'az') {
             filtered.sort((a, b) => a.title.localeCompare(b.title));
         } else if (sortFilter.value === 'oldest') {

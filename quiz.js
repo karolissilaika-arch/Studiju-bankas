@@ -19,7 +19,12 @@ async function loadActiveQuiz() {
         return;
     }
 
-    if (questionsDiv) questionsDiv.innerHTML = "<p>Kraunamas testas...</p>";
+    if (questionsDiv) questionsDiv.innerHTML = `
+        <div class="loading-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Kraunamas testas...</span>
+        </div>
+    `;
 
     try {
         const { data: quiz, error } = await supabaseClient
@@ -31,7 +36,11 @@ async function loadActiveQuiz() {
         if (error) throw error;
 
         if (!quiz) {
-            questionsDiv.innerHTML = `<p style="color: red;">Klaida: Testas "${title}" nerastas.</p>`;
+            questionsDiv.innerHTML = `
+                <div class="feedback-wrong" style="padding: 20px; border-radius: var(--radius-md);">
+                    Klaida: Testas „${title}" nerastas.
+                </div>
+            `;
             return;
         }
 
@@ -41,12 +50,14 @@ async function loadActiveQuiz() {
         if (titleDisplay) titleDisplay.innerText = quiz.title;
         
         questionsDiv.innerHTML = currentQuizQuestions.map((q, index) => `
-            <div class="course-item question-block" style="display: block; margin-bottom: 25px; padding: 20px; border: 1px solid #eee; border-radius: 15px; background: white;">
-                <h4 style="margin-bottom: 15px; color: #333;">${index + 1}. ${q.q}</h4>
-                <div class="options-group">
+            <div class="question-card" style="margin-bottom: 25px; min-height: auto; padding: 25px;">
+                <h4 class="question-text" style="font-size: 17px; margin-bottom: 15px;">
+                    ${index + 1}. ${q.q}
+                </h4>
+                <div class="options-list">
                     ${q.a.map((option, optIndex) => `
-                        <label style="display: flex; align-items: center; margin: 10px 0; cursor: pointer; padding: 12px; border: 1px solid #f0f0f0; border-radius: 10px; transition: 0.2s;" class="option-label">
-                            <input type="radio" name="q${index}" value="${optIndex}" style="margin-right: 15px; transform: scale(1.2);">
+                        <label class="option-item option-label" style="display: flex; align-items: center; cursor: pointer; gap: 12px;">
+                            <input type="radio" name="q${index}" value="${optIndex}" style="transform: scale(1.2); accent-color: var(--primary); flex-shrink: 0;">
                             <span>${option}</span>
                         </label>
                     `).join('')}
@@ -62,7 +73,11 @@ async function loadActiveQuiz() {
 
     } catch (err) {
         console.error("Klaida užkraunant testą:", err.message);
-        if (questionsDiv) questionsDiv.innerHTML = "<p>Sistemos klaida kraunant testą.</p>";
+        if (questionsDiv) questionsDiv.innerHTML = `
+            <div class="feedback-wrong" style="padding: 20px; border-radius: var(--radius-md);">
+                Sistemos klaida kraunant testą.
+            </div>
+        `;
     }
 }
 
@@ -91,14 +106,12 @@ async function calculateResults() {
 
     showResultUI(score, currentQuizQuestions.length);
 
-    // Tikriname premium statusą prieš saugant
     const isPremium = await checkIfPremium();
     
     if (isPremium) {
         await saveQuizStats(quizTitle, score, currentQuizQuestions.length);
     }
     
-    // XP saugome visiems vartotojams (tai skatinimo sistema)
     await saveXP(score);
 }
 
@@ -152,14 +165,16 @@ function showResultUI(score, total) {
 
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `
-        <div style="padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; margin-top: 20px;">
-            <h2 style="color: #5d5fef; margin-bottom: 10px;">Testas baigtas!</h2>
-            <p style="font-size: 1.5rem; margin-bottom: 5px;">Tavo rezultatas: <strong>${score} / ${total}</strong></p>
-            <p style="font-size: 1.1rem; color: #666;">Sėkmės procentas: ${percentage}%</p>
-            <div style="margin: 20px 0; padding: 15px; background: #f0f7ff; border-radius: 10px; border: 1px dashed #5d5fef;">
-                <p style="margin: 0; font-weight: bold; color: #5d5fef;">✨ Uždirbai: +${pointsEarned} XP taškų!</p>
+        <div class="question-card" style="text-align: center; margin-top: 20px;">
+            <h2 style="color: var(--primary); margin-bottom: 10px;">Testas baigtas!</h2>
+            <p style="font-size: 1.5rem; margin-bottom: 5px; color: var(--text-dark);">
+                Tavo rezultatas: <strong>${score} / ${total}</strong>
+            </p>
+            <p style="color: var(--text-gray);">Sėkmės procentas: ${percentage}%</p>
+            <div class="xp-banner">
+                <p>✨ Uždirbai: +${pointsEarned} XP taškų!</p>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: center;">
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 10px;">
                 <button onclick="window.location.href='quizzes.html'" class="btn-outline">Grįžti į sąrašą</button>
                 <button onclick="window.location.href='profile.html'" class="btn-primary">Žiūrėti profilį</button>
             </div>

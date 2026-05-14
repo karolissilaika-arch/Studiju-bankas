@@ -1070,6 +1070,107 @@ body {
 }
 .progress-label { font-weight: 600; color: var(--primary); }
 
+/* ============================================================
+   JS GENERUOJAMO HTML BENDRI STILIAI
+   (naudojami exam-prep, practice, quiz, quizzes, topics, lesson)
+   ============================================================ */
+
+/* Klausimo metaduomenų eilutė (klasė, kategorija, tema) */
+.question-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* Klausimo tekstas */
+.question-text {
+    margin: 0 0 28px 0;
+    color: var(--text-dark);
+    line-height: 1.45;
+    font-size: 20px;
+}
+
+/* Atsakymo pasirinkimo elementas */
+.option-item {
+    padding: 16px 20px;
+    border: 2px solid #eee;
+    margin-bottom: 12px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 15px;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+.option-item:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* Teisingas atsakymas */
+.option-correct {
+    border-color: #27ae60 !important;
+    background: #eafaf1 !important;
+    color: #1e8449 !important;
+    pointer-events: none;
+}
+
+/* Neteisingas atsakymas */
+.option-wrong {
+    border-color: #e74c3c !important;
+    background: #fdedec !important;
+    color: #a93226 !important;
+    pointer-events: none;
+}
+
+/* Grįžtamojo ryšio blokas */
+.feedback-area {
+    margin-top: 18px;
+    min-height: 36px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.feedback-correct {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #27ae60;
+}
+
+.feedback-wrong {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e74c3c;
+}
+
+/* Kategorijos ženkliukas sąrašuose */
+.category-badge {
+    background: var(--gray-light);
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* XP laimėjimo juosta rezultatų ekrane */
+.xp-banner {
+    margin: 20px 0;
+    padding: 14px 20px;
+    background: var(--primary-light);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--primary);
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 15px;
+}
+
 /* Egzamino overlay langas */
 .exam-overlay {
     display: none;
@@ -1101,3 +1202,4 @@ body {
     transition: color 0.2s;
 }
 .exam-close-btn:hover { color: #555; }
+

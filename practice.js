@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (error || !data || data.length === 0) {
         document.getElementById('active-question-container').innerHTML = `
-            <h2>Klausimų nerasta</h2>
-            <p>Bandykite pasirinkti kitus filtrus.</p>
-            <a href="exam-prep.html" class="btn-start">Atgal</a>
+            <h2 class="question-text">Klausimų nerasta</h2>
+            <p style="color: var(--text-gray); margin-bottom: 20px;">Bandykite pasirinkti kitus filtrus.</p>
+            <a href="exam-prep.html" class="btn-back">Atgal</a>
         `;
         return;
     }
@@ -37,26 +37,25 @@ function renderQuestion() {
     const container = document.getElementById('active-question-container');
 
     container.innerHTML = `
-        <div style="display:flex; justify-content:space-between; font-size:12px; color:#aaa; margin-bottom: 20px; text-transform: uppercase;">
+        <div class="question-meta">
             <span>${q.grade} klasė • ${q.category}</span>
             <span>Tema: ${q.topic}</span>
         </div>
         
-        <h2 style="margin-bottom: 30px; color: #333; line-height: 1.4;">${q.question_text}</h2>
+        <h2 class="question-text">${q.question_text}</h2>
         
         <div class="options-list">
             ${q.options.map((option, i) => `
-                <div class="option-item" onclick="checkAnswer(${i}, ${q.correct_option})" 
-                     style="padding:20px; border:2px solid #eee; margin-bottom:12px; border-radius:15px; cursor:pointer; transition:0.2s;">
+                <div class="option-item" onclick="checkAnswer(${i}, ${q.correct_option})">
                     ${option}
                 </div>
             `).join('')}
         </div>
         
-        <div id="feedback-area" style="margin-top:20px; min-height:40px; font-weight: 600;"></div>
+        <div id="feedback-area" class="feedback-area"></div>
         
-        <button id="next-btn" onclick="nextQuestion()" style="display:none; width:100%; padding:16px; background:#5d5fef; color:white; border:none; border-radius:12px; cursor:pointer; font-weight:600; margin-top: 20px;">
-            Tęsti <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
+        <button id="next-btn" class="btn-next-q" onclick="nextQuestion()">
+            Tęsti <i class="fas fa-arrow-right"></i>
         </button>
     `;
 }
@@ -70,11 +69,9 @@ async function checkAnswer(selected, correct) {
     options.forEach((opt, i) => {
         opt.style.pointerEvents = 'none';
         if (i === correct) {
-            opt.style.borderColor = "#27ae60";
-            opt.style.background = "#eafaf1";
+            opt.classList.add('option-correct');
         } else if (i === selected) {
-            opt.style.borderColor = "#e74c3c";
-            opt.style.background = "#fdedec";
+            opt.classList.add('option-wrong');
         }
     });
 
@@ -108,10 +105,10 @@ async function checkAnswer(selected, correct) {
         console.error("Sistemos klaida:", err);
     }
 
-    feedback.innerHTML = isCorrect 
-        ? "<span style='color: #27ae60;'><i class='fas fa-check'></i> Teisingai!</span>" 
-        : "<span style='color: #e74c3c;'><i class='fas fa-times'></i> Neteisingai.</span>";
-    
+    feedback.innerHTML = isCorrect
+        ? `<div class="feedback-correct"><i class="fas fa-check-circle"></i> Teisingai!</div>`
+        : `<div class="feedback-wrong"><i class="fas fa-times-circle"></i> Neteisingai.</div>`;
+
     nextBtn.style.display = 'block';
 }
 
