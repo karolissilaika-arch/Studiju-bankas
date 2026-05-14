@@ -173,8 +173,7 @@ async function startCheckout(btnElement) {
                 'Authorization': `Bearer ${session.access_token}`,
                 'apikey': supabaseKey,
             },
-            body: JSON.stringify({ origin: window.location.origin }),
-        });
+            body: JSON.stringify({ origin: 'https://karolissilaika-arch.github.io/Studiju-bankas' }),
 
         // Tikriname HTTP atsakymo statusą prieš parse'inant JSON
         if (!res.ok) {

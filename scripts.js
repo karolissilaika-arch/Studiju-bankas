@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function signInWithGoogle() {
     await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.origin }
+        options: { 
+            redirectTo: 'https://karolissilaika-arch.github.io/Studiju-bankas/dashboard.html'
+        }
     });
 }
 
