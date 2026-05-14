@@ -8,85 +8,82 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="dashboard-bg">
-    <div class="dashboard-layout">
-        <aside class="sidebar-nav">
-            <a href="index.html" style="text-decoration: none; color: inherit;">
-                <div class="logo">Studijų<span>Bankas</span></div>
-            </a>
-            <nav id="main-nav">
-                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
-                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
-                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
-                <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
-                <a href="vbe.html" id="nav-vbe"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
-                <a href="analytics.html" id="nav-analytics"><i class="fas fa-chart-bar"></i> Analitika</a>
-                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
-                <hr>
-                <div id="auth-section"></div>
-            </nav>
-        </aside>
+<div class="dashboard-layout">
 
-        <main class="dashboard-main">
-            <header class="page-header">
+    <aside class="sidebar-nav">
+        <a href="index.html" class="logo-link">
+            <div class="logo">Studijų<span>Bankas</span></div>
+        </a>
+        <nav id="main-nav">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+            <a href="topics.html"><i class="fas fa-book"></i> Temos</a>
+            <a href="quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+            <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+            <a href="vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profilis</a>
+            <hr>
+            <div id="auth-section"></div>
+        </nav>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="page-header">
+            <div>
+                <h2>Ruošimasis egzaminams</h2>
+                <p>Pasirink temą begalinei praktikai</p>
+            </div>
+            <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
                 <div>
-                    <h2>Ruošimasis egzaminams</h2>
-                    <p>Pasirink temą begalinei praktikai</p>
+                    <div id="header-username" class="pill-name">Kraunama...</div>
+                    <small id="header-xp" class="pill-xp">0 XP</small>
                 </div>
-                <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
-                    <div>
-                        <div id="header-username" class="pill-name">Kraunama...</div>
-                        <small id="header-xp" class="pill-xp">0 XP</small>
-                    </div>
-                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
-                </div>
-            </header>
-
-            <div class="filter-bar">
-                <select id="filter-grade" onchange="loadExamQuestions()" class="form-select">
-                    <option value="all">Visos klasės</option>
-                    <option value="11">11 klasė</option>
-                    <option value="12">12 klasė</option>
-                </select>
-
-                <select id="filter-category" onchange="handleCategoryChange()" class="form-select">
-                    <option value="all">Visi dalykai</option>
-                    <option value="Matematika">Matematika</option>
-                    <option value="Istorija">Istorija</option>
-                    <option value="Biologija">Biologija</option>
-                </select>
-
-                <select id="filter-topic" onchange="loadExamQuestions()" class="form-select">
-                    <option value="all">Visos temos</option>
-                </select>
+                <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
             </div>
+        </header>
 
-            <div id="exam-stats" style="margin: 10px 0; color: #666; font-size: 15px;">
-                Rasta klausimų: <strong id="q-count">0</strong>
-            </div>
-
-            <button class="btn-start-practice" id="start-practice-btn" onclick="openPracticeModal()">
-                Pradėti praktiką <i class="fas fa-play" style="margin-left: 10px;"></i>
-            </button>
-
-            <div id="no-questions-msg" class="empty-state">
-                <i class="fas fa-search"></i>
-                <p>Pasirinkite filtrus, kad užkrautumėte klausimus.</p>
-            </div>
-        </main>
-    </div>
-
-    <div id="exam-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; overflow-y:auto;">
-        <div class="exam-window" style="max-width:700px; margin:50px auto; background:white; padding:40px; border-radius:20px; position:relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
-            <button onclick="closeExam()" style="position:absolute; right:25px; top:20px; border:none; background:none; font-size:30px; cursor:pointer; color:#ccc;">&times;</button>
-            
-            <div id="active-question-container">
-                </div>
+        <div class="filter-bar">
+            <select id="filter-grade" onchange="loadExamQuestions()" class="form-select">
+                <option value="all">Visos klasės</option>
+                <option value="11">11 klasė</option>
+                <option value="12">12 klasė</option>
+            </select>
+            <select id="filter-category" onchange="handleCategoryChange()" class="form-select">
+                <option value="all">Visi dalykai</option>
+                <option value="Matematika">Matematika</option>
+                <option value="Istorija">Istorija</option>
+                <option value="Biologija">Biologija</option>
+            </select>
+            <select id="filter-topic" onchange="loadExamQuestions()" class="form-select">
+                <option value="all">Visos temos</option>
+            </select>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="scripts.js"></script>
-    <script src="exam-prep.js"></script>
-    <script src="subscription.js"></script>
+        <p class="results-count">Rasta klausimų: <strong id="q-count">0</strong></p>
+
+        <button class="btn-start-practice" id="start-practice-btn" onclick="openPracticeModal()">
+            Pradėti praktiką <i class="fas fa-play"></i>
+        </button>
+
+        <div id="no-questions-msg" class="empty-state">
+            <i class="fas fa-search"></i>
+            <p>Pasirinkite filtrus, kad užkrautumėte klausimus.</p>
+        </div>
+    </main>
+
+</div>
+
+<!-- Egzamino langas -->
+<div id="exam-overlay" class="exam-overlay">
+    <div class="exam-window">
+        <button onclick="closeExam()" class="exam-close-btn">&times;</button>
+        <div id="active-question-container"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts.js"></script>
+<script src="exam-prep.js"></script>
+<script src="subscription.js"></script>
 </body>
 </html>

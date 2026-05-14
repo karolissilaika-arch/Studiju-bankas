@@ -4,69 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temos | StudijųBankas</title>
- <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="dashboard-bg">
-    <div class="dashboard-layout">
-        <aside class="sidebar-nav">
-            <a href="index.html" style="text-decoration: none; color: inherit;">
-                <div class="logo">Studijų<span>Bankas</span></div>
-            </a>
-            <nav id="main-nav">
-                <a href="dashboard.html" id="nav-home"><i class="fas fa-home"></i> Pradžia</a>
-                <a href="topics.html" id="nav-topics"><i class="fas fa-book"></i> Temos</a>
-                <a href="quizzes.html" id="nav-quizzes"><i class="fas fa-vial"></i> Testai</a>
-                <a href="exam-prep.html" class="active"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
-                <a href="vbe.html" id="nav-vbe"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
-                <a href="analytics.html" id="nav-analytics"><i class="fas fa-chart-bar"></i> Analitika</a>
-                <a href="profile.html" id="nav-profile"><i class="fas fa-user"></i> Profilis</a>
-                <hr>
-                <div id="auth-section"></div>
-            </nav>
-        </aside>
+<div class="dashboard-layout">
 
-        <main class="dashboard-main">
-            <header class="page-header">
+    <aside class="sidebar-nav">
+        <a href="index.html" class="logo-link">
+            <div class="logo">Studijų<span>Bankas</span></div>
+        </a>
+        <nav id="main-nav">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+            <a href="topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+            <a href="quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+            <a href="exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+            <a href="vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profilis</a>
+            <hr>
+            <div id="auth-section"></div>
+        </nav>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="page-header">
+            <div>
+                <h2>Mokymosi temos</h2>
+                <p>Gilinkite žinias skaitydami paruoštą medžiagą.</p>
+            </div>
+            <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
                 <div>
-                    <h2>Mokymosi temos</h2>
-                    <p>Gilinkite žinias skaitydami paruoštą medžiagą.</p>
+                    <div id="header-username" class="pill-name">Moksleivis</div>
+                    <small id="header-xp" class="pill-xp">0 XP</small>
                 </div>
-                <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
-                    <div>
-                        <div id="header-username" class="pill-name">Moksleivis</div>
-                        <small id="header-xp" class="pill-xp">0 XP</small>
-                    </div>
-                    <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
-                </div>
-            </header>
-
-            <div class="filter-bar">
-                <div style="flex: 1; min-width: 250px; position: relative;">
-                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
-                    <input type="text" id="searchInput" placeholder="Ieškoti temos..." class="form-input" style="padding-left: 40px;">
-                </div>
-                
-                <select id="category-filter" onchange="loadPublicTopics()" class="form-select">
-                    <option value="all">Visos kategorijos</option>
-                    <option value="Matematika">Matematika</option>
-                    <option value="Istorija">Istorija</option>
-                    <option value="Fizika">Fizika</option>
-                </select>
-
-                <select id="sortFilter" class="form-select">
-                    <option value="newest">Naujausios</option>
-                    <option value="az">A-Z</option>
-                </select>
+                <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
             </div>
+        </header>
 
-            <div id="topics-container" class="topics-grid">
-                <div class="loader">Kraunamos temos...</div>
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Ieškoti temos..." class="form-input search-input">
             </div>
-        </main>
-    </div> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="scripts.js"></script>
-    <script src="topics.js"></script>
-    <script src="subscription.js"></script>
+            <select id="category-filter" onchange="loadPublicTopics()" class="form-select">
+                <option value="all">Visos kategorijos</option>
+                <option value="Matematika">Matematika</option>
+                <option value="Istorija">Istorija</option>
+                <option value="Fizika">Fizika</option>
+            </select>
+            <select id="sortFilter" class="form-select">
+                <option value="newest">Naujausios</option>
+                <option value="az">A-Z</option>
+            </select>
+        </div>
+
+        <div id="topics-container" class="items-list">
+            <p class="loader">Kraunamos temos...</p>
+        </div>
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts.js"></script>
+<script src="topics.js"></script>
+<script src="subscription.js"></script>
 </body>
 </html>
