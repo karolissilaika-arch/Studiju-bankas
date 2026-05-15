@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privatumo politika | StudijųBankas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .privacy-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+        }
+
+        .privacy-hero {
+            margin-bottom: 48px;
+        }
+
+        .privacy-hero .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.04em;
+            margin-bottom: 16px;
+        }
+
+        .privacy-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin: 0 0 10px;
+            line-height: 1.2;
+        }
+
+        .privacy-hero .updated {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .privacy-hero .updated span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Turinio lentelė */
+        .privacy-toc {
+            background: var(--primary-light);
+            border: 1px solid var(--accent-light);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+
+        .privacy-toc p {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin: 0 0 12px;
+        }
+
+        .privacy-toc ol {
+            margin: 0;
+            padding-left: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .privacy-toc ol li a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .privacy-toc ol li a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        /* Sekcijos */
+        .privacy-section {
+            margin-bottom: 40px;
+            scroll-margin-top: 24px;
+        }
+
+        .privacy-section h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .privacy-section h2 .s-num {
+            width: 26px;
+            height: 26px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .privacy-section p {
+            font-size: 14.5px;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin: 0 0 12px;
+        }
+
+        .privacy-section p:last-child { margin-bottom: 0; }
+
+        .privacy-section ul {
+            margin: 8px 0 12px 0;
+            padding-left: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .privacy-section ul li {
+            font-size: 14.5px;
+            color: var(--text-gray);
+            line-height: 1.7;
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+        }
+
+        .privacy-section ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        /* Trečiųjų šalių kortelės */
+        .third-party-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .tp-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tp-card .tp-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .tp-card .tp-icon.google   { background: #fef2f2; color: #ef4444; }
+        .tp-card .tp-icon.supabase { background: #f0fdf4; color: #22c55e; }
+        .tp-card .tp-icon.stripe   { background: #eef2ff; color: var(--primary); }
+        .tp-card .tp-icon.analytics { background: #fffbeb; color: #f59e0b; }
+
+        .tp-card .tp-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .tp-card .tp-role {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Kontakto blokas */
+        .contact-box {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+            border: 1px solid var(--accent-light);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .contact-box i {
+            font-size: 1.4rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .contact-box p {
+            margin: 0 !important;
+            font-size: 14px;
+            color: var(--text-dark) !important;
+        }
+
+        .contact-box a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .contact-box a:hover { text-decoration: underline; }
+
+        /* Atsakomybės juosta */
+        .disclaimer {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .disclaimer i { color: #f59e0b; font-size: 15px; margin-top: 2px; flex-shrink: 0; }
+        .disclaimer p { margin: 0; font-size: 13px; color: #78350f; line-height: 1.6; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .privacy-wrap { padding: 32px 20px 60px; }
+            .privacy-hero h1 { font-size: 1.5rem; }
+            .third-party-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigacija (sidebar arba navbar — priklausomai nuo puslapio tipo) -->
+<!-- Jei nori sidebar navigacijos — įklijuok savo <aside class="sidebar-nav"> čia -->
+
+<div style="max-width: 1100px; margin: 0 auto;">
+    <div class="privacy-wrap">
+
+        <!-- Hero -->
+        <div class="privacy-hero">
+            <div class="badge">
+                <i class="fas fa-shield-alt"></i> Privatumas
+            </div>
+            <h1>Privatumo politika</h1>
+            <p class="updated">Paskutinį kartą atnaujinta: <span>2026 m. gegužės mėn.</span></p>
+        </div>
+
+        <!-- Atsakomybės priminimas -->
+        <div class="disclaimer">
+            <i class="fas fa-info-circle"></i>
+            <p>Ši privatumo politika galioja StudijųBankas platformai. Naudodamiesi mūsų paslaugomis sutinkate su šiomis sąlygomis. Jei nesutinkate — prašome nesinaudoti platforma.</p>
+        </div>
+
+        <!-- Turinys -->
+        <div class="privacy-toc">
+            <p>Turinys</p>
+            <ol>
+                <li><a href="#s1">Kokią informaciją renkame</a></li>
+                <li><a href="#s2">Kaip naudojame jūsų duomenis</a></li>
+                <li><a href="#s3">Trečiųjų šalių paslaugos</a></li>
+                <li><a href="#s4">Duomenų saugojimas ir apsauga</a></li>
+                <li><a href="#s5">Slapukai (cookies)</a></li>
+                <li><a href="#s6">Jūsų teisės</a></li>
+                <li><a href="#s7">Vaikų privatumas</a></li>
+                <li><a href="#s8">Politikos pakeitimai</a></li>
+                <li><a href="#s9">Susisiekite su mumis</a></li>
+            </ol>
+        </div>
+
+        <!-- 1 -->
+        <div class="privacy-section" id="s1">
+            <h2><span class="s-num">1</span> Kokią informaciją renkame</h2>
+            <p>Kurdami paskyrą ir naudodamiesi StudijųBankas platforma, renkame šią informaciją:</p>
+            <ul>
+                <li><strong>El. pašto adresas</strong> — registracijai ir prisijungimui prie paskyros.</li>
+                <li><strong>Vardas</strong> — profilio personalizavimui ir vidinei komunikacijai.</li>
+                <li><strong>Mokymosi progresas ir statistika</strong> — išspręsti testai, surinkti XP taškai, lankytos temos ir egzaminų rezultatai.</li>
+                <li><strong>Mokėjimo duomenys (Premium)</strong> — apdorojami per Stripe. Kortelių numerių ar kitų mokėjimo detalių mes nesaugome.</li>
+            </ul>
+        </div>
+
+        <!-- 2 -->
+        <div class="privacy-section" id="s2">
+            <h2><span class="s-num">2</span> Kaip naudojame jūsų duomenis</h2>
+            <p>Surinkti duomenys naudojami tik šiais tikslais:</p>
+            <ul>
+                <li>Paskyros kūrimui, autentifikacijai ir saugumo užtikrinimui.</li>
+                <li>Asmeninės mokymosi pažangos sekimui ir statistikos rodymui.</li>
+                <li>Premium prenumeratos apdorojimui ir patvirtinimui.</li>
+                <li>Platformos veikimo gerinimui ir klaidų taisymui.</li>
+                <li>Svarbiems sisteminiam pranešimams siųsti (pvz., paskyros patvirtinimas, slaptažodžio keitimas).</li>
+            </ul>
+            <p>Jūsų duomenų neparduodame, nenuomojame ir nekeičiame su trečiosiomis šalimis rinkodaros tikslais.</p>
+        </div>
+
+        <!-- 3 -->
+        <div class="privacy-section" id="s3">
+            <h2><span class="s-num">3</span> Trečiųjų šalių paslaugos</h2>
+            <p>Platforma naudoja šias patikimas trečiųjų šalių paslaugas, kurios gali turėti prieigą prie tam tikrų jūsų duomenų:</p>
+
+            <div class="third-party-grid">
+                <div class="tp-card">
+                    <div class="tp-icon google"><i class="fab fa-google"></i></div>
+                    <div>
+                        <div class="tp-name">Google</div>
+                        <div class="tp-role">Prisijungimas</div>
+                    </div>
+                </div>
+                <div class="tp-card">
+                    <div class="tp-icon supabase"><i class="fas fa-database"></i></div>
+                    <div>
+                        <div class="tp-name">Supabase</div>
+                        <div class="tp-role">Duomenų bazė</div>
+                    </div>
+                </div>
+                <div class="tp-card">
+                    <div class="tp-icon stripe"><i class="fab fa-stripe-s"></i></div>
+                    <div>
+                        <div class="tp-name">Stripe</div>
+                        <div class="tp-role">Mokėjimai</div>
+                    </div>
+                </div>
+                <div class="tp-card">
+                    <div class="tp-icon analytics"><i class="fas fa-chart-line"></i></div>
+                    <div>
+                        <div class="tp-name">Google Analytics</div>
+                        <div class="tp-role">Statistika</div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Kiekviena iš šių paslaugų turi savo privatumo politiką. Rekomenduojame su jomis susipažinti. Mes užtikriname, kad šios paslaugos naudoja jūsų duomenis tik tiek, kiek reikia funkcijai atlikti.</p>
+        </div>
+
+        <!-- 4 -->
+        <div class="privacy-section" id="s4">
+            <h2><span class="s-num">4</span> Duomenų saugojimas ir apsauga</h2>
+            <p>Jūsų duomenys saugomi Supabase serveriuose, kurie naudoja pramonės standartą atitinkančią šifravimo ir apsaugos infrastruktūrą.</p>
+            <ul>
+                <li>Slaptažodžiai saugomi tik užšifruota forma — mes negalime jų perskaityti.</li>
+                <li>Prisijungimas per Google OAuth — slaptažodžio iš viso nesaugome.</li>
+                <li>Mokėjimo duomenys apdorojami tik per Stripe — mūsų serveriuose jų nėra.</li>
+                <li>Duomenys saugomi tol, kol turima aktyvi paskyra. Ištrinus paskyrą — duomenys pašalinami per 30 dienų.</li>
+            </ul>
+        </div>
+
+        <!-- 5 -->
+        <div class="privacy-section" id="s5">
+            <h2><span class="s-num">5</span> Slapukai (cookies)</h2>
+            <p>Platforma naudoja slapukus šiems tikslams:</p>
+            <ul>
+                <li><strong>Sesijos slapukai</strong> — kad galėtumėte išlikti prisijungę naršymo metu.</li>
+                <li><strong>Analitikos slapukai</strong> — Google Analytics naudoja anoniminius slapukus lankytojų statistikai rinkti.</li>
+                <li><strong>Funkciniai slapukai</strong> — jūsų nustatymų ir preferencijų išsaugojimui.</li>
+            </ul>
+            <p>Naršyklės nustatymuose galite bet kada blokuoti slapukus, tačiau tai gali riboti kai kurių platformos funkcijų veikimą.</p>
+        </div>
+
+        <!-- 6 -->
+        <div class="privacy-section" id="s6">
+            <h2><span class="s-num">6</span> Jūsų teisės</h2>
+            <p>Pagal BDAR (Bendrąjį duomenų apsaugos reglamentą) jūs turite šias teises:</p>
+            <ul>
+                <li><strong>Teisė susipažinti</strong> — galite paprašyti kopijos visų saugomų jūsų duomenų.</li>
+                <li><strong>Teisė ištaisyti</strong> — galite atnaujinti neteisingą informaciją per profilio nustatymus.</li>
+                <li><strong>Teisė ištrinti</strong> — galite paprašyti ištrinti savo paskyrą ir visus duomenis.</li>
+                <li><strong>Teisė apriboti</strong> — galite paprašyti sustabdyti jūsų duomenų apdorojimą.</li>
+                <li><strong>Teisė perkelti</strong> — galite gauti savo duomenis skaitomu formatu.</li>
+            </ul>
+            <p>Visoms užklausoms siųskite el. laišką mūsų adresu (žr. 9 skyrių).</p>
+        </div>
+
+        <!-- 7 -->
+        <div class="privacy-section" id="s7">
+            <h2><span class="s-num">7</span> Vaikų privatumas</h2>
+            <p>StudijųBankas yra skirta moksleiviams. Jei vartotojas yra jaunesnis nei 14 metų, registruotis turi tik gavus tėvų ar globėjų sutikimą. Jei sužinome, kad surinkome nepilnamečio duomenis be tinkamo sutikimo, juos nedelsiant ištrinsime.</p>
+        </div>
+
+        <!-- 8 -->
+        <div class="privacy-section" id="s8">
+            <h2><span class="s-num">8</span> Politikos pakeitimai</h2>
+            <p>Galime periodiškai atnaujinti šią privatumo politiką. Apie esminius pakeitimus informuosime el. paštu arba pranešimu platformoje. Rekomenduojame reguliariai peržiūrėti šį puslapį.</p>
+            <p>Toliau naudodamiesi platforma po pakeitimų paskelbimo, sutinkate su nauja politika.</p>
+        </div>
+
+        <!-- 9 -->
+        <div class="privacy-section" id="s9">
+            <h2><span class="s-num">9</span> Susisiekite su mumis</h2>
+            <p>Jei turite klausimų dėl privatumo politikos ar norite pasinaudoti savo teisėmis — susisiekite:</p>
+            <div class="contact-box">
+                <i class="fas fa-envelope"></i>
+                <p>El. paštas: <a href="mailto:studijubankas@gmail.com">studijubankas@gmail.com</a><br>
+                <span style="font-size:13px; color: var(--text-muted);">Atsakome per 1–3 darbo dienas.</span></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+    <div class="f-inner">
+        <div class="f-top">
+            <div class="f-brand">
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
+                <p>Lietuvos moksleiviams skirta mokymosi platforma — testai, pamokos ir VBE pasiruošimas vienoje vietoje.</p>
+                <div class="f-social" aria-label="Socialiniai tinklai">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="f-right">
+                <div>
+                    <p class="f-col-title">Kontaktai</p>
+                    <ul class="f-info-list">
+                        <li><i class="fas fa-envelope"></i><a href="mailto:studijubankas@gmail.com">studijubankas@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="f-bottom">
+            <p class="f-copy">&copy; <span id="sb-footer-year"></span> StudijųBankas. Visos teisės saugomos.</p>
+            <ul class="f-legal">
+                <li><a href="privacy.html">Privatumo politika</a></li>
+                <li><a href="kontaktai.html">Kontaktai</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('sb-footer-year').textContent = new Date().getFullYear();
+
+    // Sklandus slinkimas prie sekcijų
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+
+</body>
+</html>

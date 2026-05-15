@@ -218,3 +218,5 @@ async function resetPasswordRequest(event) {
         alert("Instrukcijos išsiųstos į jūsų el. paštą! Patikrinkite (taip pat ir Spam aplanką).");
     }
 }
+/*Footerio metai*/
+document.getElementById('sb-footer-year').textContent = new Date().getFullYear();
