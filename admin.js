@@ -198,8 +198,12 @@ async function editTopic(title) {
 
 async function deleteTopic(title) {
     if (!confirm(`Trinti temą: ${title}?`)) return;
-    await supabaseClient.from('topics').delete().eq('title', title);
-    loadAdminTopics();
+    const { error } = await supabaseClient.from('topics').delete().eq('title', title);
+    if (error) {
+        alert("Klaida trinant temą: " + error.message);
+    } else {
+        loadAdminTopics();
+    }
 }
 
 // --- TESTŲ (QUIZZES) FUNKCIJOS ---
@@ -242,8 +246,12 @@ function renderAdminQuizzes(quizzes) {
 
 async function deleteQuiz(title) {
     if (!confirm(`Trinti testą: ${title}?`)) return;
-    await supabaseClient.from('quizzes').delete().eq('title', title);
-    loadAdminQuizzes();
+    const { error } = await supabaseClient.from('quizzes').delete().eq('title', title);
+    if (error) {
+        alert("Klaida trinant testą: " + error.message);
+    } else {
+        loadAdminQuizzes();
+    }
 }
 
 async function editQuiz(title) {

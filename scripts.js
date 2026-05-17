@@ -159,11 +159,22 @@ if (registerForm) {
         const name = document.getElementById('regName').value;
         const email = document.getElementById('regEmail').value;
         const password = document.getElementById('regPassword').value;
+        const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+        const errorDiv = document.getElementById('reg-error');
+
+        if (password !== passwordConfirm) {
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Slaptažodžiai nesutampa!';
+            return;
+        }
+
+        errorDiv.style.display = 'none';
 
         const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
         if (error) {
-            alert("Registracijos klaida: " + error.message);
+            errorDiv.style.display = 'block';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Registracijos klaida: ' + error.message;
         } else if (data.user) {
             // Sukuriame profilį su numatytu avataru iš karto
             await supabaseClient.from('profiles').insert([{
@@ -172,8 +183,20 @@ if (registerForm) {
                 total_xp: 0,
                 avatar_url: DEFAULT_AVATAR
             }]);
-            alert("Registracija sėkminga!");
-            window.location.href = "login.html";
+
+            // Parodome patvirtinimo pranešimą vietoje formos
+            document.querySelector('.auth-card').innerHTML = `
+                <div style="text-align:center; padding: 20px 0;">
+                    <div style="width:70px; height:70px; background:#eafaf1; border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+                        <i class="fas fa-envelope" style="font-size:28px; color:#27ae60;"></i>
+                    </div>
+                    <h2 style="margin-bottom:10px; color:#333;">Patikrinkite el. paštą</h2>
+                    <p style="color:#666; margin-bottom:8px;">Išsiuntėme patvirtinimo nuorodą į:</p>
+                    <p style="font-weight:700; color:#5d5fef; margin-bottom:20px;">${email}</p>
+                    <p style="color:#999; font-size:14px; margin-bottom:25px;">Paspauskite nuorodą laiške, kad aktyvuotumėte paskyrą. Patikrinkite ir Spam aplanką.</p>
+                    <a href="login.html" style="display:inline-block; padding:12px 28px; background:#5d5fef; color:white; border-radius:10px; text-decoration:none; font-weight:600;">Eiti į prisijungimą</a>
+                </div>
+            `;
         }
     });
 }

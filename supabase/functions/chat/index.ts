@@ -39,7 +39,7 @@ serve(async (req) => {
       .eq("id", user.id)
       .single();
 
-    const isPremium = profile?.is_premium === true || (profile?.total_xp || 0) >= 500;
+    const isPremium = profile?.is_premium === true;
 
     if (!isPremium) {
       // Tikriname dienos limitą
@@ -50,7 +50,7 @@ serve(async (req) => {
 
       let msgCount = lastReset === today ? (profile?.chat_messages_today || 0) : 0;
 
-      if (msgCount >= 5) {
+      if (msgCount >= 50) {
         return new Response(JSON.stringify({ error: "LIMIT_REACHED" }), {
           status: 429,
           headers: { ...corsHeaders, "Content-Type": "application/json" },

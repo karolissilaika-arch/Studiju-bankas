@@ -103,9 +103,75 @@ async function loadQuizzes() {
 }
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Puslapis užkrautas, pradedamas duomenų krovimas...");
-    
-    // Naudojame await, kad funkcijos nekonkuruotų tarpusavyje
     await loadTopics();
     await loadQuizzes();
+    await loadPremiumStats();
 });
+
+// --- PREMIUM STATISTIKA (temos + serija) ---
+async function loadPremiumStats() {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('is_premium, quizzes_completed')
+            .eq('id', user.id)
+            .single();
+
+        if (!profile?.is_premium) return; // Ne-premium: lieka užrakto nuoroda
+
+        // --- Išmoktos temos ---
+        const { count: totalTopics } = await supabaseClient
+            .from('topics')
+            .select('*', { count: 'exact', head: true });
+
+        const { count: doneQuizzes } = await supabaseClient
+            .from('quiz_results')
+            .select('*', { count: 'exact', head: true })
+            .eq('user_id', user.id);
+
+        // Laikome "išmokta tema" = bent vienas testas atliktas
+        const learned = Math.min(doneQuizzes || 0, totalTopics || 0);
+        document.getElementById('learned-topics-count').innerHTML =
+            `${learned} / ${totalTopics || 0}`;
+
+        // --- Mokymosi serija ---
+        const { data: results } = await supabaseClient
+            .from('quiz_results')
+            .select('created_at')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false });
+
+        const streak = calcStreak(results || []);
+        document.getElementById('streak-count').innerHTML =
+            `${streak} ${streak === 1 ? 'diena' : streak < 10 ? 'dienos' : 'dienų'}`;
+
+    } catch (err) {
+        console.error("Klaida kraunant premium statistiką:", err);
+    }
+}
+
+// Apskaičiuoja kiek dienų iš eilės buvo aktyvumas
+function calcStreak(results) {
+    if (!results.length) return 0;
+
+    const uniqueDays = [...new Set(results.map(r => r.created_at?.split('T')[0]))].sort().reverse();
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+    // Jei paskutinė diena nei šiandien, nei vakar — serija nutrūkusi
+    if (uniqueDays[0] !== today && uniqueDays[0] !== yesterday) return 0;
+
+    let streak = 1;
+    for (let i = 1; i < uniqueDays.length; i++) {
+        const prev = new Date(uniqueDays[i - 1]);
+        const curr = new Date(uniqueDays[i]);
+        const diff = (prev - curr) / 86400000;
+        if (diff === 1) streak++;
+        else break;
+    }
+    return streak;
+}
 

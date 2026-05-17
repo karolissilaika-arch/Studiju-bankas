@@ -105,9 +105,15 @@ async function checkAnswer(selected, correct) {
         console.error("Sistemos klaida:", err);
     }
 
+    const explanationHtml = currentQ.explanation
+        ? `<div style="margin-top: 10px; padding: 12px 16px; background: #fff8e6; border-left: 3px solid #f39c12; border-radius: 8px; font-size: 14px; color: #7d6608;">
+            <strong>💡 Paaiškinimas:</strong> ${currentQ.explanation}
+           </div>`
+        : '';
+
     feedback.innerHTML = isCorrect
-        ? `<div class="feedback-correct"><i class="fas fa-check-circle"></i> Teisingai!</div>`
-        : `<div class="feedback-wrong"><i class="fas fa-times-circle"></i> Neteisingai.</div>`;
+        ? `<div style="color: #27ae60; display: flex; align-items: center; gap: 10px; font-weight: 600;"><i class="fas fa-check-circle" style="font-size: 20px;"></i> Teisingai!</div>${explanationHtml}`
+        : `<div style="color: #e74c3c; display: flex; align-items: center; gap: 10px; font-weight: 600;"><i class="fas fa-times-circle" style="font-size: 20px;"></i> Neteisingai. Teisingas atsakymas paryškintas.</div>${explanationHtml}`;
 
     nextBtn.style.display = 'block';
 }

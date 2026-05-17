@@ -6,6 +6,23 @@
     <title>Mano Skydelis | StudijųBankas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .premium-lock-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5d5fef;
+            text-decoration: none;
+            background: #f0f0ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            transition: background 0.2s;
+        }
+        .premium-lock-link:hover { background: #e0e0ff; }
+        .premium-lock-link i { font-size: 11px; }
+    </style>
 </head>
 <body class="dashboard-bg">
     <div class="dashboard-layout">
@@ -45,14 +62,18 @@
                     <i class="fas fa-check-circle"></i>
                     <div>
                         <h4>Išmoktos temos</h4>
-                        <p id="learned-topics-count">0 / 0</p>
+                        <p id="learned-topics-count">
+                            <a href="pricing.html" class="premium-lock-link"><i class="fas fa-lock"></i> Gauti Premium</a>
+                        </p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-fire"></i>
                     <div>
                         <h4>Mokymosi serija</h4>
-                        <p>1 diena</p>
+                        <p id="streak-count">
+                            <a href="pricing.html" class="premium-lock-link"><i class="fas fa-lock"></i> Gauti Premium</a>
+                        </p>
                     </div>
                 </div>
             </section>

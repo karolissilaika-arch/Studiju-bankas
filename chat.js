@@ -6,8 +6,24 @@
 let chatHistory = [];
 
 // --- INICIALIZACIJA ---
-document.addEventListener('DOMContentLoaded', () => {
-    renderChatBubble();
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+
+        const { data: profile } = await supabaseClient
+            .from('profiles')
+            .select('is_premium, total_xp')
+            .eq('id', user.id)
+            .single();
+
+        const isPremium = profile?.is_premium === true || (profile?.total_xp || 0) >= 500;
+        if (!isPremium) return;
+
+        renderChatBubble();
+    } catch (err) {
+        console.error("Chat init klaida:", err);
+    }
 });
 
 // --- BURBULO IR LANGO SUKŪRIMAS ---
@@ -42,7 +58,7 @@ function renderChatBubble() {
             <div class="sb-paywall-inner">
                 <i class="fas fa-lock" style="font-size:28px; margin-bottom:10px; color:#5d5fef;"></i>
                 <p style="font-weight:700; margin-bottom:5px;">Pasiektas dienos limitas</p>
-                <small style="color:#888; display:block; margin-bottom:15px;">5 nemokamos žinutės per dieną. Gauk Premium neribotam naudojimui!</small>
+                <small style="color:#888; display:block; margin-bottom:15px;">50 žinučių per dieną – pasiekėte dienos ribą. Grįžkite rytoj arba kreipkitės dėl limito!</small>
                 <a href="index.html#kainos" class="sb-premium-btn">Gauti Premium →</a>
             </div>
         </div>
