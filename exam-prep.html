@@ -43,16 +43,13 @@
         </header>
 
         <div class="filter-bar">
-            <select id="filter-grade" onchange="loadExamQuestions()" class="form-select">
+            <select id="filter-grade" onchange="handleGradeChange()" class="form-select">
                 <option value="all">Visos klasės</option>
                 <option value="11">11 klasė</option>
                 <option value="12">12 klasė</option>
             </select>
             <select id="filter-category" onchange="handleCategoryChange()" class="form-select">
                 <option value="all">Visi dalykai</option>
-                <option value="Matematika">Matematika</option>
-                <option value="Istorija">Istorija</option>
-                <option value="Biologija">Biologija</option>
             </select>
             <select id="filter-topic" onchange="loadExamQuestions()" class="form-select">
                 <option value="all">Visos temos</option>

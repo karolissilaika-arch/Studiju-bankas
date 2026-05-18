@@ -1,12 +1,20 @@
 let loadedQuestions = [];
 let currentIndex = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadExamQuestions();
-    updateTopicDropdown();
+document.addEventListener('DOMContentLoaded', async () => {
+    await updateCategoryDropdown();
+    await updateTopicDropdown();
+    await loadExamQuestions();
 });
 
-// Kai pasikeičia kategorija, turime atnaujinti temų sąrašą
+// Kai pasikeičia klasė, atnaujiname kategorijas ir temas
+async function handleGradeChange() {
+    await updateCategoryDropdown();
+    await updateTopicDropdown();
+    await loadExamQuestions();
+}
+
+// Kai pasikeičia kategorija, atnaujiname temų sąrašą
 async function handleCategoryChange() {
     await updateTopicDropdown();
     await loadExamQuestions();
@@ -47,24 +55,43 @@ async function loadExamQuestions() {
     }
 }
 
-// 2. Dinamiškai užpildome temų pasirinkimą iš DB esančių duomenų
+// 2. Dinamiškai užpildome kategorijų pasirinkimą iš DB
+async function updateCategoryDropdown() {
+    const grade = document.getElementById('filter-grade').value;
+    const categorySelect = document.getElementById('filter-category');
+
+    let query = supabaseClient.from('exam_questions').select('category');
+    if (grade !== 'all') query = query.eq('grade', parseInt(grade));
+
+    const { data, error } = await query;
+    if (error || !data) return;
+
+    const uniqueCategories = [...new Set(data.map(item => item.category))].sort();
+
+    categorySelect.innerHTML = '<option value="all">Visi dalykai</option>' +
+        uniqueCategories.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+// 3. Dinamiškai užpildome temų pasirinkimą iš DB
 async function updateTopicDropdown() {
+    const grade = document.getElementById('filter-grade').value;
     const category = document.getElementById('filter-category').value;
     const topicSelect = document.getElementById('filter-topic');
     
     let query = supabaseClient.from('exam_questions').select('topic');
+    if (grade !== 'all') query = query.eq('grade', parseInt(grade));
     if (category !== 'all') query = query.eq('category', category);
     
     const { data, error } = await query;
     if (error || !data) return;
 
-    const uniqueTopics = [...new Set(data.map(item => item.topic))];
+    const uniqueTopics = [...new Set(data.map(item => item.topic))].sort();
 
     topicSelect.innerHTML = '<option value="all">Visos temos</option>' + 
         uniqueTopics.map(t => `<option value="${t}">${t}</option>`).join('');
 }
 
-// 3. Nukreipia į praktikos puslapį su filtrais
+// 4. Nukreipia į praktikos puslapį su filtrais
 function openPracticeModal() {
     const grade = document.getElementById('filter-grade').value;
     const category = document.getElementById('filter-category').value;
@@ -74,7 +101,7 @@ function openPracticeModal() {
     window.location.href = url;
 }
 
-// 4. Sugeneruoja dabartinį klausimą
+// 5. Sugeneruoja dabartinį klausimą
 function renderCurrentQuestion() {
     if (currentIndex >= loadedQuestions.length) {
         loadedQuestions.sort(() => Math.random() - 0.5);
@@ -108,7 +135,7 @@ function renderCurrentQuestion() {
     `;
 }
 
-// 5. Patikrina atsakymą
+// 6. Patikrina atsakymą
 function checkExamAnswer(selected, correct) {
     const options = document.querySelectorAll('.option-item');
     const feedback = document.getElementById('feedback-area');
