@@ -47,11 +47,9 @@
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" id="searchInput" placeholder="Ieškoti temos..." class="form-input search-input">
             </div>
+            <!-- Kategorijos užpildomos dinamiškai iš DB per topics.js -->
             <select id="category-filter" onchange="loadPublicTopics()" class="form-select">
                 <option value="all">Visos kategorijos</option>
-                <option value="Matematika">Matematika</option>
-                <option value="Istorija">Istorija</option>
-                <option value="Fizika">Fizika</option>
             </select>
             <select id="sortFilter" class="form-select">
                 <option value="newest">Naujausios</option>
@@ -77,7 +75,6 @@
                 </a>
                 <p>Lietuvos moksleiviams skirta mokymosi platforma — testai, pamokos ir VBE pasiruošimas vienoje vietoje.</p>
                 <div class="f-social" aria-label="Socialiniai tinklai">
-                    <!-- Pakeisk href į tikrus URL -->
                     <a href="#" aria-label="Instagram" title="Instagram">
                         <i class="fab fa-instagram"></i>
                     </a>
@@ -92,19 +89,16 @@
 
             <!-- Dešinė pusė -->
             <div class="f-right">
-
-                <!-- Kontaktai -->
                 <div>
                     <p class="f-col-title">Kontaktai</p>
                     <ul class="f-info-list">
-                        <!-- Pakeisk į tikrus kontaktus -->
                         <li>
                             <i class="fas fa-envelope"></i>
                             <a href="mailto:info@studijubankas.lt">studijubankas@gmail.com</a>
                         </li>
                     </ul>
                 </div>
-         </div>
+            </div>
         </div><!-- /.f-top -->
 
         <!-- Apatinė juosta -->

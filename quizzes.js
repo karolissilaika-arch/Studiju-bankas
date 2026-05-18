@@ -2,10 +2,31 @@ let allLoadedQuizzes = [];
 let currentQuizQuestions = [];
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadCategories();
     loadQuizzes();
     setupSearch();
     if (typeof updateNavigation === 'function') updateNavigation();
 });
+
+async function loadCategories() {
+    const select = document.getElementById('category-filter');
+    if (!select) return;
+
+    const { data, error } = await supabaseClient
+        .from('quizzes')
+        .select('category')
+        .not('category', 'is', null);
+
+    if (error) {
+        console.error('Kategorijų klaida:', error.message);
+        return;
+    }
+
+    const unique = [...new Set(data.map(r => r.category).filter(Boolean))].sort();
+
+    select.innerHTML = `<option value="all">Visos kategorijos</option>` +
+        unique.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+}
 
 async function loadQuizzes() {
     const container = document.getElementById('quizzes-container');
