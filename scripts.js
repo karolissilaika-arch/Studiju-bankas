@@ -19,7 +19,7 @@ async function signInWithGoogle() {
     await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: { 
-            redirectTo: 'https://karolissilaika-arch.github.io/Studiju-bankas/dashboard.html'
+            redirectTo: 'https://studijubankas.lt/dashboard.html'
         }
     });
 }
