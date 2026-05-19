@@ -3,6 +3,13 @@ let currentIndex = 0;
 let correctCount = 0;
 let wrongCount = 0;
 
+// ─── MATEMATIKOS FORMATAVIMAS ─────────────────────────────────────────────────
+// Konvertuoja ^ į HTML <sup> laipsnius, pvz. 25^x → 25<sup>x</sup>
+function formatMath(text) {
+    if (!text) return text;
+    return text.replace(/\^([a-zA-Z0-9\+\-\(\)]+)/g, '<sup>$1</sup>');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const subject = params.get('subject');
@@ -77,14 +84,14 @@ function renderTestQuestion(q, container, imageHtml = '') {
 
         ${imageHtml}
 
-        <h2 style="margin-bottom: 30px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
+        <h2 style="margin-bottom: 30px; color: #333; line-height: 1.5; font-size: 20px;">${formatMath(q.question_text)}</h2>
 
         <div class="options-list">
             ${q.options.map((opt, i) => `
                 <div class="option-item" onclick="checkVbeAnswer(${i}, ${q.correct_option})"
                      style="padding: 18px 22px; border: 2px solid #eee; margin-bottom: 12px; border-radius: 14px; cursor: pointer; transition: 0.2s; font-size: 15px; color: #444; display: flex; align-items: center; gap: 12px;">
                     <span style="width: 28px; height: 28px; border-radius: 50%; background: #f5f5f5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; color: #888;">${String.fromCharCode(65 + i)}</span>
-                    ${opt}
+                    ${formatMath(opt)}
                 </div>
             `).join('')}
         </div>
@@ -127,7 +134,7 @@ function checkVbeAnswer(selected, correct) {
     let explanationHtml = '';
     if (q.explanation) {
         explanationHtml = `<div style="margin-top: 10px; padding: 12px 16px; background: #fff8e6; border-left: 3px solid #f39c12; border-radius: 8px; font-size: 14px; color: #7d6608;">
-            <strong>💡 Paaiškinimas:</strong> ${q.explanation}
+            <strong>💡 Paaiškinimas:</strong> ${formatMath(q.explanation)}
         </div>`;
     }
 
@@ -302,7 +309,7 @@ function renderFillQuestion(q, container, imageHtml = '') {
 
         ${imageHtml}
 
-        <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
+        <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${formatMath(q.question_text)}</h2>
 
         <input type="text" id="fill-answer"
             placeholder="Įrašykite atsakymą..."
@@ -374,7 +381,7 @@ function checkFillAnswer() {
 
     const explanationHtml = q.explanation
         ? `<div style="margin-top: 10px; padding: 12px 16px; background: #fff8e6; border-left: 3px solid #f39c12; border-radius: 8px; font-size: 14px; color: #7d6608;">
-               <strong>💡 Paaiškinimas:</strong> ${q.explanation}
+               <strong>💡 Paaiškinimas:</strong> ${formatMath(q.explanation)}
            </div>`
         : '';
 
@@ -386,7 +393,7 @@ function checkFillAnswer() {
                <i class="fas fa-times-circle" style="font-size: 20px;"></i> Neteisingai.
            </div>
            <div style="padding: 12px 16px; background: #eafaf1; border: 2px solid #27ae60; border-radius: 10px; font-size: 15px; color: #1e8449; margin-bottom: 8px;">
-               <strong>Teisingas atsakymas:</strong> ${q.correct_answer}
+               <strong>Teisingas atsakymas:</strong> ${formatMath(q.correct_answer)}
            </div>${explanationHtml}`;
 
     feedbackDiv.innerHTML += `
@@ -416,7 +423,7 @@ function renderOpenQuestion(q, container, imageHtml = '') {
 
         ${imageHtml}
 
-        <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
+        <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${formatMath(q.question_text)}</h2>
 
         ${q.max_points ? `<p style="color: #888; font-size: 13px; margin-bottom: 15px;"><i class="fas fa-star" style="color: #f39c12;"></i> Maks. taškai: <strong>${q.max_points}</strong></p>` : ''}
 
@@ -447,9 +454,9 @@ function revealOpenAnswer() {
     revealDiv.innerHTML = `
         <div style="border: 2px solid #27ae60; border-radius: 12px; padding: 20px; background: #f0fff4;">
             <h4 style="color: #27ae60; margin-bottom: 10px;"><i class="fas fa-check-circle"></i> Pavyzdinis atsakymas:</h4>
-            <p style="color: #333; line-height: 1.6;">${q.correct_answer || '—'}</p>
+            <p style="color: #333; line-height: 1.6;">${formatMath(q.correct_answer || '—')}</p>
             ${q.explanation ? `<hr style="margin: 12px 0; border: 0; border-top: 1px solid #c6f6d5;">
-            <p style="color: #555; font-size: 14px;"><strong>💡 Paaiškinimas:</strong> ${q.explanation}</p>` : ''}
+            <p style="color: #555; font-size: 14px;"><strong>💡 Paaiškinimas:</strong> ${formatMath(q.explanation)}</p>` : ''}
         </div>
 
         <div style="margin-top: 15px; padding: 15px; background: #f8f9fe; border-radius: 10px; border: 1px solid #eee;">
