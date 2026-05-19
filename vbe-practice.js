@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Sumaišome klausimus
     loadedVbeQuestions = data.sort(() => Math.random() - 0.5);
     updateProgress();
     renderQuestion();
@@ -46,7 +45,6 @@ function updateProgress() {
 }
 
 function renderQuestion() {
-    // Begalinis ciklas
     if (currentIndex >= loadedVbeQuestions.length) {
         showSessionSummary();
         return;
@@ -55,20 +53,29 @@ function renderQuestion() {
     const q = loadedVbeQuestions[currentIndex];
     const container = document.getElementById('active-question-container');
 
-    if (q.question_type === 'open') {
-        renderOpenQuestion(q, container);
+    // Rodome brėžinį jei yra
+    const imageHtml = q.image_url
+        ? `<img src="${q.image_url}" alt="Brėžinys" style="max-width: 100%; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee;">`
+        : '';
+
+    if (q.question_type === 'test') {
+        renderTestQuestion(q, container, imageHtml);
+    } else if (q.question_type === 'fill') {
+        renderFillQuestion(q, container, imageHtml);
     } else {
-        renderTestQuestion(q, container);
+        renderOpenQuestion(q, container, imageHtml);
     }
 }
 
-// --- TESTINIS KLAUSIMAS ---
-function renderTestQuestion(q, container) {
+// ─── TESTINIS KLAUSIMAS (A/B/C/D) ────────────────────────────────────────────
+function renderTestQuestion(q, container, imageHtml = '') {
     container.innerHTML = `
         <div class="q-meta">
             <span>${q.subject}${q.topic ? ' • ' + q.topic : ''}</span>
             <span class="q-badge-test">Testinis</span>
         </div>
+
+        ${imageHtml}
 
         <h2 style="margin-bottom: 30px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
 
@@ -118,14 +125,14 @@ function checkVbeAnswer(selected, correct) {
     else wrongCount++;
 
     let explanationHtml = '';
-    if (!isCorrect && q.explanation) {
+    if (q.explanation) {
         explanationHtml = `<div style="margin-top: 10px; padding: 12px 16px; background: #fff8e6; border-left: 3px solid #f39c12; border-radius: 8px; font-size: 14px; color: #7d6608;">
             <strong>💡 Paaiškinimas:</strong> ${q.explanation}
         </div>`;
     }
 
     feedback.innerHTML = isCorrect
-        ? `<div style="color: #27ae60; display: flex; align-items: center; gap: 10px; font-weight: 600;"><i class="fas fa-check-circle" style="font-size: 20px;"></i> Teisingai!</div>`
+        ? `<div style="color: #27ae60; display: flex; align-items: center; gap: 10px; font-weight: 600;"><i class="fas fa-check-circle" style="font-size: 20px;"></i> Teisingai!</div>${explanationHtml}`
         : `<div style="color: #e74c3c; display: flex; align-items: center; gap: 10px; font-weight: 600;"><i class="fas fa-times-circle" style="font-size: 20px;"></i> Neteisingai. Teisingas atsakymas paryškintas.</div>${explanationHtml}`;
 
     nextBtn.style.display = 'block';
@@ -133,13 +140,281 @@ function checkVbeAnswer(selected, correct) {
     saveVbeResult(isCorrect);
 }
 
-// --- LAISVAS KLAUSIMAS ---
-function renderOpenQuestion(q, container) {
+// ─── FILL KLAUSIMAS (trumpas įrašomas atsakymas) ──────────────────────────────
+
+// Simbolių grupės simbolių lentelei
+const SYMBOL_GROUPS = [
+    {
+        label: 'Skaičiai ir ženklai',
+        symbols: [
+            { display: '−', insert: '−' },
+            { display: '±', insert: '±' },
+            { display: '·', insert: '·' },
+            { display: '×', insert: '×' },
+            { display: '÷', insert: '÷' },
+            { display: '≠', insert: '≠' },
+            { display: '≈', insert: '≈' },
+            { display: '≤', insert: '≤' },
+            { display: '≥', insert: '≥' },
+            { display: '∞', insert: '∞' },
+            { display: '√', insert: '√' },
+            { display: '∛', insert: '∛' },
+        ]
+    },
+    {
+        label: 'Laipsniai ir indeksai',
+        symbols: [
+            { display: '²', insert: '²' },
+            { display: '³', insert: '³' },
+            { display: '⁴', insert: '⁴' },
+            { display: '⁵', insert: '⁵' },
+            { display: 'ⁿ', insert: 'ⁿ' },
+            { display: '½', insert: '½' },
+            { display: '⅓', insert: '⅓' },
+            { display: '¼', insert: '¼' },
+            { display: '¾', insert: '¾' },
+        ]
+    },
+    {
+        label: 'Graikų raidės',
+        symbols: [
+            { display: 'α', insert: 'α' },
+            { display: 'β', insert: 'β' },
+            { display: 'γ', insert: 'γ' },
+            { display: 'δ', insert: 'δ' },
+            { display: 'ε', insert: 'ε' },
+            { display: 'θ', insert: 'θ' },
+            { display: 'λ', insert: 'λ' },
+            { display: 'μ', insert: 'μ' },
+            { display: 'π', insert: 'π' },
+            { display: 'σ', insert: 'σ' },
+            { display: 'φ', insert: 'φ' },
+            { display: 'ω', insert: 'ω' },
+        ]
+    },
+    {
+        label: 'Aibės ir logika',
+        symbols: [
+            { display: '∈', insert: '∈' },
+            { display: '∉', insert: '∉' },
+            { display: '∩', insert: '∩' },
+            { display: '∪', insert: '∪' },
+            { display: '⊂', insert: '⊂' },
+            { display: '⊃', insert: '⊃' },
+            { display: '∅', insert: '∅' },
+            { display: '∀', insert: '∀' },
+            { display: '∃', insert: '∃' },
+            { display: '⇒', insert: '⇒' },
+            { display: '⇔', insert: '⇔' },
+        ]
+    },
+    {
+        label: 'Kampai ir geometrija',
+        symbols: [
+            { display: '°', insert: '°' },
+            { display: '∠', insert: '∠' },
+            { display: '△', insert: '△' },
+            { display: '⊥', insert: '⊥' },
+            { display: '∥', insert: '∥' },
+            { display: '→', insert: '→' },
+            { display: '↔', insert: '↔' },
+            { display: '⃗', insert: '⃗' },
+        ]
+    }
+];
+
+function buildSymbolKeyboard() {
+    let activeGroup = 0;
+
+    const tabsHtml = SYMBOL_GROUPS.map((g, i) => `
+        <button
+            id="symtab-${i}"
+            onclick="switchSymbolTab(${i})"
+            style="padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.15s;
+                   background: ${i === 0 ? '#5d5fef' : '#f0f0f0'}; color: ${i === 0 ? 'white' : '#555'};">
+            ${g.label}
+        </button>
+    `).join('');
+
+    const groupsHtml = SYMBOL_GROUPS.map((g, i) => `
+        <div id="symgroup-${i}" style="display: ${i === 0 ? 'flex' : 'none'}; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+            ${g.symbols.map(s => `
+                <button
+                    onclick="insertSymbol('${s.insert}')"
+                    title="${s.insert}"
+                    style="min-width: 38px; height: 38px; padding: 0 8px; border: 1.5px solid #e0e0e0; border-radius: 8px; background: white; cursor: pointer; font-size: 18px; transition: 0.15s; color: #333;"
+                    onmouseover="this.style.borderColor='#5d5fef'; this.style.background='#f0f0ff';"
+                    onmouseout="this.style.borderColor='#e0e0e0'; this.style.background='white';">
+                    ${s.display}
+                </button>
+            `).join('')}
+        </div>
+    `).join('');
+
+    return `
+        <div id="symbol-keyboard" style="margin-top: 12px; padding: 14px 16px; background: #f8f9fe; border: 1.5px solid #e8e8f0; border-radius: 14px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px; flex-wrap: wrap; gap: 6px;">
+                <span style="font-size: 12px; color: #888; margin-right: 4px;"><i class="fas fa-keyboard"></i></span>
+                ${tabsHtml}
+            </div>
+            ${groupsHtml}
+        </div>
+    `;
+}
+
+function switchSymbolTab(index) {
+    SYMBOL_GROUPS.forEach((_, i) => {
+        const tab = document.getElementById(`symtab-${i}`);
+        const group = document.getElementById(`symgroup-${i}`);
+        if (tab && group) {
+            if (i === index) {
+                tab.style.background = '#5d5fef';
+                tab.style.color = 'white';
+                group.style.display = 'flex';
+            } else {
+                tab.style.background = '#f0f0f0';
+                tab.style.color = '#555';
+                group.style.display = 'none';
+            }
+        }
+    });
+}
+
+function insertSymbol(sym) {
+    const input = document.getElementById('fill-answer');
+    if (!input) return;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const val = input.value;
+    input.value = val.slice(0, start) + sym + val.slice(end);
+    // Grąžiname kursorių po įterpto simbolio
+    const newPos = start + sym.length;
+    input.setSelectionRange(newPos, newPos);
+    input.focus();
+}
+
+function renderFillQuestion(q, container, imageHtml = '') {
+    container.innerHTML = `
+        <div class="q-meta">
+            <span>${q.subject}${q.topic ? ' • ' + q.topic : ''}</span>
+            <span class="q-badge-fill" style="background: #e8f4fd; color: #2980b9; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">Įrašyti atsakymą</span>
+        </div>
+
+        ${imageHtml}
+
+        <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
+
+        <input type="text" id="fill-answer"
+            placeholder="Įrašykite atsakymą..."
+            autocomplete="off"
+            style="width: 100%; padding: 16px 18px; border: 2px solid #eee; border-radius: 12px; font-size: 17px; font-family: inherit; outline: none; transition: 0.2s; box-sizing: border-box;"
+            onfocus="this.style.borderColor='#5d5fef'"
+            onblur="this.style.borderColor='#eee'"
+            onkeydown="if(event.key==='Enter') checkFillAnswer()" />
+
+        ${buildSymbolKeyboard()}
+
+        <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <button onclick="checkFillAnswer()" style="flex: 1; padding: 14px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 15px; box-shadow: 0 4px 15px rgba(93,95,239,0.3);">
+                <i class="fas fa-check" style="margin-right: 8px;"></i> Tikrinti
+            </button>
+            <button onclick="skipFillQuestion()" style="padding: 14px 20px; background: #eee; color: #555; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                Praleisti <i class="fas fa-forward" style="margin-left: 6px;"></i>
+            </button>
+        </div>
+
+        <div id="fill-feedback" style="margin-top: 20px;"></div>
+    `;
+
+    setTimeout(() => {
+        const input = document.getElementById('fill-answer');
+        if (input) input.focus();
+    }, 100);
+}
+
+function normalizeFillAnswer(str) {
+    return str
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim()
+        // Standartizuojame minuso ženklus
+        .replace(/[−–—]/g, '-')
+        // Pašaliname tarpus aplink =, ±
+        .replace(/\s*=\s*/g, '=')
+        .replace(/\s*±\s*/g, '±');
+}
+
+function checkFillAnswer() {
+    const input = document.getElementById('fill-answer');
+    const feedbackDiv = document.getElementById('fill-feedback');
+    const q = loadedVbeQuestions[currentIndex];
+
+    if (!input || !input.value.trim()) {
+        input.style.borderColor = '#e74c3c';
+        setTimeout(() => { input.style.borderColor = '#eee'; }, 800);
+        return;
+    }
+
+    input.disabled = true;
+    input.style.pointerEvents = 'none';
+
+    const userVal = normalizeFillAnswer(input.value);
+    const correctVal = normalizeFillAnswer(q.correct_answer || '');
+    const isCorrect = userVal === correctVal;
+
+    if (isCorrect) {
+        input.style.borderColor = '#27ae60';
+        input.style.background = '#eafaf1';
+        correctCount++;
+    } else {
+        input.style.borderColor = '#e74c3c';
+        input.style.background = '#fdedec';
+        wrongCount++;
+    }
+
+    const explanationHtml = q.explanation
+        ? `<div style="margin-top: 10px; padding: 12px 16px; background: #fff8e6; border-left: 3px solid #f39c12; border-radius: 8px; font-size: 14px; color: #7d6608;">
+               <strong>💡 Paaiškinimas:</strong> ${q.explanation}
+           </div>`
+        : '';
+
+    feedbackDiv.innerHTML = isCorrect
+        ? `<div style="color: #27ae60; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+               <i class="fas fa-check-circle" style="font-size: 20px;"></i> Teisingai!
+           </div>${explanationHtml}`
+        : `<div style="color: #e74c3c; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+               <i class="fas fa-times-circle" style="font-size: 20px;"></i> Neteisingai.
+           </div>
+           <div style="padding: 12px 16px; background: #eafaf1; border: 2px solid #27ae60; border-radius: 10px; font-size: 15px; color: #1e8449; margin-bottom: 8px;">
+               <strong>Teisingas atsakymas:</strong> ${q.correct_answer}
+           </div>${explanationHtml}`;
+
+    feedbackDiv.innerHTML += `
+        <button onclick="nextQuestion()" style="width: 100%; margin-top: 12px; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(93,95,239,0.3);">
+            Kitas klausimas <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+        </button>
+    `;
+
+    updateProgress();
+    saveVbeResult(isCorrect);
+}
+
+function skipFillQuestion() {
+    wrongCount++;
+    updateProgress();
+    saveVbeResult(false);
+    nextQuestion();
+}
+
+// ─── LAISVAS KLAUSIMAS (ilgas atsakymas) ─────────────────────────────────────
+function renderOpenQuestion(q, container, imageHtml = '') {
     container.innerHTML = `
         <div class="q-meta">
             <span>${q.subject}${q.topic ? ' • ' + q.topic : ''}</span>
             <span class="q-badge-open">Laisvas atsakymas</span>
         </div>
+
+        ${imageHtml}
 
         <h2 style="margin-bottom: 25px; color: #333; line-height: 1.5; font-size: 20px;">${q.question_text}</h2>
 
@@ -147,7 +422,7 @@ function renderOpenQuestion(q, container) {
 
         <textarea id="open-answer" rows="6"
             placeholder="Rašykite savo atsakymą čia..."
-            style="width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 15px; font-family: inherit; resize: vertical; outline: none; transition: 0.2s;"
+            style="width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 15px; font-family: inherit; resize: vertical; outline: none; transition: 0.2s; box-sizing: border-box;"
             onfocus="this.style.borderColor='#5d5fef'"
             onblur="this.style.borderColor='#eee'"></textarea>
 
@@ -167,13 +442,12 @@ function renderOpenQuestion(q, container) {
 function revealOpenAnswer() {
     const q = loadedVbeQuestions[currentIndex];
     const revealDiv = document.getElementById('open-answer-reveal');
-    const userAnswer = document.getElementById('open-answer').value.trim();
 
     revealDiv.style.display = 'block';
     revealDiv.innerHTML = `
         <div style="border: 2px solid #27ae60; border-radius: 12px; padding: 20px; background: #f0fff4;">
             <h4 style="color: #27ae60; margin-bottom: 10px;"><i class="fas fa-check-circle"></i> Pavyzdinis atsakymas:</h4>
-            <p style="color: #333; line-height: 1.6;">${q.correct_answer}</p>
+            <p style="color: #333; line-height: 1.6;">${q.correct_answer || '—'}</p>
             ${q.explanation ? `<hr style="margin: 12px 0; border: 0; border-top: 1px solid #c6f6d5;">
             <p style="color: #555; font-size: 14px;"><strong>💡 Paaiškinimas:</strong> ${q.explanation}</p>` : ''}
         </div>
@@ -198,7 +472,6 @@ function markOpenAnswer(isCorrect) {
     updateProgress();
     saveVbeResult(isCorrect);
 
-    // Pakeičiame mygtukus į "Tęsti"
     const revealDiv = document.getElementById('open-answer-reveal');
     revealDiv.innerHTML += `
         <button onclick="nextQuestion()" style="width: 100%; margin-top: 15px; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(93,95,239,0.3);">
@@ -213,7 +486,7 @@ function nextQuestion() {
     renderQuestion();
 }
 
-// --- SESIJOS SUVESTINĖ ---
+// ─── SESIJOS SUVESTINĖ ────────────────────────────────────────────────────────
 function showSessionSummary() {
     const total = loadedVbeQuestions.length;
     const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
@@ -252,7 +525,7 @@ function restartSession() {
     renderQuestion();
 }
 
-// --- REZULTATŲ IŠSAUGOJIMAS (premium) ---
+// ─── REZULTATŲ IŠSAUGOJIMAS (premium) ────────────────────────────────────────
 async function saveVbeResult(isCorrect) {
     try {
         const { data: { user } } = await supabaseClient.auth.getUser();
