@@ -126,7 +126,7 @@ async function updateNavigation() {
 
 async function checkUserStatus() {
     const { data: { user } } = await supabaseClient.auth.getUser();
-    const adminEmail = "kekse@gmail.com".toLowerCase();
+    const adminEmail = "studijubankas@gmail.com".toLowerCase();
     
     const isAdminPage = !!document.getElementById('topicForm');
     const isDashboardPage = window.location.pathname.includes('dashboard.html');

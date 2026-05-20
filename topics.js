@@ -78,11 +78,14 @@ async function loadPublicTopics() {
     renderTopics(data);
 }
 
-// Išvalo HTML žymes iš turinio, kad preview būtų grynas tekstas
+// Išvalo HTML žymes ir style/script blokus, kad preview būtų grynas tekstas
 function stripHtml(html) {
+    const clean = html
+        .replace(/<style[\s\S]*?<\/style>/gi, '')
+        .replace(/<script[\s\S]*?<\/script>/gi, '');
     const tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
+    tmp.innerHTML = clean;
+    return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
 }
 
 function renderTopics(topics) {

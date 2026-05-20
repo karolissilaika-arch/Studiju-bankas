@@ -11,7 +11,7 @@
 </head>
 <body class="dashboard-bg">
     <div class="dashboard-layout">
-        <aside class="sidebar-nav">
+        <aside class="sidebar-nav" id="sidebar">
             <a href="index.html" style="text-decoration: none; color: inherit;">
                 <div class="logo">Studijų<span>Bankas</span></div>
             </a>
@@ -27,12 +27,16 @@
                 <div id="auth-section"></div>
             </nav>
         </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
         <main class="dashboard-main">
             <header class="page-header">
                 <div>
-                    <h2>VBE Pasiruošimas</h2>
-                    <p>Ruoškis valstybiniam brandos egzaminui</p>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu"><span></span><span></span><span></span></button>
+                        <h2>VBE Pasiruošimas</h2>
+                    </div>
+                    <p style="margin-top:4px; color:var(--text-gray); font-size:14px;">Ruoškis valstybiniam brandos egzaminui</p>
                 </div>
                 <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
                     <div>
@@ -140,5 +144,17 @@
     <script src="scripts.js"></script>
     <script src="vbe.js"></script>
     <script src="subscription.js"></script>
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("mobile-open");
+    document.getElementById("sidebar-overlay").classList.toggle("active");
+    document.getElementById("hamburger").classList.toggle("open");
+}
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("mobile-open");
+    document.getElementById("sidebar-overlay").classList.remove("active");
+    document.getElementById("hamburger").classList.remove("open");
+}
+</script>
 </body>
 </html>

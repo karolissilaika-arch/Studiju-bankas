@@ -47,9 +47,31 @@ async function loadLessonDetail() {
     // Įrašome turinį į iframe – taip veiks ir MathJax, ir Chart.js
     const content = topic.content || '<p style="color:#888; padding:20px;">Ši pamoka dar neturi turinio.</p>';
 
+    // Mobiliojo CSS injektavimas į iframe turinį
+    const responsiveCSS = `
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * { box-sizing: border-box; }
+            body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+            img { max-width: 100%; height: auto; }
+            table { width: 100%; border-collapse: collapse; table-layout: fixed; word-wrap: break-word; }
+            td, th { word-break: break-word; overflow-wrap: break-word; }
+            pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; max-width: 100%; }
+            iframe, video, embed { max-width: 100%; }
+            @media (max-width: 600px) {
+                body { font-size: 15px; padding: 0 2px; }
+                table { font-size: 13px; }
+                td, th { padding: 6px 8px !important; }
+                h1 { font-size: 1.5rem; }
+                h2 { font-size: 1.3rem; }
+                h3 { font-size: 1.1rem; }
+            }
+        </style>
+    `;
+
     const doc = frame.contentDocument || frame.contentWindow.document;
     doc.open();
-    doc.write(content);
+    doc.write(responsiveCSS + content);
     doc.close();
 
     // Automatiškai pritaikome iframe aukštį pagal turinį

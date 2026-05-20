@@ -20,10 +20,12 @@
 <body class="dashboard-bg">
 <div class="dashboard-layout">
 
-    <aside class="sidebar-nav">
-        <a href="index.html" class="logo-link">
-            <div class="logo">Studijų<span>Bankas</span></div>
-        </a>
+    <aside class="sidebar-nav" id="sidebar">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <a href="index.html" class="logo-link">
+                <div class="logo">Studijų<span>Bankas</span></div>
+            </a>
+        </div>
         <nav id="main-nav">
             <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
             <a href="topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
@@ -36,10 +38,14 @@
             <div id="auth-section"></div>
         </nav>
     </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <main class="dashboard-main">
         <header class="page-header">
             <div>
+                <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu">
+                    <span></span><span></span><span></span>
+                </button>
                 <a href="topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
                 <h2 id="lesson-title">Kraunama...</h2>
             </div>
@@ -104,5 +110,20 @@
 <script src="lesson.js"></script>
 <script src="chat.js"></script>
 <script src="subscription.js"></script>
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const btn = document.getElementById('hamburger');
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    btn.classList.toggle('open');
+}
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    document.getElementById('sidebar-overlay').classList.remove('active');
+    document.getElementById('hamburger').classList.remove('open');
+}
+</script>
 </body>
 </html>
