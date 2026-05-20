@@ -1,7 +1,15 @@
 let loadedVbeQuestions = [];
 
+// Klausimų tipų pavadinimai lietuviškai
+const TYPE_LABELS = {
+    'test': 'Testinis',
+    'fill': 'Įrašyti atsakymą',
+    'open': 'Laisvas atsakymas'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     populateSubjectDropdown();
+    populateTypeDropdown();
     loadVbeQuestions();
 });
 
@@ -18,6 +26,25 @@ async function populateSubjectDropdown() {
         const opt = document.createElement('option');
         opt.value = s;
         opt.textContent = s;
+        select.appendChild(opt);
+    });
+}
+
+// Užpildome tipo dropdown iš DB
+async function populateTypeDropdown() {
+    const { data, error } = await supabaseClient
+        .from('vbe_questions')
+        .select('question_type');
+    if (error || !data) return;
+
+    const types = [...new Set(data.map(q => q.question_type).filter(Boolean))];
+    const select = document.getElementById('filter-type');
+    // Išvalome senus (išskyrus "Visi tipai")
+    select.innerHTML = '<option value="all">Visi tipai</option>';
+    types.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = TYPE_LABELS[t] || t;
         select.appendChild(opt);
     });
 }
@@ -88,17 +115,25 @@ function renderPreview(questions) {
     const list = document.getElementById('vbe-preview-list');
     const preview = questions.slice(0, 5);
 
-    list.innerHTML = preview.map((q, i) => `
-        <div style="background: white; border-radius: 10px; padding: 15px 20px; margin-bottom: 10px; border-left: 4px solid ${q.question_type === 'open' ? '#f39c12' : '#5d5fef'}; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+    const typeColor = {
+        'open':  { bg: '#fff3cd', text: '#856404', border: '#f39c12' },
+        'fill':  { bg: '#e8f4fd', text: '#2980b9', border: '#3498db' },
+        'test':  { bg: '#ede9fe', text: '#5d5fef', border: '#5d5fef' },
+    };
+
+    list.innerHTML = preview.map((q, i) => {
+        const c = typeColor[q.question_type] || typeColor['test'];
+        return `
+        <div style="background: white; border-radius: 10px; padding: 15px 20px; margin-bottom: 10px; border-left: 4px solid ${c.border}; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                 <small style="color: #888; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">${q.subject}${q.topic ? ' • ' + q.topic : ''}</small>
-                <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${q.question_type === 'open' ? '#fff3cd' : '#ede9fe'}; color: ${q.question_type === 'open' ? '#856404' : '#5d5fef'}; font-weight: 600;">
-                    ${q.question_type === 'open' ? 'Laisvas' : 'Testinis'}
+                <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${c.bg}; color: ${c.text}; font-weight: 600;">
+                    ${TYPE_LABELS[q.question_type] || q.question_type}
                 </span>
             </div>
             <p style="margin: 0; color: #333; font-size: 14px;">${i + 1}. ${q.question_text}</p>
         </div>
-    `).join('');
+    `}).join('');
 
     if (questions.length > 5) {
         list.innerHTML += `<p style="text-align:center; color:#999; font-size:14px; margin-top:10px;">... ir dar ${questions.length - 5} klausimų</p>`;

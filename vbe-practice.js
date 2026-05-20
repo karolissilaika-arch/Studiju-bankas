@@ -474,17 +474,25 @@ function revealOpenAnswer() {
 }
 
 function markOpenAnswer(isCorrect) {
+    // Neleidžiame spausti daugiau nei vieną kartą
+    const markBtns = document.querySelectorAll('#open-answer-reveal button[onclick^="markOpenAnswer"]');
+    markBtns.forEach(btn => { btn.disabled = true; btn.style.opacity = '0.5'; btn.style.cursor = 'default'; });
+
+    // Neleidžiame pridėti mygtuko daugiau nei kartą
+    if (document.getElementById('open-next-btn')) return;
+
     if (isCorrect) correctCount++;
     else wrongCount++;
     updateProgress();
     saveVbeResult(isCorrect);
 
     const revealDiv = document.getElementById('open-answer-reveal');
-    revealDiv.innerHTML += `
-        <button onclick="nextQuestion()" style="width: 100%; margin-top: 15px; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(93,95,239,0.3);">
-            Kitas klausimas <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
-        </button>
-    `;
+    const nextBtn = document.createElement('button');
+    nextBtn.id = 'open-next-btn';
+    nextBtn.setAttribute('style', 'width: 100%; margin-top: 15px; padding: 16px; background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(93,95,239,0.3);');
+    nextBtn.innerHTML = 'Kitas klausimas <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>';
+    nextBtn.onclick = nextQuestion;
+    revealDiv.appendChild(nextBtn);
 }
 
 function nextQuestion() {
