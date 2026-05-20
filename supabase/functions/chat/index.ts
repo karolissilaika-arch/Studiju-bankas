@@ -41,28 +41,34 @@ serve(async (req) => {
 
     const isPremium = profile?.is_premium === true;
 
+    // Tik premium vartotojai gali naudotis chatu
     if (!isPremium) {
-      // Tikriname dienos limitą
-      const today = new Date().toDateString();
-      const lastReset = profile?.chat_last_reset
-        ? new Date(profile.chat_last_reset).toDateString()
-        : null;
-
-      let msgCount = lastReset === today ? (profile?.chat_messages_today || 0) : 0;
-
-      if (msgCount >= 50) {
-        return new Response(JSON.stringify({ error: "LIMIT_REACHED" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-
-      // Atnaujiname skaitiklį
-      await supabase.from("profiles").update({
-        chat_messages_today: msgCount + 1,
-        chat_last_reset: new Date().toISOString(),
-      }).eq("id", user.id);
+      return new Response(JSON.stringify({ error: "PREMIUM_REQUIRED" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
+
+    // Premium vartotojams — 200 žinučių per dieną
+    const today = new Date().toDateString();
+    const lastReset = profile?.chat_last_reset
+      ? new Date(profile.chat_last_reset).toDateString()
+      : null;
+
+    let msgCount = lastReset === today ? (profile?.chat_messages_today || 0) : 0;
+
+    if (msgCount >= 200) {
+      return new Response(JSON.stringify({ error: "LIMIT_REACHED" }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Atnaujiname skaitiklį
+    await supabase.from("profiles").update({
+      chat_messages_today: msgCount + 1,
+      chat_last_reset: new Date().toISOString(),
+    }).eq("id", user.id);
 
     // 3. Gauname žinutę iš request
     const { messages } = await req.json();

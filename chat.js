@@ -57,8 +57,8 @@ function renderChatBubble() {
         <div id="sb-paywall" style="display:none;">
             <div class="sb-paywall-inner">
                 <i class="fas fa-lock" style="font-size:28px; margin-bottom:10px; color:#5d5fef;"></i>
-                <p style="font-weight:700; margin-bottom:5px;">Pasiektas dienos limitas</p>
-                <small style="color:#888; display:block; margin-bottom:15px;">50 žinučių per dieną – pasiekėte dienos ribą. Grįžkite rytoj arba kreipkitės dėl limito!</small>
+                <p style="font-weight:700; margin-bottom:5px;">Tik Premium nariams</p>
+                <small style="color:#888; display:block; margin-bottom:15px;">AI mokytojas prieinamas tik Premium vartotojams (200 žinučių per dieną). Įsigykite Premium ir mokykitės be ribų!</small>
                 <a href="index.html#kainos" class="sb-premium-btn">Gauti Premium →</a>
             </div>
         </div>
@@ -117,6 +117,12 @@ async function sendMessage() {
         );
 
         removeTypingIndicator(typingId);
+
+        if (res.status === 403) {
+            document.getElementById('sb-paywall').style.display = 'flex';
+            document.getElementById('sb-input-row').style.display = 'none';
+            return;
+        }
 
         if (res.status === 429) {
             document.getElementById('sb-paywall').style.display = 'flex';
