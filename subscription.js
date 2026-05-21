@@ -221,16 +221,16 @@ async function cancelSubscription() {
         const data = await res.json();
 
         if (data.success) {
-            // Nuskaitome premium_expires datą iš Supabase
+            // Perkrauname profilį kad gautume atnaujintą subscription_cancel_at
             const { data: { user } } = await supabaseClient.auth.getUser();
             const { data: profile } = await supabaseClient
                 .from('profiles')
-                .select('premium_expires')
+                .select('subscription_cancel_at')
                 .eq('id', user.id)
                 .single();
 
-            const cancelDate = profile?.premium_expires
-                ? new Date(profile.premium_expires).toLocaleDateString('lt-LT')
+            const cancelDate = profile?.subscription_cancel_at
+                ? new Date(profile.subscription_cancel_at).toLocaleDateString('lt-LT')
                 : 'mėnesio pabaigoje';
 
             const premiumSection = document.getElementById('premium-section');

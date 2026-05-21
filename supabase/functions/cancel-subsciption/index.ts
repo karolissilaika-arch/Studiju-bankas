@@ -1,5 +1,4 @@
-// supabase/functions/cancel-subscription/index.ts
-// Leidžia vartotojui atšaukti prenumeratą
+// supabase/functions/cancel-subsciption/index.ts
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -45,7 +44,6 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
-    // Randame aktyvias prenumeratas
     const subscriptions = await stripe.subscriptions.list({
       customer: profile.stripe_customer_id,
       status: "active",
@@ -57,16 +55,19 @@ serve(async (req) => {
       });
     }
 
-    // Atšaukiame pasibaigus periodui
     const subscription = subscriptions.data[0];
     await stripe.subscriptions.update(subscription.id, {
       cancel_at_period_end: true,
     });
 
-    return new Response(JSON.stringify({
-      success: true,
-      cancel_at: subscription.current_period_end, // Unix timestamp
-    }), {
+    // Išsaugome atšaukimo datą į DB
+    const cancelAtDate = new Date(subscription.current_period_end * 1000).toISOString();
+    await supabase
+      .from("profiles")
+      .update({ subscription_cancel_at: cancelAtDate })
+      .eq("id", user.id);
+
+    return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" }
     });
 

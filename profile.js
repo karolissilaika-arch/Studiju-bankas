@@ -56,11 +56,29 @@ async function loadProfile(user) {
             renderGallery(currentXP, currentAvatar);
         }
 
-        // Premium sekcija — PATAISYTA: mygtukas turi id="profile-checkout-btn"
-        // kad subscription.js startCheckout() galėtų jį rasti
+        // Premium sekcija
         const premiumSection = document.getElementById('premium-section');
         if (premiumSection) {
-            if (profile.is_premium) {
+            if (profile.is_premium && profile.subscription_cancel_at) {
+                // Prenumerata atšaukta, bet dar aktyvi
+                const cancelDate = new Date(profile.subscription_cancel_at).toLocaleDateString('lt-LT');
+                premiumSection.innerHTML = `
+                    <div style="
+                        background: #f8f7ff;
+                        border: 1px solid #ede9fe;
+                        padding: 20px;
+                        border-radius: 12px;
+                        text-align: center;
+                    ">
+                        <div style="font-size: 28px; margin-bottom: 10px;">👑</div>
+                        <strong style="color: #5d5fef; font-size: 15px;">Premium aktyvus iki ${cancelDate}</strong>
+                        <p style="margin: 8px 0 0; color: #6b7280; font-size: 13px; line-height: 1.5;">
+                            Prenumerata atšaukta — galite naudotis visomis Premium funkcijomis iki nurodytos datos.
+                        </p>
+                    </div>
+                `;
+            } else if (profile.is_premium) {
+                // Aktyvi prenumerata
                 premiumSection.innerHTML = `
                     <div style="background: linear-gradient(135deg, #5d5fef, #7c3aed); color: white; padding: 16px; border-radius: 12px; text-align: center;">
                         <i class="fas fa-crown" style="margin-right: 8px;"></i>
@@ -75,6 +93,7 @@ async function loadProfile(user) {
                     </div>
                 `;
             } else {
+                // Ne premium
                 premiumSection.innerHTML = `
                     <button id="profile-checkout-btn" onclick="startCheckout(this)" style="
                         width: 100%;
