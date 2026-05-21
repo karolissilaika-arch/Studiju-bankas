@@ -5,7 +5,6 @@
 window.userIsPremium = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // SVARBU: await užtikrina, kad premium statusas žinomas PRIEŠ taikant apsaugą
     await initPremiumStatus();
     applyPremiumFeatures();
     showPremiumSuccessIfRedirected();
@@ -33,14 +32,12 @@ async function initPremiumStatus() {
 function applyPremiumFeatures() {
     const page = window.location.pathname.split('/').pop();
 
-    // REKLAMOS: slepiame premium vartotojams
     if (window.userIsPremium) {
         document.querySelectorAll('.dash-ad, .ad-banner, [data-ad]').forEach(el => {
             el.style.display = 'none';
         });
     }
 
-    // ANALITIKA: apsaugome puslapį
     if (page === 'analytics.html' && !window.userIsPremium) {
         blockPage(
             'Analitika — tik Premium',
@@ -212,7 +209,7 @@ async function cancelSubscription() {
     try {
         const { data: { session } } = await supabaseClient.auth.getSession();
 
-        const res = await fetch(`${supabaseUrl}/functions/v1/cancel-subscription`, {
+        const res = await fetch(`${supabaseUrl}/functions/v1/cancel-subsciption`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${session.access_token}`,
@@ -224,7 +221,17 @@ async function cancelSubscription() {
         const data = await res.json();
 
         if (data.success) {
-            const cancelDate = new Date(data.cancel_at * 1000).toLocaleDateString('lt-LT');
+            // Nuskaitome premium_expires datą iš Supabase
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('premium_expires')
+                .eq('id', user.id)
+                .single();
+
+            const cancelDate = profile?.premium_expires
+                ? new Date(profile.premium_expires).toLocaleDateString('lt-LT')
+                : 'mėnesio pabaigoje';
 
             const premiumSection = document.getElementById('premium-section');
             if (premiumSection) {
