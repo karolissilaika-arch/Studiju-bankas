@@ -77,10 +77,10 @@ serve(async (req) => {
           currency: "eur",
           product_data: {
             name: "StudijųBankas Premium",
-            description: "Neribota AI pagalba, analitika ir jokių reklamų",
+            description: "Asmeninis AI mokytojas, rezultatų analitika ir jokių reklamų",
             images: [],
           },
-          unit_amount: 500, // 5.00 EUR centais
+          unit_amount: 499, // 5.00 EUR centais
           recurring: { interval: "month" },
         },
         quantity: 1,

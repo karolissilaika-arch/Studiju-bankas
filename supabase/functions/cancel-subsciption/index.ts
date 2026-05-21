@@ -57,12 +57,16 @@ serve(async (req) => {
       });
     }
 
-    // Atšaukiame pasibaigus periodui (vartotojas galės naudotis iki mėnesio pabaigos)
-    await stripe.subscriptions.update(subscriptions.data[0].id, {
+    // Atšaukiame pasibaigus periodui
+    const subscription = subscriptions.data[0];
+    await stripe.subscriptions.update(subscription.id, {
       cancel_at_period_end: true,
     });
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({
+      success: true,
+      cancel_at: subscription.current_period_end, // Unix timestamp
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" }
     });
 

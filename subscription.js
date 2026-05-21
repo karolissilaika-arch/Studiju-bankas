@@ -138,9 +138,7 @@ function blockPage(title, description, feature) {
 }
 
 // --- 4. STRIPE CHECKOUT PALEIDIMAS ---
-// PATAISYTA: veikia ir su mygtuku (this), ir be argumento (profile.html atveju)
 async function startCheckout(btnElement) {
-    // Jei iškviesta be argumento iš profile.html — ieškome mygtuko pagal id
     const btn = btnElement instanceof Element
         ? btnElement
         : document.getElementById('profile-checkout-btn') || null;
@@ -226,8 +224,26 @@ async function cancelSubscription() {
         const data = await res.json();
 
         if (data.success) {
-            alert("Prenumerata atšaukta. Galite naudotis Premium iki šio mėnesio pabaigos.");
-            location.reload();
+            const cancelDate = new Date(data.cancel_at * 1000).toLocaleDateString('lt-LT');
+
+            const premiumSection = document.getElementById('premium-section');
+            if (premiumSection) {
+                premiumSection.innerHTML = `
+                    <div style="
+                        background: #f8f7ff;
+                        border: 1px solid #ede9fe;
+                        padding: 20px;
+                        border-radius: 12px;
+                        text-align: center;
+                    ">
+                        <div style="font-size: 28px; margin-bottom: 10px;">👑</div>
+                        <strong style="color: #5d5fef; font-size: 15px;">Premium aktyvus iki ${cancelDate}</strong>
+                        <p style="margin: 8px 0 0; color: #6b7280; font-size: 13px; line-height: 1.5;">
+                            Prenumerata atšaukta — galite naudotis visomis Premium funkcijomis iki nurodytos datos.
+                        </p>
+                    </div>
+                `;
+            }
         } else {
             throw new Error(data.error);
         }
