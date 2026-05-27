@@ -2,6 +2,12 @@
   "redirects": [
     {
       "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "studijubankas.lt"
+        }
+      ],
       "destination": "https://www.studijubankas.lt/:path*",
       "permanent": true
     }
