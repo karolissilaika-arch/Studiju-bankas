@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://www.studijubankas.lt/:path*",
+      "permanent": true
+    }
+  ]
+}
