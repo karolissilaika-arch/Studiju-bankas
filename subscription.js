@@ -93,7 +93,7 @@ function blockPage(title, description, feature) {
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         ${[
                             '📊 Pilna analitika ir pažangos grafikai',
-                            '🤖 Neribota AI mokytojo pagalba',
+                            '🤖 AI mokytojo pagalba',
                             '🚫 Jokių reklamų',
                         ].map(item => `
                             <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #374151;">
@@ -104,7 +104,7 @@ function blockPage(title, description, feature) {
                 </div>
 
                 <div style="margin-bottom: 16px;">
-                    <span style="font-size: 2rem; font-weight: 800; color: #5d5fef;">5€</span>
+                    <span style="font-size: 2rem; font-weight: 800; color: #5d5fef;">4.99€</span>
                     <span style="color: #9ca3af; font-size: 14px;"> / mėnesį</span>
                 </div>
 
@@ -123,7 +123,7 @@ function blockPage(title, description, feature) {
                 " onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 20px rgba(93,95,239,0.35)'"
                    onmouseout="this.style.transform='';this.style.boxShadow=''">
                     <i class="fas fa-crown" style="margin-right: 8px;"></i>
-                    Gauti Premium — 5€/mėn
+                    Gauti Premium — 4.99€/mėn
                 </button>
 
                 <a href="dashboard.html" style="color: #9ca3af; font-size: 13px; text-decoration: none;">
