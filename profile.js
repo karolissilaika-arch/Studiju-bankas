@@ -107,7 +107,7 @@ async function loadProfile(user) {
                         font-size: 15px;
                     ">
                         <i class="fas fa-crown" style="margin-right: 8px;"></i>
-                        Gauti Premium — 5€/mėn
+                        Gauti Premium — 4.99€/mėn
                     </button>
                 `;
             }
