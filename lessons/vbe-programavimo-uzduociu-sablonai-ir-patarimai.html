@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VBE programavimo užduočių šablonai ir patarimai | StudijųBankas</title>
+  <meta name="description" content="Tipinių VBE programavimo užduočių sprendimų šablonai, dažniausios klaidos ir patarimai.">
+  <meta property="og:title" content="VBE programavimo užduočių šablonai ir patarimai | StudijųBankas">
+  <meta property="og:description" content="Tipinių VBE programavimo užduočių sprendimų šablonai, dažniausios klaidos ir patarimai.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/vbe-programavimo-uzduociu-sablonai-ir-patarimai.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/vbe-programavimo-uzduociu-sablonai-ir-patarimai.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">VBE programavimo užduočių šablonai ir patarimai</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#1a3a6e;--primary-light:#eaf0ff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#c0cce8;--radius:12px;--bg:#f5f7fc;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(26,58,110,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .checklist{list-style:none;padding:0;}
+  .checklist li{padding:0.3rem 0;color:var(--text-gray);}
+  .checklist li::before{content:"✅ ";margin-right:0.3rem;}
+  .mistake-list{list-style:none;padding:0;}
+  .mistake-list li{padding:0.3rem 0;color:#7a1a1a;}
+  .mistake-list li::before{content:"❌ ";margin-right:0.3rem;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">VBE programavimo užduočių šablonai ir patarimai</div>
+  <p class="topic-intro">Standartinis VBE II dalies programavimo šablonas: nuskaityti iš failo → apdoroti → išvesti į failą. Šie šablonai padės greitai ir teisingai spręsti užduotis.</p>
+ 
+  <h3 class="section-head">Pilnas Python šablonas</h3>
+  <div class="code-block">
+<span class="cm">########################################</span>
+<span class="cm"># VBE Python šablonas</span>
+<span class="cm">########################################</span>
+ 
+<span class="kw">def</span> <span class="fn">skaityti</span>(failas):
+    <span class="st">"""Nuskaito duomenis iš failo."""</span>
+    duomenys = []
+    <span class="kw">with</span> <span class="fn">open</span>(failas, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+        n = <span class="fn">int</span>(f.<span class="fn">readline</span>().<span class="fn">strip</span>())
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n):
+            eil = f.<span class="fn">readline</span>().<span class="fn">strip</span>().<span class="fn">split</span>()
+            duomenys.<span class="fn">append</span>(eil)
+    <span class="kw">return</span> duomenys
+ 
+<span class="kw">def</span> <span class="fn">apdoroti</span>(duomenys):
+    <span class="st">"""Pagrindinė logika čia."""</span>
+    rezultatai = []
+    <span class="cm"># ... jūsų kodas ...</span>
+    <span class="kw">return</span> rezultatai
+ 
+<span class="kw">def</span> <span class="fn">rasyti</span>(failas, rezultatai):
+    <span class="st">"""Išrašo rezultatus į failą."""</span>
+    <span class="kw">with</span> <span class="fn">open</span>(failas, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+        <span class="kw">for</span> r <span class="kw">in</span> rezultatai:
+            f.<span class="fn">write</span>(<span class="st">f"{r}\n"</span>)
+ 
+<span class="cm"># Pagrindinis vykdymas</span>
+duomenys = <span class="fn">skaityti</span>(<span class="st">"duom.txt"</span>)
+rezultatai = <span class="fn">apdoroti</span>(duomenys)
+<span class="fn">rasyti</span>(<span class="st">"rez.txt"</span>, rezultatai)
+  </div>
+ 
+  <h3 class="section-head">Pilnas C++ šablonas</h3>
+  <div class="code-block">
+<span class="cm">////////////////////////////////////////</span>
+<span class="cm">// VBE C++ šablonas</span>
+<span class="cm">////////////////////////////////////////</span>
+<span class="kw">#include</span> &lt;iostream&gt;
+<span class="kw">#include</span> &lt;fstream&gt;
+<span class="kw">#include</span> &lt;string&gt;
+<span class="kw">#include</span> &lt;algorithm&gt;
+<span class="kw">using namespace</span> std;
+ 
+<span class="kw">const int</span> MAKS = <span class="nu">10000</span>;
+<span class="kw">int</span> a[MAKS];
+<span class="kw">int</span> n;
+ 
+<span class="kw">void</span> <span class="fn">skaityti</span>() {
+    ifstream fin(<span class="st">"duom.txt"</span>);
+    fin &gt;&gt; n;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;n;i++) fin &gt;&gt; a[i];
+    fin.<span class="fn">close</span>();
+}
+ 
+<span class="kw">void</span> <span class="fn">rasyti</span>(<span class="kw">int</span> rez) {
+    ofstream fout(<span class="st">"rez.txt"</span>);
+    fout &lt;&lt; rez &lt;&lt; endl;
+    fout.<span class="fn">close</span>();
+}
+ 
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="fn">skaityti</span>();
+    <span class="cm">// ... apdorojimas ...</span>
+    <span class="fn">rasyti</span>(<span class="nu">0</span>);
+    <span class="kw">return</span> <span class="nu">0</span>;
+}
+  </div>
+ 
+  <h3 class="section-head">VBE kontrolinis sąrašas</h3>
+  <div class="two-col">
+    <div>
+      <strong style="color:#1b4332;">Prieš pateikiant:</strong>
+      <ul class="checklist">
+        <li>Failas atidarytas teisingai</li>
+        <li>Duomenys nuskaityti teisingai</li>
+        <li>Rezultatai išvesti į rez.txt</li>
+        <li>Skaičių formatai teisingi (2 skait.)</li>
+        <li>Testuota su pavyzdiniais duomenimis</li>
+        <li>Testuota su kraštutiniais atvejais (n=1, n=0)</li>
+        <li>Programa baigia darbą be klaidų</li>
+      </ul>
+    </div>
+    <div>
+      <strong style="color:#7a1a1a;">Dažniausios klaidos:</strong>
+      <ul class="mistake-list">
+        <li>Failo pavadinimas su didž./mažosiomis</li>
+        <li>Indeksas prasideda nuo 0, ne nuo 1</li>
+        <li>C++ int per mažas (naudoti long long)</li>
+        <li>Python: pamiršti .strip() skaitant</li>
+        <li>Dalyba iš nulio nekontroliuojama</li>
+        <li>Sąrašas tuščias – min()/max() klaida</li>
+        <li>Lietuviški simboliai be encoding=</li>
+      </ul>
+    </div>
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Paskutiniai patarimai VBE:</strong> Pirmiausia perskaityk užduotį iki galo. Pirmiausia parašyk duomenų skaitymą ir patikrink ar veikia. Tada pagrindinę logiką. Naudok trumpus funkcijų pavadinimus – greitesnė rašyba. C++ kompiliuok dažnai – lengviau rasti klaidas. Python – print() derinimui.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

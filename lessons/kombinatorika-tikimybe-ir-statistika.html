@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kombinatorika, tikimybė ir statistika | StudijųBankas</title>
+  <meta name="description" content="Deriniai, aranžuotės, tikimybių formulės, Bernulio schema, statistiniai rodikliai">
+  <meta property="og:title" content="Kombinatorika, tikimybė ir statistika | StudijųBankas">
+  <meta property="og:description" content="Deriniai, aranžuotės, tikimybių formulės, Bernulio schema, statistiniai rodikliai">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/kombinatorika-tikimybe-ir-statistika.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/kombinatorika-tikimybe-ir-statistika.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Kombinatorika, tikimybė ir statistika</h1>
+        <span class="category-badge">Matematika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+ 
+  :root {
+    --primary: #5d5fef;
+    --primary-light: #eeeeff;
+    --text-dark: #1a1a2e;
+    --text-gray: #555;
+    --text-muted: #888;
+    --border: #e0e0f0;
+    --radius: 12px;
+    --bg: #f9f9ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.7; }
+  .page-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1.page-title { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+  .subtitle { color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; }
+ 
+  .topic-block { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(93,95,239,0.06); }
+  .topic-number { display: inline-block; background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; padding: 3px 10px; margin-bottom: 0.75rem; }
+  .topic-title { font-size: 1.45rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
+ 
+  h3.section-head { font-size: 1.05rem; font-weight: 600; color: var(--primary); margin: 1.5rem 0 0.6rem; border-left: 3px solid var(--primary); padding-left: 0.75rem; }
+  p { color: var(--text-gray); margin-bottom: 0.75rem; }
+  ul, ol { color: var(--text-gray); padding-left: 1.5rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 0.35rem; }
+ 
+  .formula-box { background: var(--primary-light); border: 1px solid #c5c6ff; border-radius: 10px; padding: 1rem 1.5rem; margin: 1rem 0; text-align: center; }
+  .formula-label { font-size: 0.78rem; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.5rem; }
+ 
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  .formula-item { background: var(--primary-light); border: 1px solid #c5c6ff; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+  .formula-item .lbl { font-size: 0.75rem; color: var(--primary); font-weight: 600; display: block; margin-bottom: 0.25rem; }
+ 
+  .note-box { background: #fffbea; border: 1px solid #f0d060; border-radius: 8px; padding: 0.9rem 1.2rem; margin: 1rem 0; color: #7a6000; font-size: 0.93rem; }
+  .note-box strong { color: #5a4000; }
+ 
+  .example-box { background: #f0fff4; border: 1px solid #a3e4b5; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .example-box .ex-title { font-size: 0.8rem; font-weight: 700; color: #1a7a3c; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+ 
+  .chart-wrap { margin: 1.5rem 0; }
+  .chart-title { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem; font-style: italic; }
+  .canvas-container { position: relative; width: 100%; }
+ 
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th { background: var(--primary); color: #fff; padding: 0.6rem 0.9rem; text-align: center; font-weight: 600; }
+  td { padding: 0.5rem 0.9rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--text-gray); }
+  tr:nth-child(even) td { background: var(--primary-light); }
+ 
+  .step-list { counter-reset: steps; list-style: none; padding: 0; }
+  .step-list li { counter-increment: steps; display: flex; gap: 0.75rem; margin-bottom: 0.75rem; align-items: flex-start; }
+  .step-list li::before { content: counter(steps); min-width: 26px; height: 26px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+ 
+</style>
+<div class="topic-block">
+<div class="topic-title">Kombinatorika, tikimybė ir statistika</div>
+<h3 class="section-head">Kombinatorikos formulės</h3>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">Permutacijos</span>\[ P_n = n! \]</div>
+<div class="formula-item"><span class="lbl">Deriniai</span>\[ C_n^k = \binom{n}{k} = \dfrac{n!}{k!(n-k)!} \]</div>
+<div class="formula-item"><span class="lbl">Aranžuotės</span>\[ A_n^k = \dfrac{n!}{(n-k)!} \]</div>
+<div class="formula-item"><span class="lbl">Binomo formulė</span>\[ (a+b)^n = \sum_{k=0}^n \binom{n}{k} a^{n-k}b^k \]</div>
+</div>
+<h3 class="section-head">Tikimybių formulės</h3>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">Klasikinė tikimybė</span>\[ P(A) = \dfrac{m}{n} \]</div>
+<div class="formula-item"><span class="lbl">Papildinys</span>\[ P(\bar{A}) = 1 - P(A) \]</div>
+<div class="formula-item"><span class="lbl">Sumos formulė</span>\[ P(A\cup B) = P(A)+P(B)-P(A\cap B) \]</div>
+<div class="formula-item"><span class="lbl">Nepriklausomi įvykiai</span>\[ P(A\cap B) = P(A)\cdot P(B) \]</div>
+<div class="formula-item"><span class="lbl">Sąlyginė tikimybė</span>\[ P(A|B) = \dfrac{P(A\cap B)}{P(B)} \]</div>
+<div class="formula-item"><span class="lbl">Bernulio formulė</span>\[ P_n(k) = \binom{n}{k}p^k q^{n-k} \]</div>
+</div>
+<h3 class="section-head">Statistikos rodikliai</h3>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">Vidurkis</span>\[ \bar{x} = \dfrac{1}{n}\sum_{i=1}^n x_i \]</div>
+<div class="formula-item"><span class="lbl">Dispersija</span>\[ D = \dfrac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2 \]</div>
+<div class="formula-item"><span class="lbl">Standartinis nuokrypis</span>\[ \sigma = \sqrt{D} \]</div>
+<div class="formula-item"><span class="lbl">Mediana</span>Vidurinė reikšmė surikiuotoje eilutėje</div>
+</div>
+<div class="chart-wrap">
+<p class="chart-title">Dažnių pasiskirstymas – matematikos egzamino balų histograma</p>
+<div class="canvas-container" style="height:280px"><canvas aria-label="Egzamino balų pasiskirstymo histograma" id="statsChart" role="img"></canvas></div>
+</div>
+<div class="example-box">
+<div class="ex-title">Pavyzdys – Bernulio schema</div>
+<p>Tikimybė pataikyti į taikinį \(p = 0{,}6\). Šauta 5 kartus. Rasti tikimybę pataikyti lygiai 3 kartus.</p>
+<ol class="step-list">
+<li>\(n=5,\; k=3,\; p=0{,}6,\; q=0{,}4\)</li>
+<li>\(\binom{5}{3} = \dfrac{5!}{3!\cdot 2!} = 10\)</li>
+<li>\(P_5(3) = 10 \cdot (0{,}6)^3 \cdot (0{,}4)^2 = 10 \cdot 0{,}216 \cdot 0{,}16 = \boxed{0{,}3456}\)</li>
+</ol>
+</div>
+<div class="example-box">
+<div class="ex-title">Pavyzdys – statistika</div>
+<p>Duomenys: 4, 7, 7, 9, 12, 15. Rasti vidurkį, medianą ir standartinį nuokrypį.</p>
+<ol class="step-list">
+<li>Vidurkis: \(\bar{x}=\dfrac{4+7+7+9+12+15}{6}=\dfrac{54}{6}=9\)</li>
+<li>Mediana (6 elementai): \(M=\dfrac{7+9}{2}=8\)</li>
+<li>Dispersija: \(D=\dfrac{(4-9)^2+(7-9)^2+(7-9)^2+(9-9)^2+(12-9)^2+(15-9)^2}{6}=\dfrac{25+4+4+0+9+36}{6}=13\)</li>
+<li>Standartinis nuokrypis: \(\sigma=\sqrt{13}\approx 3{,}61\)</li>
+</ol>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const labels=[], d2=[], d3=[], d05=[];
+  for(let x=-3;x<=3;x+=0.25){
+    labels.push(x.toFixed(2));
+    d2.push(Math.pow(2,x));
+    d3.push(Math.pow(3,x));
+    d05.push(Math.pow(0.5,x));
+  }
+  new Chart(document.getElementById('expChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'2ˣ',data:d2,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'3ˣ',data:d3,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[5,3]},
+      {label:'(0.5)ˣ',data:d05,borderColor:'#1d9e75',backgroundColor:'rgba(29,158,117,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[2,4]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:0,max:10,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 2. TRIGONOMETRIJA ───────────────────────── */
+(function(){
+  const labels=[], sin=[], cos=[];
+  for(let i=0;i<=160;i++){
+    const x=-2*Math.PI+i*(4*Math.PI/160);
+    labels.push((x/Math.PI).toFixed(2)+'π');
+    sin.push(Math.sin(x));
+    cos.push(Math.cos(x));
+  }
+  new Chart(document.getElementById('trigChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'sin x',data:sin,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.07)',tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'cos x',data:cos,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.05)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[6,3]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:-1.3,max:1.3,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 3. IŠVESTINĖ ────────────────────────────── */
+(function(){
+  const labels=[], fx=[], fpx=[];
+  for(let i=0;i<=80;i++){
+    const x=-2.5+i*(5/80);
+    labels.push(x.toFixed(2));
+    fx.push(x*x*x-3*x);
+    fpx.push(3*x*x-3);
+  }
+  new Chart(document.getElementById('derivChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'f(x)=x³−3x',data:fx,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0.4,pointRadius:0,borderWidth:2.5},
+      {label:"f'(x)=3x²−3",data:fpx,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[5,3]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:-5,max:6,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 4. INTEGRALAS ───────────────────────────── */
+(function(){
+  const labels=[], fx=[], area=[];
+  for(let i=0;i<=60;i++){
+    const x=i*(3/60);
+    labels.push(x.toFixed(2));
+    fx.push(x*x);
+    area.push(x<=3?x*x:null);
+  }
+  new Chart(document.getElementById('integralChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'f(x)=x²',data:fx,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.0)',tension:0.4,pointRadius:0,borderWidth:2.5},
+      {label:'Plotas (integralas)',data:area,borderColor:'rgba(93,95,239,0)',backgroundColor:'rgba(93,95,239,0.25)',tension:0.4,pointRadius:0,borderWidth:0,fill:true}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:7,color:'#888'}},y:{ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 5. STATISTIKA ───────────────────────────── */
+(function(){
+  new Chart(document.getElementById('statsChart'),{
+    type:'bar',
+    data:{
+      labels:['1–20','21–36','37–52','53–68','69–84','85–100'],
+      datasets:[{
+        label:'Moksleivių skaičius',
+        data:[8,14,28,35,22,9],
+        backgroundColor:'rgba(93,95,239,0.7)',
+        borderColor:'#5d5fef',
+        borderWidth:1,
+        borderRadius:4
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{
+        x:{title:{display:true,text:'Balų intervalas',color:'#888'},ticks:{color:'#888'}},
+        y:{title:{display:true,text:'Moksleiviai',color:'#888'},ticks:{color:'#888'}}
+      },
+      plugins:{legend:{display:false}}}
+  });
+})();
+</script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnetizmas ir elektromagnetinė indukcija | StudijųBankas</title>
+  <meta name="description" content="Magnetinis laukas ir jėgos, dalelių judėjimas magnetiniame lauke, elektromagnetinė indukcija, Faradėjaus ir Lencų dėsniai, transformatorius, kintamoji srovė ir LC kontūras.">
+  <meta property="og:title" content="Magnetizmas ir elektromagnetinė indukcija | StudijųBankas">
+  <meta property="og:description" content="Magnetinis laukas ir jėgos, dalelių judėjimas magnetiniame lauke, elektromagnetinė indukcija, Faradėjaus ir Lencų dėsniai, transformatorius, kintamoji srovė ir LC kontūras.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/magnetizmas-ir-elektromagnetine-indukcija.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/magnetizmas-ir-elektromagnetine-indukcija.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Magnetizmas ir elektromagnetinė indukcija</h1>
+        <span class="category-badge">Fizika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#5d5fef;--primary-light:#eeeeff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#e0e0f0;--radius:12px;--bg:#f9f9ff;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(93,95,239,0.06);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;margin:1rem 0;}
+  .formula-item{background:var(--primary-light);border:1px solid #c5c6ff;border-radius:8px;padding:0.75rem 1rem;text-align:center;}
+  .formula-item .lbl{font-size:0.75rem;color:var(--primary);font-weight:600;display:block;margin-bottom:0.25rem;}
+  .note-box{background:#fffbea;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .note-box strong{color:#5a4000;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;text-align:center;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  .chart-wrap{margin:1.5rem 0;}
+  .chart-title{font-size:0.85rem;color:var(--text-muted);text-align:center;margin-bottom:0.5rem;font-style:italic;}
+</style>
+ 
+<div class="topic-block">
+  <div class="topic-title">Magnetizmas</div>
+  <p class="topic-intro">Magnetinis laukas atsiranda aplink judančius krūvius ir nuolatinius magnetus. Jis veikia jėga tik judančius krūvininkus – tai esminis skirtumas nuo elektrinio lauko, kuris veikia ir nejudančius krūvius.</p>
+ 
+  <h3 class="section-head">Magnetinio lauko jėgos</h3>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Ampero jėga (laidininkui)</span>\[ F = BIl\sin\alpha \]</div>
+    <div class="formula-item"><span class="lbl">Lorencko jėga (dalelei)</span>\[ F = qvB\sin\alpha \]</div>
+    <div class="formula-item"><span class="lbl">Tiesaus laidininko laukas</span>\[ B = \frac{\mu_0 I}{2\pi r} \]</div>
+    <div class="formula-item"><span class="lbl">Solenoido laukas</span>\[ B = \mu_0 n I \]</div>
+  </div>
+  <p>Kryptį nustato <strong>dešiniosios rankos taisyklė</strong>: nykštys – srovės kryptis, pirštai susiriečia magnetinio lauko kryptimi aplink laidininką.</p>
+  <div class="note-box"><strong>Alfa kampas:</strong> kai \(\alpha = 90°\) (greitis statmenas laukui), jėga didžiausia; kai \(\alpha = 0°\) (greitis lygiagretus laukui), jėga lygi nuliui.</div>
+ 
+  <h3 class="section-head">Dalelė magnetiniame lauke</h3>
+  <p>Lorencko jėga visada statmena greiČiui – ji neatlieka darbo ir nekeičia greičio modulio, tik kryptį. Todėl krūvininkas juda ratu (arba spiraline trajektorija, jei yra greičio komponentė lygiagreti laukui).</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Apskritimo spindulys</span>\[ r = \frac{mv}{qB} \]</div>
+    <div class="formula-item"><span class="lbl">Periodas</span>\[ T = \frac{2\pi m}{qB} \]</div>
+  </div>
+  <div class="note-box"><strong>Svarbu:</strong> Periodas nepriklauso nuo greičio! Tai ciklotronų veikimo principas – dalelės, turinčios skirtingus greičius, sukasi vienodu periodu.</div>
+</div>
+ 
+<div class="topic-block">
+  <div class="topic-title">Elektromagnetinė indukcija ir kintamoji srovė</div>
+  <p class="topic-intro">Elektromagnetinė indukcija – reiškinys, kai kintantis magnetinis srautas sukelia elektrovaros jėgą grandinėje. Tai generatorių, transformatorių ir visa kintamosios srovės technikos pagrindas.</p>
+ 
+  <h3 class="section-head">Faradėjaus dėsnis ir Lencų taisyklė</h3>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Indukcijos EJJ</span>\[ \varepsilon = -\frac{\Delta\Phi}{\Delta t} \]</div>
+    <div class="formula-item"><span class="lbl">Magnetinis srautas</span>\[ \Phi = BS\cos\alpha \]</div>
+    <div class="formula-item"><span class="lbl">Judančio laidininko</span>\[ \varepsilon = Blv \]</div>
+    <div class="formula-item"><span class="lbl">Savitoji indukcija</span>\[ \varepsilon_L = -L\frac{\Delta I}{\Delta t} \]</div>
+  </div>
+  <p><strong>Lencų taisyklė</strong> (minuso ženklo prasmė): indukcijos srovės magnetinis laukas <em>priešinasi</em> srautą keičiančiam procesui – stabdo artėjantį magnetą, traukia tolstantį. Tai energijos tvermės apraiška.</p>
+ 
+  <h3 class="section-head">Kintamoji srovė</h3>
+  <p>Kintamoji srovė sukuriama sukant ritę nuolatiname magnetiniame lauke. Momentinė įtampa ir srovė kinta sinusiškai. Elektros tinkle (Lietuvoje) dažnis 50 Hz, gnybtų įtampa 230 V (efektinė).</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Momentinė įtampa</span>\[ u = U_m\sin(\omega t) \]</div>
+    <div class="formula-item"><span class="lbl">Efektinė įtampa</span>\[ U_{ef} = \frac{U_m}{\sqrt{2}} \approx 0{,}707\,U_m \]</div>
+    <div class="formula-item"><span class="lbl">Efektinė srovė</span>\[ I_{ef} = \frac{I_m}{\sqrt{2}} \]</div>
+    <div class="formula-item"><span class="lbl">Veikloji galia</span>\[ P = U_{ef} I_{ef} \cos\varphi \]</div>
+  </div>
+  <div class="note-box"><strong>Efektiniai dydžiai</strong> parodo, kiek šilumos sukuria kintamoji srovė – lygiai tiek pat, kiek tokios pat vertės nuolatinė srovė. Voltmetrais ir ampermetrais matuojamos būtent efektinės vertės.</div>
+ 
+  <h3 class="section-head">Transformatorius</h3>
+  <p>Transformatorius keičia kintamosios srovės įtampą. Idealiam transformatoriui galia pirminėje ir antrinėje apvijose lygi. Realiems – nuostoliai šerdyje ir varinėse apvijose.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Įtampų santykis</span>\[ \frac{U_1}{U_2} = \frac{N_1}{N_2} \]</div>
+    <div class="formula-item"><span class="lbl">Srovių santykis</span>\[ \frac{I_1}{I_2} = \frac{N_2}{N_1} \]</div>
+    <div class="formula-item"><span class="lbl">Idealus: galia</span>\[ P_1 = P_2,\quad U_1 I_1 = U_2 I_2 \]</div>
+  </div>
+ 
+  <h3 class="section-head">Svyravimų kontūras (LC)</h3>
+  <p>LC kontūre elektromagnetinė energija periodiškai keičiasi tarp kondensatoriaus (elektrinis laukas) ir ritės (magnetinis laukas) – analogiškai kaip kinetinė ir potencinė energija švytuoklėje.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Thomsono formulė</span>\[ T = 2\pi\sqrt{LC} \]</div>
+    <div class="formula-item"><span class="lbl">Rezonansinis dažnis</span>\[ f_0 = \frac{1}{2\pi\sqrt{LC}} \]</div>
+    <div class="formula-item"><span class="lbl">Ritės energija</span>\[ W_L = \frac{LI^2}{2} \]</div>
+  </div>
+ 
+  <div class="chart-wrap">
+    <p class="chart-title">Kintamosios srovės sinusinė forma ir efektinė vertė</p>
+    <div style="height:220px"><canvas id="acChart"></canvas></div>
+  </div>
+</div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const lbl=[],d=[],def=[];
+  for(let i=0;i<=628;i+=6){
+    lbl.push((i/100).toFixed(2));
+    d.push(Math.sin(i/100));
+    def.push(1/Math.sqrt(2));
+  }
+  new Chart(document.getElementById('acChart'),{
+    type:'line',
+    data:{labels:lbl,datasets:[
+      {label:'u(t) = Uₘ·sin(ωt)',data:d,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'U_ef = Uₘ/√2 ≈ 0.707',data:def,borderColor:'#e04040',borderDash:[6,3],pointRadius:0,borderWidth:1.5,backgroundColor:'transparent'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{title:{display:true,text:'ωt'},ticks:{maxTicksLimit:10,color:'#888'}},y:{title:{display:true,text:'u/Uₘ'},ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555'}}}}
+  });
+})();
+</script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

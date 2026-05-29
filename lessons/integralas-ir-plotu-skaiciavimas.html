@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integralas ir plotų skaičiavimas | StudijųBankas</title>
+  <meta name="description" content="Neapibrėžtasis ir apibrėžtasis integralas, Niutono–Leibnico formulė, plotai">
+  <meta property="og:title" content="Integralas ir plotų skaičiavimas | StudijųBankas">
+  <meta property="og:description" content="Neapibrėžtasis ir apibrėžtasis integralas, Niutono–Leibnico formulė, plotai">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/integralas-ir-plotu-skaiciavimas.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/integralas-ir-plotu-skaiciavimas.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Integralas ir plotų skaičiavimas</h1>
+        <span class="category-badge">Matematika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+ 
+  :root {
+    --primary: #5d5fef;
+    --primary-light: #eeeeff;
+    --text-dark: #1a1a2e;
+    --text-gray: #555;
+    --text-muted: #888;
+    --border: #e0e0f0;
+    --radius: 12px;
+    --bg: #f9f9ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.7; }
+  .page-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1.page-title { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+  .subtitle { color: var(--text-muted); font-size: 1rem; margin-bottom: 2.5rem; }
+ 
+  .topic-block { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(93,95,239,0.06); }
+  .topic-number { display: inline-block; background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; padding: 3px 10px; margin-bottom: 0.75rem; }
+  .topic-title { font-size: 1.45rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; }
+ 
+  h3.section-head { font-size: 1.05rem; font-weight: 600; color: var(--primary); margin: 1.5rem 0 0.6rem; border-left: 3px solid var(--primary); padding-left: 0.75rem; }
+  p { color: var(--text-gray); margin-bottom: 0.75rem; }
+  ul, ol { color: var(--text-gray); padding-left: 1.5rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 0.35rem; }
+ 
+  .formula-box { background: var(--primary-light); border: 1px solid #c5c6ff; border-radius: 10px; padding: 1rem 1.5rem; margin: 1rem 0; text-align: center; }
+  .formula-label { font-size: 0.78rem; color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.5rem; }
+ 
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  .formula-item { background: var(--primary-light); border: 1px solid #c5c6ff; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+  .formula-item .lbl { font-size: 0.75rem; color: var(--primary); font-weight: 600; display: block; margin-bottom: 0.25rem; }
+ 
+  .note-box { background: #fffbea; border: 1px solid #f0d060; border-radius: 8px; padding: 0.9rem 1.2rem; margin: 1rem 0; color: #7a6000; font-size: 0.93rem; }
+  .note-box strong { color: #5a4000; }
+ 
+  .example-box { background: #f0fff4; border: 1px solid #a3e4b5; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .example-box .ex-title { font-size: 0.8rem; font-weight: 700; color: #1a7a3c; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+ 
+  .chart-wrap { margin: 1.5rem 0; }
+  .chart-title { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem; font-style: italic; }
+  .canvas-container { position: relative; width: 100%; }
+ 
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th { background: var(--primary); color: #fff; padding: 0.6rem 0.9rem; text-align: center; font-weight: 600; }
+  td { padding: 0.5rem 0.9rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--text-gray); }
+  tr:nth-child(even) td { background: var(--primary-light); }
+ 
+  .step-list { counter-reset: steps; list-style: none; padding: 0; }
+  .step-list li { counter-increment: steps; display: flex; gap: 0.75rem; margin-bottom: 0.75rem; align-items: flex-start; }
+  .step-list li::before { content: counter(steps); min-width: 26px; height: 26px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+ 
+</style>
+<div class="topic-block">
+<div class="topic-title">Integralas ir plotų skaičiavimas</div>
+<h3 class="section-head">Neapibrėžtasis integralas</h3>
+<div class="formula-box">
+<span class="formula-label">Apibrėžimas</span>
+    \[ \int f(x)\,dx = F(x) + C \quad \Leftrightarrow \quad F'(x) = f(x) \]
+  </div>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">Laipsnio</span>\[ \int x^n\,dx = \dfrac{x^{n+1}}{n+1}+C,\; n\ne-1 \]</div>
+<div class="formula-item"><span class="lbl">1/x</span>\[ \int \dfrac{1}{x}\,dx = \ln|x|+C \]</div>
+<div class="formula-item"><span class="lbl">Sinuso</span>\[ \int \sin x\,dx = -\cos x+C \]</div>
+<div class="formula-item"><span class="lbl">Cosinuso</span>\[ \int \cos x\,dx = \sin x+C \]</div>
+<div class="formula-item"><span class="lbl">Eksponentė</span>\[ \int e^x\,dx = e^x+C \]</div>
+<div class="formula-item"><span class="lbl">Tiesinė sudėtinė</span>\[ \int f(ax+b)\,dx = \dfrac{F(ax+b)}{a}+C \]</div>
+</div>
+<h3 class="section-head">Apibrėžtasis integralas (Niutono–Leibnico formulė)</h3>
+<div class="formula-box">
+<span class="formula-label">Niutono–Leibnico formulė</span>
+    \[ \int_a^b f(x)\,dx = F(b) - F(a) \]
+  </div>
+<h3 class="section-head">Ploto skaičiavimas</h3>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">Plotas po kreive</span>\[ S = \int_a^b |f(x)|\,dx \]</div>
+<div class="formula-item"><span class="lbl">Plotas tarp dviejų kreivių</span>\[ S = \int_a^b |f(x)-g(x)|\,dx \]</div>
+</div>
+<div class="chart-wrap">
+<p class="chart-title">Integralas kaip plotas po kreive \(f(x)=x^2\) intervale \([0,3]\)</p>
+<div class="canvas-container" style="height:280px"><canvas aria-label="Integralas kaip plotas po kreive" id="integralChart" role="img"></canvas></div>
+</div>
+<div class="example-box">
+<div class="ex-title">Pavyzdys</div>
+<p>Apskaičiuoti \(\displaystyle\int_1^4 (3x^2-2x+1)\,dx\)</p>
+<ol class="step-list">
+<li>Randame antidiferencialą: \(F(x)=x^3-x^2+x\)</li>
+<li>\(F(4)=64-16+4=52\)</li>
+<li>\(F(1)=1-1+1=1\)</li>
+<li>\(\int_1^4 (3x^2-2x+1)\,dx = 52-1 = \boxed{51}\)</li>
+</ol>
+</div>
+<div class="note-box"><strong>⚠ Dažna klaida:</strong> Kai reikia rasti plotą, o funkcija keičia ženklą intervale – būtina skaidyti integralą! Integruojant tiesiogiai gaunamas algebrinis (ne geometrinis) plotas.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const labels=[], d2=[], d3=[], d05=[];
+  for(let x=-3;x<=3;x+=0.25){
+    labels.push(x.toFixed(2));
+    d2.push(Math.pow(2,x));
+    d3.push(Math.pow(3,x));
+    d05.push(Math.pow(0.5,x));
+  }
+  new Chart(document.getElementById('expChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'2ˣ',data:d2,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'3ˣ',data:d3,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[5,3]},
+      {label:'(0.5)ˣ',data:d05,borderColor:'#1d9e75',backgroundColor:'rgba(29,158,117,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[2,4]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:0,max:10,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 2. TRIGONOMETRIJA ───────────────────────── */
+(function(){
+  const labels=[], sin=[], cos=[];
+  for(let i=0;i<=160;i++){
+    const x=-2*Math.PI+i*(4*Math.PI/160);
+    labels.push((x/Math.PI).toFixed(2)+'π');
+    sin.push(Math.sin(x));
+    cos.push(Math.cos(x));
+  }
+  new Chart(document.getElementById('trigChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'sin x',data:sin,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.07)',tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'cos x',data:cos,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.05)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[6,3]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:-1.3,max:1.3,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 3. IŠVESTINĖ ────────────────────────────── */
+(function(){
+  const labels=[], fx=[], fpx=[];
+  for(let i=0;i<=80;i++){
+    const x=-2.5+i*(5/80);
+    labels.push(x.toFixed(2));
+    fx.push(x*x*x-3*x);
+    fpx.push(3*x*x-3);
+  }
+  new Chart(document.getElementById('derivChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'f(x)=x³−3x',data:fx,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0.4,pointRadius:0,borderWidth:2.5},
+      {label:"f'(x)=3x²−3",data:fpx,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.06)',tension:0.4,pointRadius:0,borderWidth:2,borderDash:[5,3]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:9,color:'#888'}},y:{min:-5,max:6,ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+ 
+/* ── 4. INTEGRALAS ───────────────────────────── */
+(function(){
+  const labels=[], fx=[], area=[];
+  for(let i=0;i<=60;i++){
+    const x=i*(3/60);
+    labels.push(x.toFixed(2));
+    fx.push(x*x);
+    area.push(x<=3?x*x:null);
+  }
+  new Chart(document.getElementById('integralChart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'f(x)=x²',data:fx,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.0)',tension:0.4,pointRadius:0,borderWidth:2.5},
+      {label:'Plotas (integralas)',data:area,borderColor:'rgba(93,95,239,0)',backgroundColor:'rgba(93,95,239,0.25)',tension:0.4,pointRadius:0,borderWidth:0,fill:true}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{maxTicksLimit:7,color:'#888'}},y:{ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555',boxWidth:14}}}}
+  });
+})();
+</script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

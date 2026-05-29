@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funkcijos ir procedūros | StudijųBankas</title>
+  <meta name="description" content="Funkcijų kūrimas, parametrai, grąžinamosios reikšmės, rekursija.">
+  <meta property="og:title" content="Funkcijos ir procedūros | StudijųBankas">
+  <meta property="og:description" content="Funkcijų kūrimas, parametrai, grąžinamosios reikšmės, rekursija.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/funkcijos-ir-proceduros.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/funkcijos-ir-proceduros.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Funkcijos ir procedūros</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#6a0dad;--primary-light:#f5eeff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#d8b8f0;--radius:12px;--bg:#faf5ff;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(106,13,173,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .note-box strong{color:#5a4000;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Funkcijos ir procedūros</div>
+  <p class="topic-intro">Funkcijos leidžia kodą skaidyti į dalis, išvengti kartojimosi ir kurti aiškesnę struktūrą. VBE užduotyse dažnai reikia parašyti kelias tarpusavyje sąveikaujančias funkcijas.</p>
+ 
+  <h3 class="section-head">Funkcijos apibrėžimas ir kvietimas</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">kvadratas</span>(x):
+    <span class="kw">return</span> x * x
+ 
+<span class="kw">def</span> <span class="fn">pasisveikinti</span>(vardas):
+    <span class="fn">print</span>(<span class="st">f"Labas, {vardas}!"</span>)
+ 
+<span class="cm"># Kvietimas</span>
+rez = <span class="fn">kvadratas</span>(<span class="nu">5</span>)
+<span class="fn">print</span>(rez)  <span class="cm"># 25</span>
+<span class="fn">pasisveikinti</span>(<span class="st">"Tomas"</span>)
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">int</span> <span class="fn">kvadratas</span>(<span class="kw">int</span> x) {
+  <span class="kw">return</span> x * x;
+}
+ 
+<span class="kw">void</span> <span class="fn">pasisveikinti</span>(string v) {
+  cout &lt;&lt; <span class="st">"Labas, "</span> &lt;&lt; v;
+}
+ 
+<span class="kw">int</span> <span class="fn">main</span>() {
+  <span class="kw">int</span> rez = <span class="fn">kvadratas</span>(<span class="nu">5</span>);
+  cout &lt;&lt; rez; <span class="cm">// 25</span>
+  <span class="fn">pasisveikinti</span>(<span class="st">"Tomas"</span>);
+}
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Rekursija</h3>
+  <p>Rekursija – kai funkcija kviečia pati save. Būtina turėti <strong>bazinį atvejį</strong> (išeities sąlygą), kitaip programa užstrigs.</p>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON – faktorialas</div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">faktorialas</span>(n):
+    <span class="kw">if</span> n == <span class="nu">0</span>:       <span class="cm"># bazinis atvejis</span>
+        <span class="kw">return</span> <span class="nu">1</span>
+    <span class="kw">return</span> n * <span class="fn">faktorialas</span>(n-<span class="nu">1</span>)
+ 
+<span class="fn">print</span>(<span class="fn">faktorialas</span>(<span class="nu">5</span>))  <span class="cm"># 120</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++ – Fibonačis</div>
+      <div class="code-block">
+<span class="kw">int</span> <span class="fn">fib</span>(<span class="kw">int</span> n) {
+  <span class="kw">if</span> (n &lt;= <span class="nu">1</span>) <span class="kw">return</span> n;
+  <span class="kw">return</span> <span class="fn">fib</span>(n-<span class="nu">1</span>) + <span class="fn">fib</span>(n-<span class="nu">2</span>);
+}
+<span class="cm">// fib(0)=0, fib(1)=1</span>
+<span class="cm">// fib(6)=8</span>
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Parametrų perdavimas</h3>
+  <table>
+    <tr><th>Būdas</th><th>Python</th><th>C++</th><th>Efektas</th></tr>
+    <tr><td>Pagal reikšmę</td><td>def f(x)</td><td>void f(int x)</td><td>Originalas nesikeičia</td></tr>
+    <tr><td>Pagal nuorodą</td><td>sąrašai perduodami pagal nuorodą</td><td>void f(int &amp;x)</td><td>Originalas keičiasi</td></tr>
+  </table>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Parašyk funkciją <strong>didžiausias(a, b, c)</strong>, kuri grąžina didžiausią iš trijų skaičių. Tada parašyk funkciją <strong>ar_pirminis(n)</strong>, kuri patikrina ar skaičius yra pirminis.<br><br>
+    <strong>Tikėtinas rezultatas:</strong> didžiausias(3,7,2) → 7 &nbsp;|&nbsp; ar_pirminis(17) → True
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Rekursijoje visada rašyti bazinį atvejį pirma. C++ <code>void</code> funkcija nieko negrąžina. Python funkcija be <code>return</code> grąžina <code>None</code>.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

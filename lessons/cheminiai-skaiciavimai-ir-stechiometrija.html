@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheminiai skaičiavimai ir stechiometrija | StudijųBankas</title>
+  <meta name="description" content="Molis, molinė masė, stechiometriniai skaičiavimai, tirpalų koncentracija, dujų dėsniai ir uždavinių sprendimo metodai.">
+  <meta property="og:title" content="Cheminiai skaičiavimai ir stechiometrija | StudijųBankas">
+  <meta property="og:description" content="Molis, molinė masė, stechiometriniai skaičiavimai, tirpalų koncentracija, dujų dėsniai ir uždavinių sprendimo metodai.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/cheminiai-skaiciavimai-ir-stechiometrija.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/cheminiai-skaiciavimai-ir-stechiometrija.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Cheminiai skaičiavimai ir stechiometrija</h1>
+        <span class="category-badge">Chemija</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--chem-primary:#1b4f72;--chem-accent:#117a65;--chem-light:#eaf4fb;--chem-green-light:#e9f7ef;--text-dark:#1a1a2e;--text-gray:#4a4a6a;--text-muted:#7f8c8d;--border:#b3cde0;--radius:10px;--bg:#f0f7fb;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(27,79,114,0.08);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:2px solid var(--chem-accent);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--chem-primary);margin:1.5rem 0 0.6rem;border-left:4px solid var(--chem-accent);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul,ol{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .formula-box{background:#1b2631;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;color:#a9cce3;font-family:monospace;font-size:0.95rem;line-height:2;}
+  .formula-box span{color:#f0b27a;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--chem-primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--chem-light);}
+  .task-box{background:var(--chem-green-light);border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;}
+  .formula-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;margin:1rem 0;}
+  .formula-card{background:var(--chem-light);border:1px solid var(--border);border-radius:8px;padding:0.9rem;text-align:center;}
+  .formula-card .fc-name{font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;}
+  .formula-card .fc-eq{font-family:monospace;font-size:1rem;color:var(--chem-primary);font-weight:700;}
+  @media(max-width:600px){.formula-grid{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap"><div class="topic-block">
+  <div class="topic-title">🧮 Cheminiai skaičiavimai ir stechiometrija</div>
+  <p class="topic-intro">Stechiometrija – kiekybinių santykių chemijoje mokslas. 25% VBE taškų skiriama skaičiavimo uždaviniams. Šios temos mokėjimas tiesiogiai lemia galutinį balą.</p>
+  <h3 class="section-head">Pagrindinės formulės</h3>
+  <div class="formula-grid">
+    <div class="formula-card"><div class="fc-name">Medžiagos kiekis</div><div class="fc-eq">n = m / M</div></div>
+    <div class="formula-card"><div class="fc-name">Molinė masė</div><div class="fc-eq">M = Σ Aᵣ</div></div>
+    <div class="formula-card"><div class="fc-name">Dalelių skaičius</div><div class="fc-eq">N = n · Nₐ</div></div>
+    <div class="formula-card"><div class="fc-name">Dujų tūris (STP)</div><div class="fc-eq">V = n · 22,4 L</div></div>
+    <div class="formula-card"><div class="fc-name">Molinė koncentracija</div><div class="fc-eq">c = n / V(L)</div></div>
+    <div class="formula-card"><div class="fc-name">Masės dalis</div><div class="fc-eq">ω = m(tirp.) / m(tirp.)</div></div>
+  </div>
+  <div class="formula-box">
+    Nₐ = <span>6,022 × 10²³ mol⁻¹</span> (Avogadro konstanta)<br>
+    STP: T = <span>273 K</span>, P = <span>101,3 kPa</span> (1 atm), Vm = <span>22,4 L/mol</span><br>
+    Idealiųjų dujų lygtis: <span>PV = nRT</span>, R = 8,314 J/(mol·K)
+  </div>
+  <h3 class="section-head">Stechiometrinio skaičiavimo žingsniai</h3>
+  <ol>
+    <li>Parašyk ir subalansuok reakcijos lygtį</li>
+    <li>Surašyk duotus dydžius ir ko ieškoma</li>
+    <li>Pavers visus dydžius į molius (n = m/M arba n = V/22,4)</li>
+    <li>Naudok stechiometrinius koeficientus proporcijoms</li>
+    <li>Pavers molius į prašomą dydį (masę, tūrį, koncentraciją)</li>
+  </ol>
+  <h3 class="section-head">Tirpalų skaičiavimai</h3>
+  <div class="formula-box">
+    c (mol/L) = <span>n / V</span><br>
+    Praskiedimas: <span>c₁V₁ = c₂V₂</span><br>
+    Tirpalo masė: <span>m(tirp.) = ρ · V</span><br>
+    Masės dalis → molinė c: <span>c = (ω · ρ · 1000) / M</span>
+  </div>
+  <h3 class="section-head">Reakcijos išeiga</h3>
+  <div class="formula-box">
+    Teorinė masė: pagal stechiometriją<br>
+    Praktinė masė: eksperimento rezultatas<br>
+    Išeiga (%) = <span>(m(praktinė) / m(teorinė)) × 100%</span>
+  </div>
+  <div class="task-box">
+    <div class="task-title">📝 Praktinė užduotis</div>
+    25 g kalcio karbonato CaCO₃ (M = 100 g/mol) reaguoja su druskos rūgštimi: CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂. (a) Kiek molių CO₂ išsiskiria? (b) Koks CO₂ tūris (STP)? (c) Kiek litrų 2 mol/L HCl reikia?
+  </div>
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Stechiometrijos uždaviniai – kiekvienais metais egzamine. Dažnai jungiama su tirpalų koncentracija arba dujų tūriais. Nepamirštama: STP sąlygos (0°C, 1 atm) ir Avogadro skaičius. Visada tikrink vienetų suderinamumą.</div>
+</div></div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

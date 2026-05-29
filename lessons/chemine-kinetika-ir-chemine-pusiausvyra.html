@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheminė kinetika ir cheminė pusiausvyra | StudijųBankas</title>
+  <meta name="description" content="Reakcijų greitis ir jį lemiantys veiksniai, katalizė, pusiausvyros konstanta, Le Šatelė principas.">
+  <meta property="og:title" content="Cheminė kinetika ir cheminė pusiausvyra | StudijųBankas">
+  <meta property="og:description" content="Reakcijų greitis ir jį lemiantys veiksniai, katalizė, pusiausvyros konstanta, Le Šatelė principas.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/chemine-kinetika-ir-chemine-pusiausvyra.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/chemine-kinetika-ir-chemine-pusiausvyra.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Cheminė kinetika ir cheminė pusiausvyra</h1>
+        <span class="category-badge">Chemija</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--chem-primary:#1b4f72;--chem-accent:#117a65;--chem-light:#eaf4fb;--chem-green-light:#e9f7ef;--text-dark:#1a1a2e;--text-gray:#4a4a6a;--text-muted:#7f8c8d;--border:#b3cde0;--radius:10px;--bg:#f0f7fb;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(27,79,114,0.08);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:2px solid var(--chem-accent);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--chem-primary);margin:1.5rem 0 0.6rem;border-left:4px solid var(--chem-accent);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul,ol{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .def-box{background:var(--chem-light);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#1a3a5c;font-size:0.93rem;}
+  .formula-box{background:#1b2631;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;color:#a9cce3;font-family:monospace;font-size:0.95rem;line-height:2;}
+  .formula-box span{color:#f0b27a;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--chem-primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--chem-light);}
+  .task-box{background:var(--chem-green-light);border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;}
+  .factor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin:1rem 0;}
+  .factor-card{background:var(--chem-light);border:1px solid var(--border);border-radius:8px;padding:0.75rem;text-align:center;}
+  .factor-card .icon{font-size:1.5rem;margin-bottom:0.25rem;}
+  .factor-card p{font-size:0.85rem;color:var(--text-gray);margin:0;}
+  .factor-card strong{display:block;color:var(--chem-primary);font-size:0.9rem;}
+  @media(max-width:600px){.factor-grid{grid-template-columns:1fr 1fr;}}
+</style>
+<div class="page-wrap"><div class="topic-block">
+  <div class="topic-title">⏱ Cheminė kinetika ir cheminė pusiausvyra</div>
+  <p class="topic-intro">Kinetika tiria reakcijų greitį, pusiausvyra – dinaminę pusiausvyrą grįžtamose reakcijose. Abu principai taikomi pramoninėje chemijoje (Haber proceso sintezė ir kt.).</p>
+  <h3 class="section-head">Reakcijos greičio veiksniai</h3>
+  <div class="factor-grid">
+    <div class="factor-card"><div class="icon">🌡️</div><strong>Temperatūra</strong><p>+10°C ≈ 2× greitesnis (Van't Hoff taisyklė)</p></div>
+    <div class="factor-card"><div class="icon">🧮</div><strong>Koncentracija</strong><p>Didesnė → daugiau susidūrimų</p></div>
+    <div class="factor-card"><div class="icon">⚗️</div><strong>Katalizatorius</strong><p>Mažina aktyvacijos energiją</p></div>
+    <div class="factor-card"><div class="icon">📐</div><strong>Paviršiaus plotas</strong><p>Mažesnės dalelės → greitesnė reakcija</p></div>
+    <div class="factor-card"><div class="icon">💡</div><strong>Šviesa</strong><p>Fotocheminėse reakcijose</p></div>
+    <div class="factor-card"><div class="icon">🔵</div><strong>Slėgis</strong><p>Dujų reakcijose (~ koncentracijai)</p></div>
+  </div>
+  <h3 class="section-head">Pusiausvyros konstanta Kc</h3>
+  <div class="formula-box">
+    Reakcija: <span>aA + bB ⇌ cC + dD</span><br>
+    Kc = <span>[C]ᶜ · [D]ᵈ / ([A]ᵃ · [B]ᵇ)</span><br><br>
+    Kc &gt;&gt; 1 → pusiausvyra pasislenka į produktų pusę<br>
+    Kc &lt;&lt; 1 → pusiausvyra pasislenka į reagentų pusę<br>
+    Kc = 1 → reagentai ir produktai panašiomis koncentracijomis
+  </div>
+  <h3 class="section-head">Le Šatelė principas</h3>
+  <div class="def-box"><strong>Formuluotė:</strong> Jei pusiausvyroje esančiai sistemai padaromas poveikis, sistema keičiasi taip, kad sumažintų šio poveikio pasekmes.</div>
+  <table>
+    <tr><th>Poveikis</th><th>Pusiausvyros poslinkis</th></tr>
+    <tr><td>Didinamas reagento koncentracija</td><td>Į produktų pusę (→)</td></tr>
+    <tr><td>Didinamas produkto koncentracija</td><td>Į reagentų pusę (←)</td></tr>
+    <tr><td>Didinama temperatūra</td><td>Į endoterminės reakcijos pusę</td></tr>
+    <tr><td>Mažinama temperatūra</td><td>Į egzoterminės reakcijos pusę</td></tr>
+    <tr><td>Didinamas slėgis (dujos)</td><td>Į mažesnio dujų molių pusę</td></tr>
+    <tr><td>Katalizatorius</td><td>Neperstumia pusiausvyros</td></tr>
+  </table>
+  <h3 class="section-head">Praktinis pavyzdys – Habero procesas</h3>
+  <div class="formula-box">
+    N₂(g) + 3H₂(g) <span>⇌</span> 2NH₃(g) &nbsp; ΔH = <span>-92 kJ/mol</span> (egzoterminė)<br><br>
+    Pramoninės sąlygos: T = 400–500°C, P = 150–300 atm, katalizatorius Fe<br>
+    Kompromisas: aukšta T – greitesnė, bet mažesnis išeikis; žema T – lėtesnė, bet didesnis išeikis
+  </div>
+  <div class="task-box">
+    <div class="task-title">📝 Praktinė užduotis</div>
+    Haber procese N₂ + 3H₂ ⇌ 2NH₃, ΔH &lt; 0. Paaiškink, kodėl pramonėje naudojama 450°C, o ne žemesnė temperatūra, nors žemesnė palankesnė pusiausvyrai. Kaip pasikeistų pusiausvyra, jei padidintum slėgį? Pagrįsk Le Šatelė principu.
+  </div>
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Le Šatelė principas – itin dažnas klausimas. Mokėk paaiškinti, į kurią pusę pasislinkia pusiausvyra keičiantis sąlygoms, ir susieti su Kc reikšme. Habero procesas – klasikinis kontekstinis klausimas.</div>
+</div></div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

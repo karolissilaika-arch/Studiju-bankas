@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optika | StudijųBankas</title>
+  <meta name="description" content="Geometrinė optika – atspindys, lūžimas, visiškasis vidinis atspindys, lęšiai ir vaizdų sudarymas; bangų optika – interferencija, difrakcija ir elektromagnetinių bangų spektras.">
+  <meta property="og:title" content="Optika | StudijųBankas">
+  <meta property="og:description" content="Geometrinė optika – atspindys, lūžimas, visiškasis vidinis atspindys, lęšiai ir vaizdų sudarymas; bangų optika – interferencija, difrakcija ir elektromagnetinių bangų spektras.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/optika.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/optika.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Optika</h1>
+        <span class="category-badge">Fizika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#5d5fef;--primary-light:#eeeeff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#e0e0f0;--radius:12px;--bg:#f9f9ff;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(93,95,239,0.06);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;margin:1rem 0;}
+  .formula-item{background:var(--primary-light);border:1px solid #c5c6ff;border-radius:8px;padding:0.75rem 1rem;text-align:center;}
+  .formula-item .lbl{font-size:0.75rem;color:var(--primary);font-weight:600;display:block;margin-bottom:0.25rem;}
+  .note-box{background:#fffbea;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .note-box strong{color:#5a4000;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;text-align:center;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--primary-light);}
+</style>
+ 
+<div class="topic-block">
+  <div class="topic-title">Geometrinė optika</div>
+  <p class="topic-intro">Geometrinė optika aprašo šviesos elgesį, kai bangos ilgis gerokai mažesnis už kliūtis – šviesa modeliuojama spinduliais. Tai veidrodžių, lęšių, prizmių ir optinių prietaisų (fotoaparatų, mikroskopų, teleskopų) fizikos pagrindas.</p>
+ 
+  <h3 class="section-head">Atspindys ir lūžimas</h3>
+  <p>Šviesa atspindima nuo lygaus paviršiaus pagal atspindžio dėsnį. Pereidama į kitą terpę, ji lūžta – keičia kryptį dėl skirtingo sklidimo greičio.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Atspindžio dėsnis</span>\[ \alpha = \alpha' \]</div>
+    <div class="formula-item"><span class="lbl">Snelijaus dėsnis</span>\[ n_1\sin\alpha = n_2\sin\beta \]</div>
+    <div class="formula-item"><span class="lbl">Lūžio rodiklis</span>\[ n = \frac{c}{v} \]</div>
+    <div class="formula-item"><span class="lbl">Visiškasis atspindys</span>\[ \sin\alpha_{kr} = \frac{n_2}{n_1} \]</div>
+  </div>
+  <p>Lūžio rodiklis \(n > 1\) – šviesa judadulkiau nei vakuume. Vandens n ≈ 1,33; stiklo n ≈ 1,5.</p>
+  <div class="note-box"><strong>Visiškasis vidinis atspindys</strong> galimas tik kai šviesa eina iš optiškai tankesnės terpės į retesnę (\(n_1 > n_2\)) ir kritimo kampas viršija kritinį \(\alpha_{kr}\). Taikoma optiniuose pluoštuose (interneto kabeliai), deimantų blizgesyje, endoskopuose.</div>
+ 
+  <h3 class="section-head">Lęšiai</h3>
+  <p>Vienatakis (išgaubtas) lęšis jungia šviesos spindulius – surenka. Dvigubai įgaubtas – skleidžia. Lęšio formulė susieja tris dydžius; ženklo taisyklė: tikras vaizdas – teigiamas a, tariamas – neigiamas.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Lęšio formulė</span>\[ \frac{1}{f} = \frac{1}{d} + \frac{1}{a} \]</div>
+    <div class="formula-item"><span class="lbl">Optinė galia</span>\[ D = \frac{1}{f} \quad [\text{dioptrijai, D}] \]</div>
+    <div class="formula-item"><span class="lbl">Didinimas</span>\[ m = \frac{a}{d} = \frac{y'}{y} \]</div>
+  </div>
+  <p>Čia: \(f\) – židinio nuotolis, \(d\) – atstumas nuo daikto iki lęšio, \(a\) – atstumas nuo lęšio iki vaizdo.</p>
+ 
+  <h3 class="section-head">Vaizdo tipai surenkančiame lęšyje</h3>
+  <table>
+    <tr><th>Daikto padėtis</th><th>Vaizdo padėtis</th><th>Pobūdis</th></tr>
+    <tr><td>\(d > 2f\)</td><td>\(f < a < 2f\)</td><td>Tikras, atvirkštas, sumažintas</td></tr>
+    <tr><td>\(d = 2f\)</td><td>\(a = 2f\)</td><td>Tikras, atvirkštas, vienodo dydžio</td></tr>
+    <tr><td>\(f < d < 2f\)</td><td>\(a > 2f\)</td><td>Tikras, atvirkštas, padidintas</td></tr>
+    <tr><td>\(d = f\)</td><td>∞</td><td>Spinduliai lygiagrečiai, vaizdo nėra</td></tr>
+    <tr><td>\(d < f\)</td><td>Toje pačioje pusėje kaip daiktas</td><td>Tariamas, tiesus, padidintas (lupa)</td></tr>
+  </table>
+</div>
+ 
+<div class="topic-block">
+  <div class="topic-title">Bangų optika</div>
+  <p class="topic-intro">Geometrinė optika nepajėgia paaiškinti tokių reiškinių kaip interferencija ir difrakcija – čia būtinas banginis šviesos modelis. Šie efektai atsiskleidžia, kai šviesa susitinka su kliūtimis ar plyšiais, panašaus dydžio kaip bangos ilgis.</p>
+ 
+  <h3 class="section-head">Interferencija</h3>
+  <p>Dvi koherentinės šviesos bangos (vienodo dažnio, pastovaus fazių skirtumo) susidedamos. Rezultatas priklauso nuo kelio skirtumo \(\Delta d\):</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Sustiprėjimas (max)</span>\[ \Delta d = m\lambda \quad m=0,\pm1,\pm2 \]</div>
+    <div class="formula-item"><span class="lbl">Susilpnėjimas (min)</span>\[ \Delta d = (2m-1)\frac{\lambda}{2} \]</div>
+    <div class="formula-item"><span class="lbl">Juostų plotis (Jungo)</span>\[ \Delta x = \frac{\lambda L}{d} \]</div>
+  </div>
+  <p>Čia \(L\) – atstumas iki ekrano, \(d\) – tarpas tarp šaltinių. Matome tai plonose plėvelėse (muilo burbulų spalvos), anti-atspindinčiuose dangose.</p>
+ 
+  <h3 class="section-head">Difrakcija ir difrakcijos grotelės</h3>
+  <p>Difrakcija – šviesos linkimas aplink kliūtis. Difrakcijos grotelės – daugelio plyšių sistema, suteikianti ryškius maksimumus. Naudojamos spektroskopijoje bangos ilgiams matuoti.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Grotelių lygtis</span>\[ d\sin\theta = m\lambda \]</div>
+    <div class="formula-item"><span class="lbl">Grotelių konstanta</span>\[ d = \frac{1}{N} \text{ (m)} \]</div>
+  </div>
+  <p>Čia \(N\) – plyšių skaičius per 1 mm, \(m\) – difrakcijos eilė (0, ±1, ±2, ...), \(\theta\) – difrakcijos kampas.</p>
+ 
+  <h3 class="section-head">Elektromagnetinių bangų spektras</h3>
+  <p>Visos elektromagnetinės bangos sklinda vakuume greičiu \(c = 3\times10^8\) m/s ir skiriasi tik bangos ilgiu (dažniu). Savybės (skvarba, sąveika su medžiaga) labai skirtingos:</p>
+  <table>
+    <tr><th>Tipas</th><th>Bangos ilgis</th><th>Pritaikymas</th></tr>
+    <tr><td>Radijo bangos</td><td>&gt; 1 mm</td><td>Ryšys, televizija, radaro sistemos</td></tr>
+    <tr><td>Infraraudonosios</td><td>700 nm – 1 mm</td><td>Šildymas, termografija, TV pulteliai</td></tr>
+    <tr><td>Matomoji šviesa</td><td>380–700 nm</td><td>Regėjimas (violetinė → raudona)</td></tr>
+    <tr><td>Ultravioletinės</td><td>10–380 nm</td><td>Sterilizacija, vitamino D sintezė, fluorescencija</td></tr>
+    <tr><td>Rentgeno</td><td>0,01–10 nm</td><td>Medicina, kristalografija, saugumo tikrinimas</td></tr>
+    <tr><td>Gama</td><td>&lt; 0,01 nm</td><td>Branduolinė medicina, radioterapija</td></tr>
+  </table>
+  <div class="note-box"><strong>Atminties taisyklė:</strong> didėjant bangos ilgiui – mažėja dažnis ir fotono energija (\(E = hf\)). Gama spinduliai turi didžiausią energiją ir skvarbiausią poveikį.</div>
+</div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

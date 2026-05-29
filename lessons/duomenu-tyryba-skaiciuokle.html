@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duomenų tyryba – skaičiuoklė | StudijųBankas</title>
+  <meta name="description" content="Excel/LibreOffice Calc funkcijos, diagramos, filtravimas, PivotTable VBE užduotyse.">
+  <meta property="og:title" content="Duomenų tyryba – skaičiuoklė | StudijųBankas">
+  <meta property="og:description" content="Excel/LibreOffice Calc funkcijos, diagramos, filtravimas, PivotTable VBE užduotyse.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/duomenu-tyryba-skaiciuokle.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/duomenu-tyryba-skaiciuokle.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Duomenų tyryba – skaičiuoklė</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#1b4332;--primary-light:#d8f3dc;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#a8d5b5;--radius:12px;--bg:#f0faf3;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(27,67,50,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .formula-box{background:#1e1e2e;color:#a6e3a1;border-radius:8px;padding:1rem 1.5rem;margin:0.5rem 0;font-family:"Courier New",monospace;font-size:0.9rem;line-height:1.8;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Duomenų tyryba – skaičiuoklė</div>
+  <p class="topic-intro">VBE II dalyje duomenų tyryba sudaro 30% taškų. Reikia mokėti analizuoti duomenis skaičiuoklėje arba Python programa, kurti diagramas ir daryti išvadas.</p>
+ 
+  <h3 class="section-head">Pagrindinės skaičiuoklės funkcijos</h3>
+  <table>
+    <tr><th>Funkcija</th><th>Aprašymas</th><th>Pavyzdys</th></tr>
+    <tr><td>SUM</td><td>Suma</td><td>=SUM(A1:A10)</td></tr>
+    <tr><td>AVERAGE</td><td>Vidurkis</td><td>=AVERAGE(B2:B20)</td></tr>
+    <tr><td>MAX / MIN</td><td>Didž. / mažiausias</td><td>=MAX(C1:C100)</td></tr>
+    <tr><td>COUNT</td><td>Skaičiuoja skaičius</td><td>=COUNT(A:A)</td></tr>
+    <tr><td>COUNTA</td><td>Skaičiuoja ne tuščius</td><td>=COUNTA(A:A)</td></tr>
+    <tr><td>COUNTIF</td><td>Skaičiuoja pagal sąlygą</td><td>=COUNTIF(A1:A10,">5")</td></tr>
+    <tr><td>SUMIF</td><td>Sumuoja pagal sąlygą</td><td>=SUMIF(A:A,">=10",B:B)</td></tr>
+    <tr><td>IF</td><td>Sąlyga</td><td>=IF(A1>5,"Taip","Ne")</td></tr>
+    <tr><td>VLOOKUP</td><td>Vertikali paieška</td><td>=VLOOKUP(E1,A:B,2,0)</td></tr>
+    <tr><td>ROUND</td><td>Apvalinimas</td><td>=ROUND(A1,2)</td></tr>
+    <tr><td>STDEV</td><td>Standartinis nukrypimas</td><td>=STDEV(A1:A50)</td></tr>
+    <tr><td>MEDIAN</td><td>Mediana</td><td>=MEDIAN(A1:A50)</td></tr>
+  </table>
+ 
+  <h3 class="section-head">Sudėtingesnės formulės</h3>
+  <div class="formula-box">
+=COUNTIFS(A:A,"&gt;=18",B:B,"&lt;65")   ← kelios sąlygos<br>
+=AVERAGEIF(C:C,"&gt;0",D:D)           ← vidurkis pagal sąlygą<br>
+=SUMPRODUCT(A1:A10,B1:B10)         ← skaliarinis sandaugas<br>
+=RANK(A1,A$1:A$20,0)              ← reitingas masyve<br>
+=TEXT(A1,"0.00")                  ← skaičius kaip tekstas<br>
+=CONCATENATE(A1," ",B1)           ← sujungti tekstą
+  </div>
+ 
+  <h3 class="section-head">Diagramų tipai ir kada naudoti</h3>
+  <table>
+    <tr><th>Diagrama</th><th>Naudoti kai</th></tr>
+    <tr><td>Stulpelinė</td><td>Kategorijų palyginimas</td></tr>
+    <tr><td>Juostinė (horizontali)</td><td>Ilgi kategorijų pavadinimai</td></tr>
+    <tr><td>Linijinė</td><td>Kitimas laike (tendencija)</td></tr>
+    <tr><td>Skritulinė</td><td>Dalys nuo visumos (iki 6 dalių)</td></tr>
+    <tr><td>Taškinė (XY)</td><td>Ryšys tarp dviejų kintamųjų</td></tr>
+  </table>
+ 
+  <h3 class="section-head">Duomenų tyryba Python (pandas alternatyva)</h3>
+  <div class="formula-box" style="color:#cdd6f4;">
+<span style="color:#cba6f7">import</span> csv
+ 
+<span style="color:#6c7086"># Skaityti CSV</span>
+duomenys = []
+<span style="color:#cba6f7">with</span> <span style="color:#89b4fa">open</span>(<span style="color:#a6e3a1">"duom.csv"</span>) <span style="color:#cba6f7">as</span> f:
+    skaitytuvas = csv.<span style="color:#89b4fa">reader</span>(f, delimiter=<span style="color:#a6e3a1">";"</span>)
+    <span style="color:#cba6f7">next</span>(skaitytuvas)  <span style="color:#6c7086"># praleisti antraštę</span>
+    <span style="color:#cba6f7">for</span> eilute <span style="color:#cba6f7">in</span> skaitytuvas:
+        duomenys.<span style="color:#89b4fa">append</span>(eilute)
+ 
+balai = [<span style="color:#89b4fa">int</span>(e[<span style="color:#fab387">2</span>]) <span style="color:#cba6f7">for</span> e <span style="color:#cba6f7">in</span> duomenys]
+<span style="color:#89b4fa">print</span>(<span style="color:#a6e3a1">f"Vidurkis: {sum(balai)/len(balai):.2f}"</span>)
+  </div>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Skaičiuoklėje turite mokinių sąrašą su stulpeliais: Vardas, Klasė, Matematikos balas, Lietuvių kalbos balas.<br>
+    1) Apskaičiuokite kiekvieno mokinio vidurkį<br>
+    2) Raskite geriausią mokinį kiekvienoje klasėje (MAXIFS)<br>
+    3) Sukurkite stulpelinę diagramą – vidurkis pagal klases<br>
+    4) Suskaičiuokite kiek mokinių gavo daugiau nei 80 balų
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> COUNTIF sąlygos rašomos kabutėse: ">5", "=Jonas". VLOOKUP paskutinis parametras: 0 arba FALSE = tiksli paieška. Diagrama turi turėti pavadinimą, ašių pavadinimus ir legendą.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

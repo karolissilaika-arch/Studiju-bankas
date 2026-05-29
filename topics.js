@@ -1,5 +1,16 @@
 let allLoadedTopics = [];
 
+// Turi atitikti generate-static.js funkciją
+function slugify(title) {
+  return title
+    .toLowerCase()
+    .replace(/ą/g, 'a').replace(/č/g, 'c').replace(/ę/g, 'e')
+    .replace(/ė/g, 'e').replace(/į/g, 'i').replace(/š/g, 's')
+    .replace(/ų/g, 'u').replace(/ū/g, 'u').replace(/ž/g, 'z')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 // 1. DOM užkrovimas
 document.addEventListener('DOMContentLoaded', () => {
     loadCategories();
@@ -98,7 +109,8 @@ function renderTopics(topics) {
     }
 
     container.innerHTML = topics.map(topic => {
-        const encodedTitle = encodeURIComponent(topic.title);
+        const slug = slugify(topic.title);
+    const lessonUrl = `/lessons/${slug}.html`;
 
         // Valome HTML žymes iš content, kad preview būtų įskaitomas
         const rawText = topic.content ? stripHtml(topic.content) : '';
@@ -110,7 +122,7 @@ function renderTopics(topics) {
             <div class="course-item topic-card" style="flex-direction: column; align-items: stretch; gap: 0;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
 
-                    <div style="cursor: pointer; flex: 1;" onclick="window.location.href='lesson.html?id=${encodedTitle}'">
+                    <div style="cursor: pointer; flex: 1;" onclick="window.location.href='${lessonUrl}'">
                         <h3 style="margin: 0; color: var(--text-dark); font-size: 1.1rem;">${topic.title}</h3>
                         <p style="margin: 6px 0 0; color: var(--text-gray); font-size: 14px; line-height: 1.5;">
                             ${topic.description || ''}
@@ -127,7 +139,7 @@ function renderTopics(topics) {
                     <div class="rich-text-content" style="color: var(--text-gray); font-size: 15px; line-height: 1.6;">
                         ${preview}
                     </div>
-                    <a href="lesson.html?id=${encodedTitle}" class="back-link" style="display: inline-block; margin-top: 12px; font-size: 14px;">
+                    <a href="${lessonUrl}" class="back-link" style="display: inline-block; margin-top: 12px; font-size: 14px;">
                         Skaityti visą pamoką →
                     </a>
                 </div>

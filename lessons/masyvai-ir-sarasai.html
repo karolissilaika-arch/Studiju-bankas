@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masyvai ir sąrašai | StudijųBankas</title>
+  <meta name="description" content="Vienmačiai ir dvimačiai masyvai, sąrašų operacijos, rūšiavimas, paieška.">
+  <meta property="og:title" content="Masyvai ir sąrašai | StudijųBankas">
+  <meta property="og:description" content="Vienmačiai ir dvimačiai masyvai, sąrašų operacijos, rūšiavimas, paieška.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/masyvai-ir-sarasai.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/masyvai-ir-sarasai.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Masyvai ir sąrašai</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#145a32;--primary-light:#e9f7ef;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#b7d9c4;--radius:12px;--bg:#f4fcf6;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(20,90,50,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;margin-bottom:0.5rem;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);text-align:center;}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Masyvai ir sąrašai</div>
+  <p class="topic-intro">Masyvai ir sąrašai – pagrindinės duomenų struktūros VBE užduotyse. Beveik kiekvienoje programavimo užduotyje reikia skaityti, apdoroti ir rūšiuoti duomenų rinkinius.</p>
+ 
+  <h3 class="section-head">Sąrašo kūrimas ir prieiga</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="cm"># Kūrimas</span>
+a = [<span class="nu">5</span>, <span class="nu">3</span>, <span class="nu">8</span>, <span class="nu">1</span>, <span class="nu">9</span>]
+ 
+<span class="cm"># Prieiga pagal indeksą (nuo 0)</span>
+<span class="fn">print</span>(a[<span class="nu">0</span>])   <span class="cm"># 5</span>
+<span class="fn">print</span>(a[-<span class="nu">1</span>])  <span class="cm"># 9 (paskutinis)</span>
+ 
+<span class="cm"># Ilgis</span>
+<span class="fn">print</span>(<span class="fn">len</span>(a))  <span class="cm"># 5</span>
+ 
+<span class="cm"># Pridėti / pašalinti</span>
+a.<span class="fn">append</span>(<span class="nu">4</span>)
+a.<span class="fn">remove</span>(<span class="nu">3</span>)
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;iostream&gt;
+<span class="kw">using namespace</span> std;
+<span class="kw">int</span> <span class="fn">main</span>() {
+  <span class="kw">int</span> a[] = {<span class="nu">5</span>,<span class="nu">3</span>,<span class="nu">8</span>,<span class="nu">1</span>,<span class="nu">9</span>};
+  <span class="kw">int</span> n = <span class="nu">5</span>; <span class="cm">// dydis</span>
+ 
+  cout &lt;&lt; a[<span class="nu">0</span>]; <span class="cm">// 5</span>
+  cout &lt;&lt; a[n-<span class="nu">1</span>]; <span class="cm">// 9</span>
+ 
+  <span class="cm">// Iteravimas</span>
+  <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>; i&lt;n; i++)
+    cout &lt;&lt; a[i] &lt;&lt; <span class="st">" "</span>;
+}
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Skaitymas iš failo į masyvą</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"duom.txt"</span>) <span class="kw">as</span> f:
+    n = <span class="fn">int</span>(f.<span class="fn">readline</span>())
+    a = []
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n):
+        a.<span class="fn">append</span>(<span class="fn">int</span>(f.<span class="fn">readline</span>()))
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;fstream&gt;
+ifstream fin(<span class="st">"duom.txt"</span>);
+<span class="kw">int</span> n; fin &gt;&gt; n;
+<span class="kw">int</span> a[<span class="nu">1000</span>];
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;n;i++)
+  fin &gt;&gt; a[i];
+fin.<span class="fn">close</span>();
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Rūšiavimas</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+a = [<span class="nu">5</span>, <span class="nu">2</span>, <span class="nu">8</span>, <span class="nu">1</span>]
+ 
+<span class="cm"># Didėjančiai</span>
+a.<span class="fn">sort</span>()
+<span class="cm"># arba: sorted(a)</span>
+ 
+<span class="cm"># Mažėjančiai</span>
+a.<span class="fn">sort</span>(reverse=<span class="kw">True</span>)
+ 
+<span class="cm"># Pagal raktą</span>
+a.<span class="fn">sort</span>(key=<span class="kw">lambda</span> x: -x)
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;algorithm&gt;
+ 
+<span class="cm">// Didėjančiai</span>
+<span class="fn">sort</span>(a, a+n);
+ 
+<span class="cm">// Mažėjančiai</span>
+<span class="fn">sort</span>(a, a+n, greater&lt;<span class="kw">int</span>&gt;());
+ 
+<span class="cm">// Burbulinis (VBE stilius)</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;n-<span class="nu">1</span>;i++)
+ <span class="kw">for</span>(<span class="kw">int</span> j=<span class="nu">0</span>;j&lt;n-i-<span class="nu">1</span>;j++)
+  <span class="kw">if</span>(a[j]&gt;a[j+<span class="nu">1</span>])
+   <span class="fn">swap</span>(a[j],a[j+<span class="nu">1</span>]);
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Dažniausios operacijos</h3>
+  <table>
+    <tr><th>Užduotis</th><th>Python</th><th>C++</th></tr>
+    <tr><td>Suma</td><td>sum(a)</td><td>ciklas su kaupimu</td></tr>
+    <tr><td>Didžiausias</td><td>max(a)</td><td>ciklas arba *max_element</td></tr>
+    <tr><td>Mažiausias</td><td>min(a)</td><td>ciklas arba *min_element</td></tr>
+    <tr><td>Ieškoti elemento</td><td>x in a</td><td>ciklas su bool kintamuoju</td></tr>
+  </table>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Failas <strong>duom.txt</strong> pirmoje eilutėje turi skaičių N, toliau N skaičių. Nuskaityti, surūšiuoti ir į failą <strong>rez.txt</strong> išvesti:<br>
+    1) Surūšiuotą sąrašą<br>
+    2) Vidurkį (2 skaitmenų po kablelio tikslumu)<br>
+    3) Kiek skaičių yra didesnių už vidurkį
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> C++ masyvo dydis turi būti žinomas kompiliavimo metu – apibrėžti su pakankamu dydžiu (pvz. int a[10000]). Python sąrašas dinamiškas. VBE dažnai reikia rūšiuoti ir skaičiuoti statistikas.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

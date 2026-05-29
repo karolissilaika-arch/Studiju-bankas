@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eilutės (string) apdorojimas | StudijųBankas</title>
+  <meta name="description" content="Simbolių eilutės operacijos, paieška, keitimas, skaidymas ir sujungimas.">
+  <meta property="og:title" content="Eilutės (string) apdorojimas | StudijųBankas">
+  <meta property="og:description" content="Simbolių eilutės operacijos, paieška, keitimas, skaidymas ir sujungimas.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/eilutes-string-apdorojimas.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/eilutes-string-apdorojimas.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Eilutės (string) apdorojimas</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#7b2d8b;--primary-light:#f5eef8;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#e0d0e8;--radius:12px;--bg:#f9f6fb;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(123,45,139,0.06);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;margin-bottom:0.5rem;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.88rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:left;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);font-family:"Courier New",monospace;font-size:0.85rem;}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Eilutės (string) apdorojimas</div>
+  <p class="topic-intro">Tekstinių duomenų apdorojimas – dažna VBE užduočių dalis. Svarbu mokėti ieškoti, keisti, skaidyti ir sujungti eilutes abejose programavimo kalbose.</p>
+ 
+  <h3 class="section-head">Python string metodai – cheat sheet</h3>
+  <table>
+    <tr><th>Metodas</th><th>Rezultatas</th><th>Paaiškinimas</th></tr>
+    <tr><td>s.upper()</td><td>"LABAS"</td><td>Visos didžiosios</td></tr>
+    <tr><td>s.lower()</td><td>"labas"</td><td>Visos mažosios</td></tr>
+    <tr><td>s.strip()</td><td>"labas"</td><td>Pašalina tarpus aplink</td></tr>
+    <tr><td>s.split(" ")</td><td>["la","bas"]</td><td>Dalina pagal simbolį</td></tr>
+    <tr><td>s.replace("a","o")</td><td>"lobos"</td><td>Pakeičia simbolius</td></tr>
+    <tr><td>s.find("ba")</td><td>2</td><td>Randa poziciją (arba -1)</td></tr>
+    <tr><td>len(s)</td><td>5</td><td>Eilutės ilgis</td></tr>
+    <tr><td>s[1:4]</td><td>"aba"</td><td>Pjūvis (slice)</td></tr>
+    <tr><td>s.startswith("la")</td><td>True</td><td>Ar prasideda...</td></tr>
+    <tr><td>s.count("a")</td><td>2</td><td>Kiek kartų pasikartoja</td></tr>
+  </table>
+ 
+  <h3 class="section-head">C++ string operacijos</h3>
+  <div class="code-block">
+<span class="kw">#include</span> &lt;string&gt;
+<span class="kw">#include</span> &lt;algorithm&gt;
+<span class="kw">using namespace</span> std;
+ 
+string s = <span class="st">"Labas pasauli"</span>;
+ 
+<span class="cm">// Ilgis</span>
+s.<span class="fn">length</span>();       <span class="cm">// arba s.size()</span>
+ 
+<span class="cm">// Pjūvis</span>
+s.<span class="fn">substr</span>(<span class="nu">0</span>, <span class="nu">5</span>);   <span class="cm">// "Labas"</span>
+ 
+<span class="cm">// Paieška</span>
+s.<span class="fn">find</span>(<span class="st">"pas"</span>);    <span class="cm">// grąžina poziciją arba string::npos</span>
+ 
+<span class="cm">// Keitimas</span>
+s.<span class="fn">replace</span>(<span class="nu">6</span>, <span class="nu">7</span>, <span class="st">"drauge"</span>); <span class="cm">// nuo poz.6, 7 simboliai</span>
+ 
+<span class="cm">// Didžiosios raidės</span>
+<span class="fn">transform</span>(s.<span class="fn">begin</span>(), s.<span class="fn">end</span>(), s.<span class="fn">begin</span>(), ::toupper);
+  </div>
+ 
+  <h3 class="section-head">Pavyzdys: žodžių skaičiavimas</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+teksts = <span class="st">"labas rytas geras"</span>
+zodziai = teksts.<span class="fn">split</span>()
+<span class="fn">print</span>(<span class="fn">len</span>(zodziai))  <span class="cm"># 3</span>
+ 
+<span class="cm"># Unikalūs žodžiai</span>
+unikalus = <span class="fn">set</span>(zodziai)
+<span class="fn">print</span>(<span class="fn">len</span>(unikalus))
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;sstream&gt;
+string teksts = <span class="st">"labas rytas"</span>;
+istringstream iss(teksts);
+string zodis;
+<span class="kw">int</span> kiek = <span class="nu">0</span>;
+<span class="kw">while</span>(iss &gt;&gt; zodis) kiek++;
+cout &lt;&lt; kiek; <span class="cm">// 2</span>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Failas turi teksto eilutes. Parašyk programą kuri:<br>
+    1) Suskaičiuoja kiek žodžių prasideda didžiąja raide<br>
+    2) Randa dažniausiai pasikartojantį žodį<br>
+    3) Išveda tekstą atvirkštine žodžių tvarka
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Python <code>split()</code> be argumento dalina pagal bet kokį tarpą (taip pat tabuliavimą). C++ <code>string::npos</code> reiškia "nerastas". Lyginant eilutes Python – tiesiog ==, C++ – taip pat == su string tipo kintamaisiais.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

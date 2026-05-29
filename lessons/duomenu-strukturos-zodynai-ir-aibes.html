@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duomenų struktūros – žodynai ir aibės | StudijųBankas</title>
+  <meta name="description" content="Python dict ir set, C++ map ir set naudojimas VBE užduotyse.">
+  <meta property="og:title" content="Duomenų struktūros – žodynai ir aibės | StudijųBankas">
+  <meta property="og:description" content="Python dict ir set, C++ map ir set naudojimas VBE užduotyse.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/duomenu-strukturos-zodynai-ir-aibes.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/duomenu-strukturos-zodynai-ir-aibes.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Duomenų struktūros – žodynai ir aibės</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#1a5276;--primary-light:#eaf2ff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#c8d8e8;--radius:12px;--bg:#f4f8fc;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(26,82,118,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;margin-bottom:0.5rem;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Duomenų struktūros – žodynai ir aibės</div>
+  <p class="topic-intro">Žodynai (dict/map) ir aibės (set) leidžia efektyviai saugoti ir ieškoti duomenų. Ypač naudingi kai reikia skaičiuoti pasikartojimus arba rasti unikalius elementus.</p>
+ 
+  <h3 class="section-head">Žodynas (Python dict / C++ map)</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="cm"># Kūrimas</span>
+balai = {<span class="st">"Jonas"</span>: <span class="nu">85</span>, <span class="st">"Ona"</span>: <span class="nu">92</span>}
+ 
+<span class="cm"># Prieiga</span>
+<span class="fn">print</span>(balai[<span class="st">"Jonas"</span>])  <span class="cm"># 85</span>
+ 
+<span class="cm"># Pridėti / keisti</span>
+balai[<span class="st">"Tomas"</span>] = <span class="nu">78</span>
+ 
+<span class="cm"># Tikrinti ar raktas yra</span>
+<span class="kw">if</span> <span class="st">"Ona"</span> <span class="kw">in</span> balai:
+    <span class="fn">print</span>(balai[<span class="st">"Ona"</span>])
+ 
+<span class="cm"># Iteruoti</span>
+<span class="kw">for</span> vardas, balas <span class="kw">in</span> balai.<span class="fn">items</span>():
+    <span class="fn">print</span>(vardas, balas)
+ 
+<span class="cm"># Skaičiuoti pasikartojimus</span>
+kiek = {}
+<span class="kw">for</span> z <span class="kw">in</span> zodziai:
+    kiek[z] = kiek.<span class="fn">get</span>(z, <span class="nu">0</span>) + <span class="nu">1</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;map&gt;
+<span class="kw">using namespace</span> std;
+ 
+map&lt;string, <span class="kw">int</span>&gt; balai;
+ 
+<span class="cm">// Pridėti</span>
+balai[<span class="st">"Jonas"</span>] = <span class="nu">85</span>;
+balai[<span class="st">"Ona"</span>] = <span class="nu">92</span>;
+ 
+<span class="cm">// Tikrinti</span>
+<span class="kw">if</span>(balai.<span class="fn">count</span>(<span class="st">"Ona"</span>))
+  cout &lt;&lt; balai[<span class="st">"Ona"</span>];
+ 
+<span class="cm">// Iteruoti</span>
+<span class="kw">for</span>(<span class="kw">auto</span> p : balai)
+  cout &lt;&lt; p.first &lt;&lt; <span class="st">" "</span>
+       &lt;&lt; p.second;
+ 
+<span class="cm">// Skaičiuoti</span>
+map&lt;string,<span class="kw">int</span>&gt; kiek;
+kiek[zodis]++;
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Aibė (Python set / C++ set)</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+a = {<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">2</span>, <span class="nu">1</span>}
+<span class="fn">print</span>(a)  <span class="cm"># {1, 2, 3}</span>
+ 
+<span class="cm"># Unikalūs elementai iš sąrašo</span>
+unikalus = <span class="fn">set</span>([<span class="nu">1</span>,<span class="nu">2</span>,<span class="nu">2</span>,<span class="nu">3</span>])
+ 
+<span class="cm"># Pridėti</span>
+a.<span class="fn">add</span>(<span class="nu">4</span>)
+ 
+<span class="cm"># Ar yra</span>
+<span class="kw">if</span> <span class="nu">2</span> <span class="kw">in</span> a: ...
+ 
+<span class="cm"># Sankirta, sąjunga</span>
+b = {<span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">5</span>}
+<span class="fn">print</span>(a &amp; b)  <span class="cm"># {2, 3}</span>
+<span class="fn">print</span>(a | b)  <span class="cm"># {1,2,3,4,5}</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">#include</span> &lt;set&gt;
+set&lt;<span class="kw">int</span>&gt; a;
+ 
+a.<span class="fn">insert</span>(<span class="nu">1</span>);
+a.<span class="fn">insert</span>(<span class="nu">2</span>);
+a.<span class="fn">insert</span>(<span class="nu">2</span>); <span class="cm">// dublikatas ignoruojamas</span>
+ 
+<span class="cm">// Ar yra</span>
+<span class="kw">if</span>(a.<span class="fn">count</span>(<span class="nu">2</span>)) ...
+ 
+<span class="cm">// Dydis</span>
+a.<span class="fn">size</span>();
+ 
+<span class="cm">// Iteruoti (surūšiuota tvarka)</span>
+<span class="kw">for</span>(<span class="kw">int</span> x : a)
+  cout &lt;&lt; x &lt;&lt; <span class="st">" "</span>;
+      </div>
+    </div>
+  </div>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Failas turi mokinių vardus (po vieną eilutėje, kai kurie kartojasi). Parašyk programą kuri:<br>
+    1) Randa kiek unikalių mokinių<br>
+    2) Randa dažniausiai pasikartojantį vardą ir kiek kartų jis kartojasi<br>
+    3) Išveda vardus abėcėlės tvarka be pasikartojimų
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Python <code>dict.get(raktas, numatytoji)</code> – patogus būdas išvengti KeyError. C++ <code>map</code> automatiškai inicializuoja trūkstamus raktus su 0 (int atveju). Aibės elementai C++ išvedami surūšiuota tvarka.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

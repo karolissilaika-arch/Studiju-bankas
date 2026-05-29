@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiesinių lygčių sistemos | StudijųBankas</title>
+  <meta name="description" content="Dviejų nežinomųjų tiesinių lygčių sistemų sprendimas: pakeitimo, sudėjimo metodai ir grafinis būdas">
+  <meta property="og:title" content="Tiesinių lygčių sistemos | StudijųBankas">
+  <meta property="og:description" content="Dviejų nežinomųjų tiesinių lygčių sistemų sprendimas: pakeitimo, sudėjimo metodai ir grafinis būdas">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/tiesiniu-lygciu-sistemos.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/tiesiniu-lygciu-sistemos.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Tiesinių lygčių sistemos</h1>
+        <span class="category-badge">Matematika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root{--primary:#5d5fef;--primary-light:#eeeeff;--text-dark:#1a1a2e;--text-gray:#555;--border:#e0e0f0;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;line-height:1.7}
+.topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(93,95,239,.06)}
+h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 .6rem;border-left:3px solid var(--primary);padding-left:.75rem}
+p{color:#555;margin-bottom:.75rem}
+ul{color:#555;padding-left:1.5rem;margin-bottom:.75rem}
+li{margin-bottom:.35rem}
+.formula-box{background:var(--primary-light);border:1px solid #c5c6ff;border-radius:10px;padding:1rem 1.5rem;margin:1rem 0;text-align:center}
+.formula-label{font-size:.78rem;color:var(--primary);font-weight:600;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.5rem}
+.note-box{background:#fffbea;border:1px solid #f0d060;border-radius:8px;padding:.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:.93rem}
+.example-box{background:#f0fff4;border:1px solid #a3e4b5;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0}
+.example-box .ex-title{font-size:.8rem;font-weight:700;color:#1a7a3c;text-transform:uppercase;margin-bottom:.5rem}
+.step-list{counter-reset:steps;list-style:none;padding:0}
+.step-list li{counter-increment:steps;display:flex;gap:.75rem;margin-bottom:.75rem;align-items:flex-start}
+.step-list li::before{content:counter(steps);min-width:26px;height:26px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:2px}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+th{background:var(--primary);color:#fff;padding:.6rem .9rem;text-align:center}
+td{padding:.5rem .9rem;text-align:center;border-bottom:1px solid var(--border);color:#555}
+tr:nth-child(even) td{background:var(--primary-light)}
+</style>
+<div class="topic-block">
+<div style="font-size:1.45rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem">Tiesinių lygčių sistemos</div>
+<h3 class="section-head">Sistemos forma</h3>
+<div class="formula-box">
+<span class="formula-label">Bendroji forma</span>
+\[\begin{cases} a_1 x + b_1 y = c_1 \\ a_2 x + b_2 y = c_2 \end{cases}\]
+</div>
+<h3 class="section-head">Sprendimo metodai</h3>
+<table>
+<tr><th>Metodas</th><th>Principas</th></tr>
+<tr><td>Pakeitimo</td><td>Išreiškiame vieną nežinomąjį per kitą</td></tr>
+<tr><td>Sudėjimo</td><td>Sudenginame vieną nežinomąjį sudedant lygtis</td></tr>
+<tr><td>Grafinis</td><td>Randame tiesių susikirtimo tašką</td></tr>
+</table>
+<h3 class="section-head">Pakeitimo metodas</h3>
+<div class="example-box">
+<div class="ex-title">Pavyzdys</div>
+\[\begin{cases} x + 2y = 7 \\ 3x - y = 7 \end{cases}\]
+<ol class="step-list">
+<li>Iš pirmos: \(x = 7 - 2y\)</li>
+<li>Keičiame į antrą: \(3(7-2y) - y = 7\)</li>
+<li>Sprendžiame: \(21 - 6y - y = 7 \Rightarrow -7y = -14 \Rightarrow y = 2\)</li>
+<li>Randame \(x\): \(x = 7 - 2\cdot2 = 3\)</li>
+<li>Atsakymas: \((3;\, 2)\)</li>
+</ol>
+</div>
+<h3 class="section-head">Geometrinė interpretacija</h3>
+<ul>
+<li><strong>Vienas sprendinys:</strong> tiesės susikerta vienoje vietoje</li>
+<li><strong>Begalybė sprendinių:</strong> tiesės sutampa</li>
+<li><strong>Nėra sprendinių:</strong> tiesės lygiagrečios</li>
+</ul>
+<div class="note-box"><strong>⚠ Patikrinimas:</strong> Gautą \((x, y)\) būtinai patikriname abejose lygtyse!</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

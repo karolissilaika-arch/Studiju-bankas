@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skaitmeninio turinio kūrimas | StudijųBankas</title>
+  <meta name="description" content="Grafikos formatai, spalvų modeliai, garso ir vaizdo pagrindai, failų formatai.">
+  <meta property="og:title" content="Skaitmeninio turinio kūrimas | StudijųBankas">
+  <meta property="og:description" content="Grafikos formatai, spalvų modeliai, garso ir vaizdo pagrindai, failų formatai.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/skaitmeninio-turinio-kurimas.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/skaitmeninio-turinio-kurimas.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Skaitmeninio turinio kūrimas</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#6a0dad;--primary-light:#f5eeff;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#d8b8f0;--radius:12px;--bg:#faf5ff;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(106,13,173,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  .color-demo{display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.5rem 0;}
+  .color-chip{width:60px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.5);}
+  .formula-box{background:#1e1e2e;color:#a6e3a1;border-radius:8px;padding:1rem 1.5rem;margin:0.5rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.8;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Skaitmeninio turinio kūrimas</div>
+  <p class="topic-intro">Skaitmeninis turinys – grafika, garsas, vaizdo įrašai ir tekstas skaitmeninėje aplinkoje. VBE klausia apie failų formatus, spalvų modelius ir duomenų kiekio skaičiavimą.</p>
+ 
+  <h3 class="section-head">Spalvų modeliai</h3>
+  <div class="two-col">
+    <div>
+      <p><strong>RGB</strong> – ekranams (šviesos mišinys)</p>
+      <div class="color-demo">
+        <div class="color-chip" style="background:rgb(255,0,0);">R=255</div>
+        <div class="color-chip" style="background:rgb(0,255,0);">G=255</div>
+        <div class="color-chip" style="background:rgb(0,0,255);">B=255</div>
+        <div class="color-chip" style="background:rgb(255,255,0);">R+G</div>
+        <div class="color-chip" style="background:rgb(0,0,0);border:1px solid #ccc;">0,0,0</div>
+        <div class="color-chip" style="background:rgb(255,255,255);color:#333;">255x3</div>
+      </div>
+      <ul>
+        <li>3 kanalai × 8 bitų = 24 bitų spalva</li>
+        <li>16 777 216 spalvų (2²⁴)</li>
+        <li>Pridėtinė sistema (baltas = viskas)</li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>CMYK</strong> – spaudai (dažų mišinys)</p>
+      <ul>
+        <li>Cyan, Magenta, Yellow, Key (Black)</li>
+        <li>Atimamoji sistema (baltas = nieko)</li>
+        <li>Spaustuvės, poligrafija</li>
+      </ul>
+      <p><strong>HSB/HSV</strong> – intuityvi</p>
+      <ul>
+        <li>Hue (atspalvis 0°–360°)</li>
+        <li>Saturation (sodrumas 0–100%)</li>
+        <li>Brightness (ryškumas 0–100%)</li>
+      </ul>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Grafikos failų formatai</h3>
+  <table>
+    <tr><th>Formatas</th><th>Tipas</th><th>Savybės</th><th>Naudojimas</th></tr>
+    <tr><td>BMP</td><td>Rastrinė</td><td>Be glaudinimo, didelis</td><td>Windows sisteminė</td></tr>
+    <tr><td>JPEG/JPG</td><td>Rastrinė</td><td>Su nuostoliais, mažas</td><td>Nuotraukos</td></tr>
+    <tr><td>PNG</td><td>Rastrinė</td><td>Be nuostolių, skaidri fone</td><td>Logotipai, web</td></tr>
+    <tr><td>GIF</td><td>Rastrinė</td><td>256 spalvos, animacija</td><td>Animuoti paveikslai</td></tr>
+    <tr><td>SVG</td><td>Vektorinė</td><td>Masteliuojama, XML</td><td>Logotipai, ikonos</td></tr>
+    <tr><td>PDF</td><td>Mišri</td><td>Dokumentų formatas</td><td>Spausdinimui</td></tr>
+  </table>
+ 
+  <h3 class="section-head">Duomenų kiekio skaičiavimas</h3>
+  <div class="formula-box">
+Vaizdo failo dydis (be glaudinimo):
+Dydis = plotis × aukštis × spalvos gylis (bitais) / 8 (baitai)
+ 
+Pavyzdys: 1920 × 1080 × 24 bit / 8 = 6 220 800 baitų ≈ 5.93 MB
+ 
+Garso failo dydis:
+Dydis = trukmė (s) × dažnis (Hz) × bitų gylis / 8 × kanalai
+ 
+Pavyzdys: 60s × 44100Hz × 16bit / 8 × 2 = 10 584 000 baitų ≈ 10.1 MB
+  </div>
+ 
+  <h3 class="section-head">Matavimo vienetai</h3>
+  <table>
+    <tr><th>Vienetas</th><th>Dydis</th><th>Pastaba</th></tr>
+    <tr><td>1 bitas (bit)</td><td>0 arba 1</td><td>Mažiausias vienetas</td></tr>
+    <tr><td>1 baitas (byte)</td><td>8 bitai</td><td>Vienas simbolis ASCII</td></tr>
+    <tr><td>1 KB (kilobaitas)</td><td>1024 baitai</td><td>Trumpas tekstas</td></tr>
+    <tr><td>1 MB (megabaitas)</td><td>1024 KB</td><td>Nuotrauka</td></tr>
+    <tr><td>1 GB (gigabaitas)</td><td>1024 MB</td><td>Vaizdo įrašas</td></tr>
+    <tr><td>1 TB (terabaitas)</td><td>1024 GB</td><td>Didelis diskas</td></tr>
+  </table>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> Skirtumas tarp rastrinės (pikseliai) ir vektorinės (formulės) grafikos. Rastrinė praranda kokybę didinant, vektorinė – ne. JPEG naudoja nuostolingą glaudinimą – kiekvienąkart išsaugant kokybė blogėja.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

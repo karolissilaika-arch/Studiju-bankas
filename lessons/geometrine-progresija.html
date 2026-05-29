@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geometrinė progresija | StudijųBankas</title>
+  <meta name="description" content="Geometrinės progresijos narių formulė, sumos formulė, begalinė geometrinė progresija">
+  <meta property="og:title" content="Geometrinė progresija | StudijųBankas">
+  <meta property="og:description" content="Geometrinės progresijos narių formulė, sumos formulė, begalinė geometrinė progresija">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/geometrine-progresija.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/geometrine-progresija.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Geometrinė progresija</h1>
+        <span class="category-badge">Matematika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root{--primary:#5d5fef;--primary-light:#eeeeff;--text-dark:#1a1a2e;--text-gray:#555;--border:#e0e0f0;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;line-height:1.7}
+.topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(93,95,239,.06)}
+h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 .6rem;border-left:3px solid var(--primary);padding-left:.75rem}
+p{color:#555;margin-bottom:.75rem}
+ul{color:#555;padding-left:1.5rem;margin-bottom:.75rem}
+li{margin-bottom:.35rem}
+.formula-box{background:var(--primary-light);border:1px solid #c5c6ff;border-radius:10px;padding:1rem 1.5rem;margin:1rem 0;text-align:center}
+.formula-label{font-size:.78rem;color:var(--primary);font-weight:600;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.5rem}
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:1rem 0}
+.formula-item{background:var(--primary-light);border:1px solid #c5c6ff;border-radius:8px;padding:.75rem 1rem;text-align:center}
+.formula-item .lbl{font-size:.75rem;color:var(--primary);font-weight:600;display:block;margin-bottom:.25rem}
+.note-box{background:#fffbea;border:1px solid #f0d060;border-radius:8px;padding:.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:.93rem}
+.example-box{background:#f0fff4;border:1px solid #a3e4b5;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0}
+.example-box .ex-title{font-size:.8rem;font-weight:700;color:#1a7a3c;text-transform:uppercase;margin-bottom:.5rem}
+.step-list{counter-reset:steps;list-style:none;padding:0}
+.step-list li{counter-increment:steps;display:flex;gap:.75rem;margin-bottom:.75rem;align-items:flex-start}
+.step-list li::before{content:counter(steps);min-width:26px;height:26px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:2px}
+</style>
+<div class="topic-block">
+<div style="font-size:1.45rem;font-weight:700;color:#1a1a2e;margin-bottom:1rem">Geometrinė progresija</div>
+<h3 class="section-head">Apibrėžimas</h3>
+<p>Seka, kurioje kiekvienas narys gaunamais ankstesnįjį padauginus iš pastovaus skaičiaus \(q\) — <strong>kvociento</strong>.</p>
+<div class="formula-box">
+<span class="formula-label">Rekurentinė formulė</span>
+\[a_{n+1} = a_n \cdot q\]
+</div>
+<h3 class="section-head">Pagrindinės formulės</h3>
+<div class="formula-grid">
+<div class="formula-item"><span class="lbl">n-ojo nario formulė</span>\[a_n = a_1 \cdot q^{n-1}\]</div>
+<div class="formula-item"><span class="lbl">Pirmų n narių suma</span>\[S_n = \dfrac{a_1(q^n - 1)}{q - 1},\; q \ne 1\]</div>
+<div class="formula-item"><span class="lbl">Begalinė suma</span>\[S = \dfrac{a_1}{1-q},\; |q| < 1\]</div>
+<div class="formula-item"><span class="lbl">Vidurinis narys</span>\[a_k^2 = a_{k-1} \cdot a_{k+1}\]</div>
+</div>
+<div class="example-box">
+<div class="ex-title">Pavyzdys</div>
+<p>Progresija: \(2, 6, 18, 54, \ldots\) — raskite 7-ąjį narį.</p>
+<ol class="step-list">
+<li>\(a_1 = 2,\; q = 3\)</li>
+<li>\(a_7 = 2 \cdot 3^{6} = 2 \cdot 729 = 1458\)</li>
+</ol>
+</div>
+<div class="example-box">
+<div class="ex-title">Begalinė progresija</div>
+<p>Raskite begalinės progresijos \(1, \frac{1}{2}, \frac{1}{4}, \ldots\) sumą.</p>
+<p>\(a_1 = 1,\; q = \frac{1}{2}\). Suma: \(S = \dfrac{1}{1 - \frac{1}{2}} = 2\)</p>
+</div>
+<div class="note-box"><strong>⚠ Svarbu:</strong> Begalinė suma egzistuoja tik kai \(|q| < 1\). Jei \(|q| \ge 1\), begalinė suma neegzistuoja.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

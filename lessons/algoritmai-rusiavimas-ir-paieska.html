@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algoritmai – rūšiavimas ir paieška | StudijųBankas</title>
+  <meta name="description" content="Burbulinis, atrankos, įterpimo rūšiavimas. Tiesinė ir dvejetainė paieška.">
+  <meta property="og:title" content="Algoritmai – rūšiavimas ir paieška | StudijųBankas">
+  <meta property="og:description" content="Burbulinis, atrankos, įterpimo rūšiavimas. Tiesinė ir dvejetainė paieška.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/algoritmai-rusiavimas-ir-paieska.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/algoritmai-rusiavimas-ir-paieska.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Algoritmai – rūšiavimas ir paieška</h1>
+        <span class="category-badge">Informatika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root{--primary:#7b1a1a;--primary-light:#fdecea;--text-dark:#1a1a2e;--text-gray:#555;--text-muted:#888;--border:#e8c4c4;--radius:12px;--bg:#fdf7f7;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text-dark);line-height:1.7;}
+  .page-wrap{max-width:860px;margin:0 auto;padding:2rem 1.5rem;}
+  .topic-block{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;box-shadow:0 2px 12px rgba(123,26,26,0.07);}
+  .topic-title{font-size:1.45rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem;}
+  .topic-intro{color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:1rem;}
+  h3.section-head{font-size:1.05rem;font-weight:600;color:var(--primary);margin:1.5rem 0 0.6rem;border-left:3px solid var(--primary);padding-left:0.75rem;}
+  p{color:var(--text-gray);margin-bottom:0.75rem;}
+  ul{color:var(--text-gray);padding-left:1.5rem;margin-bottom:0.75rem;}
+  li{margin-bottom:0.35rem;}
+  .note-box{background:#fef9e7;border:1px solid #f0d060;border-radius:8px;padding:0.9rem 1.2rem;margin:1rem 0;color:#7a6000;font-size:0.93rem;}
+  .code-block{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:1.2rem 1.5rem;margin:1rem 0;font-family:"Courier New",monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;}
+  .code-block .kw{color:#cba6f7;}
+  .code-block .fn{color:#89b4fa;}
+  .code-block .st{color:#a6e3a1;}
+  .code-block .cm{color:#6c7086;font-style:italic;}
+  .code-block .nu{color:#fab387;}
+  .lang-badge{display:inline-block;background:var(--primary);color:#fff;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.5rem;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;}
+  .task-box{background:#f0faf4;border:1px solid #74c69d;border-radius:8px;padding:1rem 1.25rem;margin:1rem 0;}
+  .task-box .task-title{font-size:0.8rem;font-weight:700;color:#1b4332;text-transform:uppercase;margin-bottom:0.5rem;}
+  table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.92rem;}
+  th{background:var(--primary);color:#fff;padding:0.6rem 0.9rem;text-align:center;font-weight:600;}
+  td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text-gray);text-align:center;}
+  tr:nth-child(even) td{background:var(--primary-light);}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr;}}
+</style>
+<div class="page-wrap">
+<div class="topic-block">
+  <div class="topic-title">Algoritmai – rūšiavimas ir paieška</div>
+  <p class="topic-intro">Rūšiavimo ir paieškos algoritmai yra VBE programavimo užduočių pagrindas. Svarbu suprasti jų veikimo principą ir sudėtingumą.</p>
+ 
+  <h3 class="section-head">Rūšiavimo algoritmų sudėtingumas</h3>
+  <table>
+    <tr><th>Algoritmas</th><th>Vidutinis atvejis</th><th>Blogiausias</th><th>Pastaba</th></tr>
+    <tr><td>Burbulinis</td><td>O(n²)</td><td>O(n²)</td><td>Paprastas, lėtas</td></tr>
+    <tr><td>Atrankos</td><td>O(n²)</td><td>O(n²)</td><td>Min elemento paieška</td></tr>
+    <tr><td>Įterpimo</td><td>O(n²)</td><td>O(n²)</td><td>Geras mažiems masyvams</td></tr>
+    <tr><td>Greitas (QuickSort)</td><td>O(n log n)</td><td>O(n²)</td><td>Praktikoje greičiausias</td></tr>
+  </table>
+ 
+  <h3 class="section-head">Burbulinis rūšiavimas</h3>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">burbulinis</span>(a):
+    n = <span class="fn">len</span>(a)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n-<span class="nu">1</span>):
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(n-i-<span class="nu">1</span>):
+            <span class="kw">if</span> a[j] &gt; a[j+<span class="nu">1</span>]:
+                a[j], a[j+<span class="nu">1</span>] = a[j+<span class="nu">1</span>], a[j]
+    <span class="kw">return</span> a
+ 
+<span class="fn">print</span>(<span class="fn">burbulinis</span>([<span class="nu">5</span>,<span class="nu">3</span>,<span class="nu">8</span>,<span class="nu">1</span>]))
+<span class="cm"># [1, 3, 5, 8]</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">void</span> <span class="fn">burbulinis</span>(<span class="kw">int</span> a[], <span class="kw">int</span> n) {
+  <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;n-<span class="nu">1</span>;i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="nu">0</span>;j&lt;n-i-<span class="nu">1</span>;j++)
+      <span class="kw">if</span>(a[j]&gt;a[j+<span class="nu">1</span>]) {
+        <span class="kw">int</span> t=a[j];
+        a[j]=a[j+<span class="nu">1</span>];
+        a[j+<span class="nu">1</span>]=t;
+      }
+}
+      </div>
+    </div>
+  </div>
+ 
+  <h3 class="section-head">Dvejetainė paieška</h3>
+  <p>Dvejetainė paieška veikia tik <strong>surūšiuotame</strong> masyve. Kiekvienu žingsniu padalina paiešką per pusę – O(log n).</p>
+  <div class="two-col">
+    <div>
+      <div class="lang-badge">PYTHON</div>
+      <div class="code-block">
+<span class="kw">def</span> <span class="fn">dvejetaine</span>(a, x):
+    k, d = <span class="nu">0</span>, <span class="fn">len</span>(a) - <span class="nu">1</span>
+    <span class="kw">while</span> k &lt;= d:
+        vid = (k + d) // <span class="nu">2</span>
+        <span class="kw">if</span> a[vid] == x:
+            <span class="kw">return</span> vid
+        <span class="kw">elif</span> a[vid] &lt; x:
+            k = vid + <span class="nu">1</span>
+        <span class="kw">else</span>:
+            d = vid - <span class="nu">1</span>
+    <span class="kw">return</span> -<span class="nu">1</span>  <span class="cm"># nerastas</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-badge">C++</div>
+      <div class="code-block">
+<span class="kw">int</span> <span class="fn">dvejetaine</span>(<span class="kw">int</span> a[], <span class="kw">int</span> n, <span class="kw">int</span> x) {
+  <span class="kw">int</span> k=<span class="nu">0</span>, d=n-<span class="nu">1</span>;
+  <span class="kw">while</span>(k &lt;= d) {
+    <span class="kw">int</span> v=(k+d)/<span class="nu">2</span>;
+    <span class="kw">if</span>(a[v]==x) <span class="kw">return</span> v;
+    <span class="kw">else if</span>(a[v]&lt;x) k=v+<span class="nu">1</span>;
+    <span class="kw">else</span> d=v-<span class="nu">1</span>;
+  }
+  <span class="kw">return</span> -<span class="nu">1</span>;
+}
+      </div>
+    </div>
+  </div>
+ 
+  <div class="task-box">
+    <div class="task-title">⌨ Praktinė užduotis</div>
+    Parašyk programą kuri nuskaito N skaičių iš failo, surūšiuoja juos ir tada n kartų ieško konkretaus skaičiaus naudojant dvejetainę paiešką. Kiekvienam ieškojimui išveda ar rastas ir kokioje pozicijoje.
+  </div>
+ 
+  <div class="note-box"><strong>⚠ Svarbu VBE:</strong> VBE egzaminuotojai dažnai nori matyti rankinį rūšiavimą (ne sort()), kad matytų algoritmų supratimą. Dvejetainė paieška – tik surūšiuotam masyvui. Tiesinė paieška – O(n), veikia bet kur.</div>
+</div>
+</div>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanika – kinematika ir dinamika | StudijųBankas</title>
+  <meta name="description" content="Judėjimo aprašymas koordinačių sistemoje, Niutono dėsniai ir jų taikymas, jėgų analizė, darbas, energija, galia ir impulso tvermė.">
+  <meta property="og:title" content="Mechanika – kinematika ir dinamika | StudijųBankas">
+  <meta property="og:description" content="Judėjimo aprašymas koordinačių sistemoje, Niutono dėsniai ir jų taikymas, jėgų analizė, darbas, energija, galia ir impulso tvermė.">
+  <meta property="og:url" content="https://www.studijubankas.lt/lessons/mechanika-kinematika-ir-dinamika.html">
+  <link rel="canonical" href="https://www.studijubankas.lt/lessons/mechanika-kinematika-ir-dinamika.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    td, th { word-break: break-word; overflow-wrap: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+  </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+  <aside class="sidebar-nav" id="sidebar">
+    <a href="/index.html" class="logo-link">
+      <div class="logo">Studijų<span>Bankas</span></div>
+    </a>
+    <nav>
+      <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+      <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
+      <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+      <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+      <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+      <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="page-header">
+      <div>
+        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <h1 style="font-size:1.6rem; margin-top:8px;">Mechanika – kinematika ir dinamika</h1>
+        <span class="category-badge">Fizika</span>
+      </div>
+    </header>
+
+    <article class="content-card lesson-content" style="padding: 32px;">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #5d5fef;
+    --primary-light: #eeeeff;
+    --text-dark: #1a1a2e;
+    --text-gray: #555;
+    --text-muted: #888;
+    --border: #e0e0f0;
+    --radius: 12px;
+    --bg: #f9f9ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-dark); line-height: 1.7; }
+  .page-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .topic-block { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; margin-bottom: 2.5rem; box-shadow: 0 2px 12px rgba(93,95,239,0.06); }
+  .topic-title { font-size: 1.45rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+  .topic-intro { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  h3.section-head { font-size: 1.05rem; font-weight: 600; color: var(--primary); margin: 1.5rem 0 0.6rem; border-left: 3px solid var(--primary); padding-left: 0.75rem; }
+  p { color: var(--text-gray); margin-bottom: 0.75rem; }
+  ul, ol { color: var(--text-gray); padding-left: 1.5rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 0.35rem; }
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  .formula-item { background: var(--primary-light); border: 1px solid #c5c6ff; border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+  .formula-item .lbl { font-size: 0.75rem; color: var(--primary); font-weight: 600; display: block; margin-bottom: 0.25rem; }
+  .note-box { background: #fffbea; border: 1px solid #f0d060; border-radius: 8px; padding: 0.9rem 1.2rem; margin: 1rem 0; color: #7a6000; font-size: 0.93rem; }
+  .note-box strong { color: #5a4000; }
+  .example-box { background: #f0fff4; border: 1px solid #a3e4b5; border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .example-box .ex-title { font-size: 0.8rem; font-weight: 700; color: #1a7a3c; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .chart-wrap { margin: 1.5rem 0; }
+  .chart-title { font-size: 0.85rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem; font-style: italic; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+  th { background: var(--primary); color: #fff; padding: 0.6rem 0.9rem; text-align: center; font-weight: 600; }
+  td { padding: 0.5rem 0.9rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--text-gray); }
+  tr:nth-child(even) td { background: var(--primary-light); }
+  .step-list { counter-reset: steps; list-style: none; padding: 0; }
+  .step-list li { counter-increment: steps; display: flex; gap: 0.75rem; margin-bottom: 0.75rem; align-items: flex-start; }
+  .step-list li::before { content: counter(steps); min-width: 26px; height: 26px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+</style>
+ 
+<div class="topic-block">
+  <div class="topic-title">Kinematika</div>
+  <p class="topic-intro">Kinematika aprašo kūnų judėjimą nenagrinėjant priežasčių – naudojamos koordinatės, greitis, pagreitis ir laikas. Judėjimas gali būti tiesiaeigisnuolat (tolyginis), kintamo greičio (tolygiai kintamas) arba lenktas (apskritimas, sviedinio trajektorija).</p>
+ 
+  <h3 class="section-head">Tolyginis tiesiaeigisjudėjimas</h3>
+  <p>Kūnas juda tolygiai, kai jo greitis nekinta laike (pagreitis a = 0). Nueitas kelias tiesiog proporcingas laikui:</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Kelias</span>\[ s = v \cdot t \]</div>
+    <div class="formula-item"><span class="lbl">Greitis</span>\[ v = \frac{s}{t} \]</div>
+    <div class="formula-item"><span class="lbl">Koordinatė</span>\[ x = x_0 + v \cdot t \]</div>
+  </div>
+  <p>x–t grafike tolyginis judėjimas vaizduojamas tiese, o v–t grafike – horizontalia linija.</p>
+ 
+  <h3 class="section-head">Tolygiai kintamas judėjimas</h3>
+  <p>Pagreitis <em>a</em> yra pastovus – greitis kinta vienodai per vienodą laiką. Jei <em>a > 0</em>, kūnas greitėja; jei <em>a < 0</em>, lėtėja (stabdymas).</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Greitis</span>\[ v = v_0 + a t \]</div>
+    <div class="formula-item"><span class="lbl">Kelias</span>\[ s = v_0 t + \frac{1}{2}at^2 \]</div>
+    <div class="formula-item"><span class="lbl">Be laiko</span>\[ v^2 = v_0^2 + 2as \]</div>
+    <div class="formula-item"><span class="lbl">Vidutinis greitis</span>\[ \bar{v} = \frac{v_0 + v}{2} \]</div>
+  </div>
+  <div class="note-box"><strong>Pastaba:</strong> Formulė \(v^2 = v_0^2 + 2as\) ypač naudinga, kai laiko t nežinome ir jo reikia išvengti sprendime.</div>
+ 
+  <h3 class="section-head">Laisvasis kritimas</h3>
+  <p>Laisvasis kritimas – tolygiai spartėjantis judėjimas žemyn, veikiant tik gravitacijai. Oro varža neglaudžiama. Pradinė greičio komponentė vertikalia kryptimi g = 0, jei kūnas paleidžiamas horizontaliai.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Greitis</span>\[ v = g t \]</div>
+    <div class="formula-item"><span class="lbl">Aukštis</span>\[ h = \frac{1}{2}g t^2 \]</div>
+    <div class="formula-item"><span class="lbl">g (Žemė)</span>\[ g \approx 9{,}8 \text{ m/s}^2 \]</div>
+    <div class="formula-item"><span class="lbl">Kritimo laikas</span>\[ t = \sqrt{\frac{2h}{g}} \]</div>
+  </div>
+ 
+  <h3 class="section-head">Sviedinio judėjimas</h3>
+  <p>Sviedinio judėjimas skaidomas į nepriklausomas dalis: horizontalią (tolyginis, nes oro varža neglaudžiama) ir vertikalią (laisvojo kritimo). Trajektorija – parabolė.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Horizontalus</span>\[ x = v_0 \cos\alpha \cdot t \]</div>
+    <div class="formula-item"><span class="lbl">Vertikalus</span>\[ y = v_0 \sin\alpha \cdot t - \frac{1}{2}g t^2 \]</div>
+    <div class="formula-item"><span class="lbl">Nuotolis</span>\[ L = \frac{v_0^2 \sin 2\alpha}{g} \]</div>
+    <div class="formula-item"><span class="lbl">Didžiausias aukštis</span>\[ H = \frac{(v_0\sin\alpha)^2}{2g} \]</div>
+  </div>
+  <div class="note-box"><strong>⚠ Svarbu:</strong> Didžiausias nuotolis pasiekiamas, kai metimo kampas \(\alpha = 45°\). Kampai \(\alpha\) ir \(90°-\alpha\) duoda vienodą nuotolį, bet skirtingą aukštį.</div>
+ 
+  <div class="chart-wrap">
+    <p class="chart-title">Greičio priklausomybė nuo laiko: tolyginis ir tolygiai spartėjantis judėjimas</p>
+    <div style="height:260px"><canvas id="kinChart"></canvas></div>
+  </div>
+ 
+  <h3 class="section-head">Judėjimas ratu</h3>
+  <p>Net jei greičio modulis nekinta, kryptis keičiasi – atsiranda centripetalinis pagreitis, nukreiptas į apskritimo centrą.</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Kampinis greitis</span>\[ \omega = \frac{2\pi}{T} = 2\pi f \]</div>
+    <div class="formula-item"><span class="lbl">Linijinis greitis</span>\[ v = \omega r \]</div>
+    <div class="formula-item"><span class="lbl">Centrip. pagreitis</span>\[ a_c = \frac{v^2}{r} = \omega^2 r \]</div>
+    <div class="formula-item"><span class="lbl">Centrip. jėga</span>\[ F_c = \frac{mv^2}{r} \]</div>
+  </div>
+</div>
+ 
+<div class="topic-block">
+  <div class="topic-title">Dinamika – Niutono dėsniai</div>
+  <p class="topic-intro">Dinamika tiria judėjimo priežastis – jėgas. Niutono trys dėsniai yra klasikinės mechanikos pagrindas, galiojantis kūnams, judantiems daug lėčiau nei šviesa, ir aprašantis kasdienius reiškinius nuo kritimo iki transporto priemonių stabdymo.</p>
+ 
+  <h3 class="section-head">Trys Niutono dėsniai</h3>
+  <table>
+    <tr><th>Dėsnis</th><th>Formulė</th><th>Prasmė</th></tr>
+    <tr><td>I (inercijos)</td><td>\( \sum \vec{F} = 0 \Rightarrow \vec{v} = \text{const} \)</td><td>Jėgų pusiausvyra – greitis nekinta; kūnas arba stovi, arba juda tiesia linija pastoviu greičiu</td></tr>
+    <tr><td>II (pagrindinis)</td><td>\( \vec{F} = m\vec{a} \)</td><td>Jėga sukelia pagreitį; kuo didesnė masė, tuo mažesnis pagreitis esant tai pačiai jėgai</td></tr>
+    <tr><td>III (sąveikos)</td><td>\( \vec{F}_{12} = -\vec{F}_{21} \)</td><td>Jėgos veikia poroje – kiekviena veikia skirtingą kūną, yra lygios ir priešingos</td></tr>
+  </table>
+ 
+  <h3 class="section-head">Svarbios jėgos</h3>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Svoris / gravitacija</span>\[ F_g = mg \]</div>
+    <div class="formula-item"><span class="lbl">Spyruoklė (Huko d.)</span>\[ F = kx \]</div>
+    <div class="formula-item"><span class="lbl">Trinties jėga</span>\[ F_{tr} = \mu N \]</div>
+    <div class="formula-item"><span class="lbl">Visuotinės traukos</span>\[ F = G\frac{m_1 m_2}{r^2} \]</div>
+  </div>
+  <p>Trinties koeficientas μ priklauso nuo paviršių medžiagos ir apdorojimo – jis nustatomas eksperimentiškai. Statinės trinties koeficientas paprastai didesnis už slydimo trinties.</p>
+ 
+  <h3 class="section-head">Darbas, energija, galia</h3>
+  <p>Energija yra gebėjimas atlikti darbą. Mechanikinė energija susideda iš kinetinės (judėjimo) ir potencinės (padėties). Uždaro sistemos mechanikinė energija išlieka pastovi (be trinties).</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Darbas</span>\[ A = F s \cos\alpha \]</div>
+    <div class="formula-item"><span class="lbl">Kinetinė E.</span>\[ E_k = \frac{mv^2}{2} \]</div>
+    <div class="formula-item"><span class="lbl">Potencinė E.</span>\[ E_p = mgh \]</div>
+    <div class="formula-item"><span class="lbl">Energijos tvermė</span>\[ E_k + E_p = \text{const} \]</div>
+    <div class="formula-item"><span class="lbl">Galia</span>\[ P = \frac{A}{t} = Fv \]</div>
+    <div class="formula-item"><span class="lbl">Naudingumo koef.</span>\[ \eta = \frac{A_{naud}}{A_{viso}} \]</div>
+  </div>
+  <div class="note-box"><strong>Darbas ir kampas:</strong> kai jėga statmena judėjimui (\(\alpha = 90°\)), darbas lygus nuliui – pvz., centripetalinė jėga darbo neatlieka.</div>
+ 
+  <h3 class="section-head">Impulsas ir jo tvermė</h3>
+  <p>Impulso tvermės dėsnis: uždaros sistemos bendras impulsas nekinta. Jis galioja ir tada, kai vidinės jėgos yra labai didelės (pvz., sprogimas ar susidūrimas per trumpą laiką).</p>
+  <div class="formula-grid">
+    <div class="formula-item"><span class="lbl">Impulsas</span>\[ \vec{p} = m\vec{v} \]</div>
+    <div class="formula-item"><span class="lbl">Jėgos impulsas</span>\[ \vec{F}\Delta t = \Delta\vec{p} \]</div>
+    <div class="formula-item"><span class="lbl">Tvermės dėsnis</span>\[ m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2' \]</div>
+  </div>
+ 
+  <div class="example-box">
+    <div class="ex-title">Pavyzdys – netamprūs susidūrimai</div>
+    <p>Du vagonai: \(m_1 = 2\) kg, \(v_1 = 6\) m/s; \(m_2 = 4\) kg, \(v_2 = 0\). Po susidūrimo juda kartu. Rasti bendrą greitį ir palyginti kinetines energijas prieš ir po.</p>
+    <ol class="step-list">
+      <li>Impulso tvermė: \(m_1 v_1 = (m_1 + m_2) v'\)</li>
+      <li>\(v' = \frac{2 \cdot 6}{2 + 4} = 2\) m/s</li>
+      <li>Pradinė \(E_k = \frac{1}{2}\cdot2\cdot36 = 36\) J; galutinė \(E_k' = \frac{1}{2}\cdot6\cdot4 = 12\) J</li>
+      <li>Prarastos 24 J virto šiluma – netampraus susidūrimo požymis.</li>
+    </ol>
+  </div>
+</div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+  const t = [], vu = [], va = [];
+  for(let i=0;i<=10;i+=0.5){
+    t.push(i.toFixed(1));
+    vu.push(4);
+    va.push(1*i);
+  }
+  new Chart(document.getElementById('kinChart'),{
+    type:'line',
+    data:{labels:t,datasets:[
+      {label:'Tolyginis (v=4 m/s)',data:vu,borderColor:'#5d5fef',backgroundColor:'rgba(93,95,239,0.08)',tension:0,pointRadius:0,borderWidth:2},
+      {label:'Tolygiai spartėjantis (a=1 m/s²)',data:va,borderColor:'#e04040',backgroundColor:'rgba(224,64,64,0.06)',tension:0,pointRadius:0,borderWidth:2,borderDash:[5,3]}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{title:{display:true,text:'t (s)'},ticks:{color:'#888'}},y:{title:{display:true,text:'v (m/s)'},ticks:{color:'#888'}}},
+      plugins:{legend:{labels:{color:'#555'}}}}
+  });
+})();
+</script>
+    </article>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="/topics.html" class="back-link">← Visos temos</a>
+    </div>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="f-inner">
+    <div class="f-bottom">
+      <p class="f-copy">&copy; 2026 StudijųBankas. Visos teisės saugomos.</p>
+      <ul class="f-legal">
+        <li><a href="/privacy.html">Privatumo politika</a></li>
+        <li><a href="/kontaktai.html">Kontaktai</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/scripts.js"></script>
+<script src="/subscription.js"></script>
+</body>
+</html>
