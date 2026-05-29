@@ -46,6 +46,7 @@ function generateLessonHTML(topic) {
     table { width: 100%; border-collapse: collapse; table-layout: fixed; }
     td, th { word-break: break-word; overflow-wrap: break-word; }
     pre, code { white-space: pre-wrap; word-break: break-all; overflow-x: auto; }
+    .code-block { white-space: pre !important; overflow-x: auto; }
   `;
 
   const content = topic.content || '<p>Ši pamoka dar neturi turinio.</p>';
