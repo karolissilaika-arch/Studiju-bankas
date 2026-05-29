@@ -1338,7 +1338,7 @@ body {
     }
 
     /* === Hero === */
-    .hero { flex-direction: column; padding: 40px 4%; text-align: center; }
+    .hero { flex-direction: column; padding: 40px 4%; text-align: center; min-height: unset; }
     .hero-content h1 { font-size: 2rem; }
     .hero-btns { justify-content: center; flex-wrap: wrap; gap: 10px; }
     .hero-image { display: none; }
