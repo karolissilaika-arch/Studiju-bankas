@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fizikos simuliacijos | StudijųBankas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ---- Breadcrumb ---- */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* ---- Section header ---- */
+        .sim-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 32px 0 14px;
+        }
+        .sim-section-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .sim-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+        .sim-section-sub {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .sim-section-bar {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        /* ---- Simulation grid ---- */
+        .sim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        /* ---- Simulation card ---- */
+        .sim-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            cursor: pointer;
+            transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .sim-card:hover {
+            box-shadow: 0 6px 24px rgba(93,95,239,0.12);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .sim-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .sim-card-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1.35;
+        }
+        .sim-card-desc {
+            font-size: 0.82rem;
+            color: var(--text-gray);
+            margin: 0;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .sim-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 2px;
+        }
+        .sim-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 20px;
+        }
+        .sim-badge.vbe      { background: #eef2ff; color: var(--primary); }
+        .sim-badge.premium  { background: #fef3c7; color: #92400e; }
+        .sim-badge.bonus    { background: #ecfdf5; color: #065f46; }
+
+        .prio-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+        .prio-high   { background: #ef4444; }
+        .prio-medium { background: #f59e0b; }
+        .prio-low    { background: #22c55e; }
+
+        .sim-arrow { font-size: 0.75rem; color: #d1d5db; }
+        .sim-card:hover .sim-arrow { color: var(--primary); }
+
+        /* ---- Modal overlay ---- */
+        .sim-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .sim-modal-overlay.open { display: flex; }
+
+        .sim-modal {
+            background: white;
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 1200px;
+            height: 92vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+        .sim-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+        .sim-modal-header h3 { margin: 0; font-size: 1.1rem; }
+        .sim-modal-header p { margin: 4px 0 0; font-size: 0.85rem; color: var(--text-gray); }
+        .sim-modal-close {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: #f3f4f6;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .sim-modal-close:hover { background: #e5e7eb; color: var(--text-dark); }
+        .sim-modal-body {
+            flex: 1;
+            overflow: hidden;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sim-iframe-wrap {
+            flex: 1;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+        .sim-iframe-wrap iframe {
+            width: 100%; height: 100%; border: none;
+        }
+        .sim-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #f8f9ff 100%);
+            border: 2px dashed #c7d2fe;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            color: var(--text-gray);
+        }
+        .sim-placeholder i { font-size: 2.5rem; color: #a5b4fc; }
+        .sim-placeholder h4 { margin: 0; font-size: 1rem; color: var(--text-dark); }
+        .sim-placeholder p { margin: 0; font-size: 0.85rem; text-align: center; max-width: 320px; line-height: 1.5; }
+        .sim-placeholder .btn-primary {
+            margin-top: 4px;
+            padding: 10px 22px;
+            font-size: 0.88rem;
+        }
+
+        /* stats bar */
+        .sim-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .sim-stat {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+        .sim-stat strong { color: var(--text-dark); font-size: 1.1rem; display: block; }
+    </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+    <aside class="sidebar-nav" id="sidebar">
+        <a href="index.html" class="logo-link">
+            <div class="logo">Studijų<span>Bankas</span></div>
+        </a>
+        <nav id="main-nav">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+            <a href="topics.html"><i class="fas fa-book"></i> Temos</a>
+            <a href="quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+            <a href="exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+            <a href="vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+            <a href="tools.html" class="active"><i class="fas fa-flask"></i> Įrankiai</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profilis</a>
+            <hr>
+            <div id="auth-section"></div>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <main class="dashboard-main">
+        <header class="page-header">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu"><span></span><span></span><span></span></button>
+                    <div>
+                        <div class="breadcrumb">
+                            <a href="tools.html"><i class="fas fa-flask"></i> Įrankiai</a>
+                            <i class="fas fa-chevron-right" style="font-size:0.65rem;"></i>
+                            <span>Fizikos simuliacijos</span>
+                        </div>
+                        <h2 style="margin:0;">Fizikos simuliacijos</h2>
+                    </div>
+                </div>
+                <p style="margin-top:4px; color:var(--text-gray); font-size:14px;">28 interaktyvios simuliacijos pagal LT VBE programą.</p>
+            </div>
+            <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
+                <div>
+                    <div id="header-username" class="pill-name">Moksleivis</div>
+                    <small id="header-xp" class="pill-xp">0 XP</small>
+                </div>
+                <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
+            </div>
+        </header>
+
+        <!-- Stats bar -->
+        <div class="sim-stats">
+            <div class="sim-stat"><strong>28</strong>Simuliacijos</div>
+            <div class="sim-stat"><strong>6</strong>Temos</div>
+            <div class="sim-stat"><strong>28</strong>Nemokamos</div>
+            <div class="sim-stat"><strong>VBE</strong>Orientuota</div>
+        </div>
+
+        <!-- MECHANIKA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-rocket"></i></div>
+            <div>
+                <p class="sim-section-title">Mechanika <span class="sim-section-sub">~30–35% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-mechanika"></div>
+
+        <!-- ELEKTRODINAMIKA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-bolt"></i></div>
+            <div>
+                <p class="sim-section-title">Elektrodinamika <span class="sim-section-sub">~25–30% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-elektra"></div>
+
+        <!-- SVYRAVIMAI IR BANGOS -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-wave-square"></i></div>
+            <div>
+                <p class="sim-section-title">Svyravimai ir bangos <span class="sim-section-sub">~15% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-bangos"></div>
+
+        <!-- MOLEKULINĖ FIZIKA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-wind"></i></div>
+            <div>
+                <p class="sim-section-title">Molekulinė fizika ir termodinamika <span class="sim-section-sub">~10% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-termo"></div>
+
+        <!-- OPTIKA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-eye"></i></div>
+            <div>
+                <p class="sim-section-title">Optika <span class="sim-section-sub">~10% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-optika"></div>
+
+        <!-- MODERNIOJI FIZIKA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-atom"></i></div>
+            <div>
+                <p class="sim-section-title">Modernioji fizika <span class="sim-section-sub">~10% VBE</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-moderni"></div>
+
+        <!-- ASTRONOMIJA -->
+        <div class="sim-section-header">
+            <div class="sim-section-icon"><i class="fas fa-moon"></i></div>
+            <div>
+                <p class="sim-section-title">Astronomija <span class="sim-section-sub">2–5% VBE + Bonus</span></p>
+            </div>
+            <div class="sim-section-bar"></div>
+        </div>
+        <div class="sim-grid" id="grid-astro"></div>
+
+    </main>
+</div>
+
+<!-- MODAL -->
+<div class="sim-modal-overlay" id="simModal" onclick="closeModalOnOverlay(event)">
+    <div class="sim-modal">
+        <div class="sim-modal-header">
+            <div>
+                <h3 id="modal-title">Simuliacija</h3>
+                <p id="modal-desc"></p>
+            </div>
+            <button class="sim-modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sim-modal-body" id="modal-body">
+        </div>
+    </div>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="f-inner">
+        <div class="f-top">
+            <div class="f-brand">
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
+                <p>Lietuvos moksleiviams skirta mokymosi platforma — testai, pamokos ir VBE pasiruošimas vienoje vietoje.</p>
+                <div class="f-social" aria-label="Socialiniai tinklai">
+                    <a href="https://www.instagram.com/studijubankas/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/61590194202133/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@studiju_bankas" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="f-right">
+                <div>
+                    <p class="f-col-title">Kontaktai</p>
+                    <ul class="f-info-list">
+                        <li><i class="fas fa-envelope"></i><a href="mailto:studijubankas@gmail.com">studijubankas@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="f-bottom">
+            <p class="f-copy">&copy; <span id="sb-footer-year"></span> StudijųBankas. Visos teisės saugomos.</p>
+            <ul class="f-legal">
+                <li><a href="privacy.html">Privatumo politika</a></li>
+                <li><a href="kontaktai.html">Kontaktai</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts.js"></script>
+<script src="subscription.js"></script>
+<script>
+// ===================== DUOMENYS =====================
+const SIMULATIONS = {
+    mechanika: [
+        {
+            id: 'laisvas-kritimas',
+            name: 'Laisvas kritimas',
+            desc: 'Keisk aukštį, stebėk greitį ir laiką; grafikas v(t)',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/projectile-motion/latest/projectile-motion_lt.html'
+        },
+        {
+            id: 'sviedinio-judesys',
+            name: 'Sviedinio judesys',
+            desc: 'Kampas, pradinis greitis → trajektorija, nuotolis, aukštis',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/projectile-motion/latest/projectile-motion_lt.html'
+        },
+        {
+            id: 'niutono-ii',
+            name: 'Niutono II dėsnis',
+            desc: 'F = ma interaktyviai: slankiok jėgą, stebėk pagreitį',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_lt.html'
+        },
+        {
+            id: 'trintis',
+            name: 'Trinties jėga',
+            desc: 'Statinė vs dinaminė trintis, paviršių lyginimas',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_lt.html'
+        },
+        {
+            id: 'energijos-tverme',
+            name: 'Energijos tvermė',
+            desc: 'Kamuolys riedant nuo kalnelio: Ek ↔ Ep animuotai',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/energy-skate-park-basics/latest/energy-skate-park-basics_lt.html'
+        },
+        {
+            id: 'impulso-tverme',
+            name: 'Impulso tvermė',
+            desc: 'Tamprus ir netamprus susidūrimas su masių reguliavimu',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/collision-lab/latest/collision-lab_lt.html'
+        },
+        {
+            id: 'judesys-apskritimu',
+            name: 'Judėjimas apskritimu',
+            desc: 'Centripetinė jėga, kampinis greitis, radijas',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_lt.html'
+        },
+        {
+            id: 'svyruoklis',
+            name: 'Paprastasis svyruoklis',
+            desc: 'Ilgis, masė, amplitudė → periodas; rezonansas',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/pendulum-lab/latest/pendulum-lab_lt.html'
+        }
+    ],
+    elektra: [
+        {
+            id: 'ohmo-desnis',
+            name: 'Ohmo dėsnis',
+            desc: 'U, I, R trikampis — keisk bet kurį, rask trečią',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/ohms-law/latest/ohms-law_lt.html'
+        },
+        {
+            id: 'grandzine',
+            name: 'Elektros grandinė',
+            desc: 'Rezistorių jungimas nuosekliai ir lygiagrečiai, voltmetras, ampermetras',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_lt.html'
+        },
+        {
+            id: 'kulono-desnis',
+            name: 'Kulono dėsnis',
+            desc: 'Du krūviai, atstumas → jėga; elektrinių laukų vizualizacija',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/coulombs-law/latest/coulombs-law_lt.html'
+        },
+        {
+            id: 'magnetinis-laukas',
+            name: 'Magnetinis laukas',
+            desc: 'Srovė laidininke → lauko linijos, kryptis (dešinės rankos taisyklė)',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/magnets-and-electromagnets/latest/magnets-and-electromagnets_lt.html'
+        },
+        {
+            id: 'em-indukcija',
+            name: 'Elektromagnetinė indukcija',
+            desc: 'Magnetas ir ritė — Lenzo dėsnis animuotai',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/faradays-law/latest/faradays-law_lt.html'
+        },
+        {
+            id: 'kondensatorius',
+            name: 'Kondensatorius',
+            desc: 'Krūvis, talpa, įtampa; krūvimas ir iškrūvimas',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/capacitor-lab-basics/latest/capacitor-lab-basics_lt.html'
+        }
+    ],
+    bangos: [
+        {
+            id: 'bangu-interferencija',
+            name: 'Bangų interferencija',
+            desc: 'Dvi šaltinių bangos, konstruktyvi / destruktyvi interferencija',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_lt.html'
+        },
+        {
+            id: 'stovinciosios-bangos',
+            name: 'Stovinčiosios bangos',
+            desc: 'Styga / vamzdis: mazgai, antimazgai, harmonikos',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/wave-on-a-string/latest/wave-on-a-string_lt.html'
+        },
+        {
+            id: 'doplerio-efektas',
+            name: 'Doplerio efektas',
+            desc: 'Judantis šaltinis → garsas aukštyn / žemyn',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference_lt.html'
+        }
+    ],
+    termo: [
+        {
+            id: 'idealios-dujos',
+            name: 'Idealios dujos (pV = nRT)',
+            desc: 'Slankiok T, V, p — stebėk kitas dydžius realiu laiku',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/gases-intro/latest/gases-intro_lt.html'
+        },
+        {
+            id: 'izoprocesai',
+            name: 'Izoprocesai',
+            desc: 'Izoterminis, izobarinis, izochorinis grafike p–V',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/gases-intro/latest/gases-intro_lt.html'
+        },
+        {
+            id: 'silumos-laidumas',
+            name: 'Šilumos laidumas',
+            desc: 'Temperatūros sklaida medžiagose, spalvų gradientas',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_lt.html'
+        }
+    ],
+    optika: [
+        {
+            id: 'atspindys-luzis',
+            name: 'Atspindys ir lūžis',
+            desc: 'Snelo dėsnis; kritinis kampas; visiškasis atspindys',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_lt.html'
+        },
+        {
+            id: 'lensiai',
+            name: 'Lęšiai (išgaubtasis / įgaubtasis)',
+            desc: 'Objekto padėtis → vaizdo vieta, dydis, tipas',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/geometric-optics/latest/geometric-optics_lt.html'
+        },
+        {
+            id: 'prizme-spektras',
+            name: 'Prizmė ir spektras',
+            desc: 'Baltos šviesos dispersija, vaivorykštė',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_lt.html'
+        }
+    ],
+    moderni: [
+        {
+            id: 'fotoelektrinis',
+            name: 'Fotoelektrinis efektas',
+            desc: 'Dažnis, darbo funkcija, fotoelektronų kinetinė energija',
+            badge: 'vbe',
+            prio: 'high',
+            phet: 'https://phet.colorado.edu/sims/html/photoelectric-effect/latest/photoelectric-effect_lt.html'
+        },
+        {
+            id: 'radioaktyvumas',
+            name: 'Radioaktyvusis skilimas',
+            desc: 'Pusėjimo laikas, aktyvumo grafikas, α/β/γ spinduliuotė',
+            badge: 'vbe',
+            prio: 'medium',
+            phet: 'https://phet.colorado.edu/sims/html/radioactive-dating-game/latest/radioactive-dating-game_lt.html'
+        },
+        {
+            id: 'boras',
+            name: 'Boro atomo modelis',
+            desc: 'Elektrono šuoliai, fotonų emisija, spektrinės serijos',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/models-of-the-hydrogen-atom/latest/models-of-the-hydrogen-atom_lt.html'
+        }
+    ],
+    astro: [
+        {
+            id: 'orbitos',
+            name: 'Planetų orbitos',
+            desc: 'Keplerio dėsniai, elipsės, periodiškumas',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_lt.html'
+        },
+        {
+            id: 'gravitacija',
+            name: 'Gravitacijos lauko vizualizacija',
+            desc: 'Dviejų masių traukos laukas, potencialas',
+            badge: 'vbe',
+            prio: 'low',
+            phet: 'https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_lt.html'
+        }
+    ]
+};
+
+const BADGE_LABELS = { vbe: 'VBE', premium: 'Premium', bonus: 'Bonus' };
+
+// ===================== RENDER =====================
+function renderSection(gridId, items) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = items.map(sim => `
+        <div class="sim-card" onclick="openSim('${sim.id}')">
+            <div class="sim-card-top">
+                <p class="sim-card-name">${sim.name}</p>
+                <span class="prio-dot prio-${sim.prio}"></span>
+            </div>
+            <p class="sim-card-desc">${sim.desc}</p>
+            <div class="sim-card-footer">
+                <span class="sim-badge ${sim.badge}">${BADGE_LABELS[sim.badge]}</span>
+                <span class="sim-arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Render visus
+renderSection('grid-mechanika', SIMULATIONS.mechanika);
+renderSection('grid-elektra',   SIMULATIONS.elektra);
+renderSection('grid-bangos',    SIMULATIONS.bangos);
+renderSection('grid-termo',     SIMULATIONS.termo);
+renderSection('grid-optika',    SIMULATIONS.optika);
+renderSection('grid-moderni',   SIMULATIONS.moderni);
+renderSection('grid-astro',     SIMULATIONS.astro);
+
+// ===================== MODAL =====================
+function findSim(id) {
+    for (const group of Object.values(SIMULATIONS)) {
+        const found = group.find(s => s.id === id);
+        if (found) return found;
+    }
+    return null;
+}
+
+function openSim(id) {
+    const sim = findSim(id);
+    if (!sim) return;
+
+    document.getElementById('modal-title').textContent = sim.name;
+    document.getElementById('modal-desc').textContent = sim.desc;
+
+    const body = document.getElementById('modal-body');
+
+    if (sim.phet) {
+        body.innerHTML = `
+            <div class="sim-iframe-wrap">
+                <iframe src="${sim.phet}" allowfullscreen loading="lazy" title="${sim.name}"></iframe>
+            </div>
+        `;
+    } else {
+        body.innerHTML = `
+            <div class="sim-placeholder">
+                <i class="fas fa-tools"></i>
+                <h4>Kuriama simuliacija</h4>
+                <p>Ši simuliacija šiuo metu kuriama. Netrukus bus prieinama!</p>
+            </div>
+        `;
+    }
+
+    document.getElementById('simModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('simModal').classList.remove('open');
+    document.body.style.overflow = '';
+    // Sustabdom iframe, kad nesikrautų fone
+    document.getElementById('modal-body').innerHTML = '';
+}
+
+function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('simModal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===================== SIDEBAR =====================
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("mobile-open");
+    document.getElementById("sidebar-overlay").classList.toggle("active");
+    document.getElementById("hamburger").classList.toggle("open");
+}
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("mobile-open");
+    document.getElementById("sidebar-overlay").classList.remove("active");
+    document.getElementById("hamburger").classList.remove("open");
+}
+</script>
+</body>
+</html>

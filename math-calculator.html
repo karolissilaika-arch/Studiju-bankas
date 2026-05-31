@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematikos skaičiuoklė | StudijųBankas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
+    <style>
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* ── Mode tabs ── */
+        .mode-tabs {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px;
+        }
+        .mode-tab {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 18px; border-radius: 10px;
+            border: 1.5px solid #e5e7eb; background: white;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            color: var(--text-gray); transition: all .2s;
+        }
+        .mode-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .mode-tab.active { background: #eef2ff; border-color: var(--primary); color: var(--primary); }
+        .mode-tab i { font-size: 0.9rem; }
+
+        /* ── Panels ── */
+        .calc-panel { display: none; }
+        .calc-panel.active { display: block; }
+
+        /* ── Shared card ── */
+        .calc-card {
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: var(--radius-lg); padding: 28px;
+            margin-bottom: 20px; max-width: 780px;
+        }
+        .calc-card h3 {
+            font-size: 1rem; font-weight: 700;
+            color: var(--text-dark); margin: 0 0 18px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        /* ── Input area ── */
+        .expr-row {
+            display: flex; gap: 10px; align-items: stretch; margin-bottom: 12px;
+        }
+        .expr-input {
+            flex: 1; padding: 12px 16px;
+            border: 1.5px solid #e5e7eb; border-radius: 10px;
+            font-size: 1.05rem; font-family: 'Courier New', monospace;
+            outline: none; transition: border-color .2s, box-shadow .2s;
+            color: var(--text-dark);
+        }
+        .expr-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(93,95,239,.1);
+        }
+        .expr-input::placeholder { color: #c4c7d0; font-family: inherit; }
+        .calc-btn {
+            padding: 12px 22px; border-radius: 10px;
+            background: var(--primary); color: white;
+            border: none; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; transition: background .2s, transform .1s;
+            white-space: nowrap;
+        }
+        .calc-btn:hover { background: #4547d0; }
+        .calc-btn:active { transform: scale(.97); }
+        .calc-btn.secondary {
+            background: #f3f4f6; color: var(--text-gray);
+            border: 1.5px solid #e5e7eb;
+        }
+        .calc-btn.secondary:hover { background: #e5e7eb; }
+
+        /* ── Result area ── */
+        .result-box {
+            background: #f8f9ff; border: 1px solid #e0e3ff;
+            border-radius: 10px; padding: 16px 20px;
+            margin-top: 12px; display: none;
+        }
+        .result-box.visible { display: block; }
+        .result-label {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .05em; color: var(--text-muted); margin-bottom: 6px;
+        }
+        .result-val {
+            font-size: 1.35rem; font-weight: 800;
+            color: var(--primary); font-family: 'Courier New', monospace;
+        }
+        .result-decimal {
+            font-size: 0.88rem; color: var(--text-gray);
+            margin-top: 4px; font-family: 'Courier New', monospace;
+        }
+        .error-box {
+            background: #fff5f5; border: 1px solid #fecaca;
+            border-radius: 10px; padding: 14px 18px;
+            margin-top: 12px; color: #dc2626;
+            font-size: 0.88rem; display: none;
+        }
+        .error-box.visible { display: block; }
+
+        /* ── Steps ── */
+        .steps-list { margin-top: 14px; }
+        .step-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+        }
+        .step-item:last-child { border-bottom: none; }
+        .step-num {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: #eef2ff; color: var(--primary);
+            font-size: 0.75rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; margin-top: 1px;
+        }
+        .step-text { font-size: 0.88rem; color: var(--text-dark); line-height: 1.5; }
+        .step-text code {
+            background: #f0f4ff; color: var(--primary);
+            padding: 1px 6px; border-radius: 4px;
+            font-family: 'Courier New', monospace; font-size: 0.9em;
+        }
+
+        /* ── Quick buttons ── */
+        .quick-btns {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+        }
+        .qbtn {
+            padding: 5px 12px; border-radius: 7px;
+            background: #f3f4f6; border: 1px solid #e5e7eb;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            color: var(--text-dark); transition: all .15s;
+            font-family: 'Courier New', monospace;
+        }
+        .qbtn:hover { background: #eef2ff; border-color: var(--primary); color: var(--primary); }
+
+        /* ── History ── */
+        .history-list { max-height: 220px; overflow-y: auto; }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 9px 14px; border-radius: 8px; cursor: pointer;
+            transition: background .15s; gap: 12px;
+        }
+        .history-item:hover { background: #f8f9ff; }
+        .history-expr { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-dark); }
+        .history-res { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+        .history-empty { font-size: 0.85rem; color: var(--text-muted); padding: 12px 0; }
+
+        /* ── Graph ── */
+        .graph-canvas-wrap {
+            position: relative; width: 100%; background: #f8f9ff;
+            border: 1px solid #e0e3ff; border-radius: 12px;
+            overflow: hidden; margin-top: 16px;
+        }
+        #graph-canvas { display: block; width: 100%; }
+        .graph-controls {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center;
+        }
+        .graph-controls label {
+            font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+        }
+        .graph-controls input[type=number] {
+            width: 70px; padding: 6px 10px;
+            border: 1.5px solid #e5e7eb; border-radius: 8px;
+            font-size: 0.85rem; outline: none; font-family: inherit;
+        }
+        .graph-controls input[type=number]:focus { border-color: var(--primary); }
+        .graph-fn-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .fn-color-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .add-fn-btn {
+            padding: 7px 14px; border-radius: 8px;
+            background: #eef2ff; color: var(--primary);
+            border: 1.5px solid #c7d2fe; font-size: 0.82rem;
+            font-weight: 700; cursor: pointer; transition: all .2s;
+        }
+        .add-fn-btn:hover { background: #e0e7ff; }
+        .remove-fn-btn {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #f3f4f6; border: 1px solid #e5e7eb;
+            cursor: pointer; color: #9ca3af; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all .15s; flex-shrink: 0;
+        }
+        .remove-fn-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+        .graph-hint {
+            font-size: 0.78rem; color: var(--text-muted);
+            margin-top: 8px; line-height: 1.5;
+        }
+        .graph-hint code {
+            background: #f0f4ff; color: var(--primary);
+            padding: 1px 5px; border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ── Equation solver ── */
+        .eq-type-tabs {
+            display: flex; gap: 6px; margin-bottom: 16px;
+        }
+        .eq-tab {
+            padding: 6px 14px; border-radius: 8px;
+            border: 1.5px solid #e5e7eb; background: white;
+            font-size: 0.8rem; font-weight: 600; cursor: pointer;
+            color: var(--text-gray); transition: all .2s;
+        }
+        .eq-tab.active { background: #eef2ff; border-color: var(--primary); color: var(--primary); }
+
+        /* ── Converter ── */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+        .field-group { display: flex; flex-direction: column; gap: 5px; }
+        .field-group label {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: .04em; color: var(--text-muted);
+        }
+        .field-group input, .field-group select {
+            padding: 10px 14px; border: 1.5px solid #e5e7eb;
+            border-radius: 10px; font-size: 0.95rem;
+            font-family: inherit; outline: none; color: var(--text-dark);
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .field-group input:focus, .field-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(93,95,239,.1);
+        }
+
+        /* ── Reference table ── */
+        .ref-wrap {
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: var(--radius-lg); overflow: hidden;
+            max-width: 780px; margin-bottom: 20px;
+        }
+        .ref-title {
+            padding: 13px 20px; font-size: 0.82rem; font-weight: 700;
+            color: var(--text-gray); background: #fafafa;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+        .ref-table th {
+            text-align: left; padding: 9px 20px;
+            color: var(--text-muted); font-size: 0.73rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .04em;
+            background: #fafafa; border-bottom: 1px solid #f0f0f0;
+        }
+        .ref-table td { padding: 9px 20px; border-bottom: 1px solid #f7f7f7; }
+        .ref-table tr:last-child td { border-bottom: none; }
+        .ref-table tr:hover td { background: #fafbff; }
+        .ref-table td:first-child { font-family: 'Courier New', monospace; color: var(--primary); font-weight: 600; }
+
+        /* graph tooltip */
+        #graph-tooltip {
+            position: absolute; background: white;
+            border: 1px solid #e5e7eb; border-radius: 8px;
+            padding: 6px 12px; font-size: 0.8rem; font-weight: 600;
+            color: var(--text-dark); pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,.1);
+            display: none; white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+    <aside class="sidebar-nav" id="sidebar">
+        <a href="index.html" class="logo-link">
+            <div class="logo">Studijų<span>Bankas</span></div>
+        </a>
+        <nav id="main-nav">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+            <a href="topics.html"><i class="fas fa-book"></i> Temos</a>
+            <a href="quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+            <a href="exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+            <a href="vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+            <a href="tools.html" class="active"><i class="fas fa-flask"></i> Įrankiai</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profilis</a>
+            <hr>
+            <div id="auth-section"></div>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <main class="dashboard-main">
+        <header class="page-header">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu"><span></span><span></span><span></span></button>
+                    <div>
+                        <div class="breadcrumb">
+                            <a href="tools.html"><i class="fas fa-flask"></i> Įrankiai</a>
+                            <i class="fas fa-chevron-right" style="font-size:.65rem;"></i>
+                            <span>Matematikos skaičiuoklė</span>
+                        </div>
+                        <h2 style="margin:0;">Matematikos skaičiuoklė</h2>
+                    </div>
+                </div>
+                <p style="margin-top:4px; color:var(--text-gray); font-size:14px;">Lygtys, funkcijų grafikai, išvestinės ir integralaI — žingsnis po žingsnio.</p>
+            </div>
+            <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
+                <div>
+                    <div id="header-username" class="pill-name">Moksleivis</div>
+                    <small id="header-xp" class="pill-xp">0 XP</small>
+                </div>
+                <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
+            </div>
+        </header>
+
+        <!-- Mode tabs -->
+        <div class="mode-tabs">
+            <button class="mode-tab active" onclick="switchMode('calc')" id="tab-calc">
+                <i class="fas fa-calculator"></i> Skaičiuoklė
+            </button>
+            <button class="mode-tab" onclick="switchMode('eq')" id="tab-eq">
+                <i class="fas fa-equals"></i> Lygtys
+            </button>
+            <button class="mode-tab" onclick="switchMode('graph')" id="tab-graph">
+                <i class="fas fa-chart-line"></i> Grafikai
+            </button>
+            <button class="mode-tab" onclick="switchMode('deriv')" id="tab-deriv">
+                <i class="fas fa-wave-square"></i> Išvestinės
+            </button>
+            <button class="mode-tab" onclick="switchMode('ref')" id="tab-ref">
+                <i class="fas fa-book-open"></i> Formulynas
+            </button>
+        </div>
+
+        <!-- ═══════════ CALCULATOR ═══════════ -->
+        <div class="calc-panel active" id="panel-calc">
+            <div class="calc-card">
+                <h3><i class="fas fa-calculator" style="color:var(--primary)"></i> Išraiškos skaičiavimas</h3>
+                <div class="quick-btns" id="quick-btns">
+                    <button class="qbtn" onclick="insertQuick('sqrt(')">√</button>
+                    <button class="qbtn" onclick="insertQuick('^2')">x²</button>
+                    <button class="qbtn" onclick="insertQuick('^')">xⁿ</button>
+                    <button class="qbtn" onclick="insertQuick('pi')">π</button>
+                    <button class="qbtn" onclick="insertQuick('e')">e</button>
+                    <button class="qbtn" onclick="insertQuick('sin(')">sin</button>
+                    <button class="qbtn" onclick="insertQuick('cos(')">cos</button>
+                    <button class="qbtn" onclick="insertQuick('tan(')">tan</button>
+                    <button class="qbtn" onclick="insertQuick('log(')">log</button>
+                    <button class="qbtn" onclick="insertQuick('log2(')">log₂</button>
+                    <button class="qbtn" onclick="insertQuick('ln(')">ln</button>
+                    <button class="qbtn" onclick="insertQuick('abs(')">|x|</button>
+                    <button class="qbtn" onclick="insertQuick('factorial(')">n!</button>
+                    <button class="qbtn" onclick="insertQuick('('))">()</button>
+                </div>
+                <div class="expr-row">
+                    <input type="text" class="expr-input" id="calc-input"
+                        placeholder="pvz. 2^10 + sqrt(144) / 3"
+                        onkeydown="if(event.key==='Enter') calculate()">
+                    <button class="calc-btn" onclick="calculate()"><i class="fas fa-play"></i> Skaičiuoti</button>
+                    <button class="calc-btn secondary" onclick="clearCalc()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="error-box" id="calc-error"></div>
+                <div class="result-box" id="calc-result">
+                    <div class="result-label">Rezultatas</div>
+                    <div class="result-val" id="calc-result-val"></div>
+                    <div class="result-decimal" id="calc-result-dec"></div>
+                    <div class="steps-list" id="calc-steps"></div>
+                </div>
+            </div>
+
+            <!-- History -->
+            <div class="calc-card" style="max-width:780px;">
+                <h3><i class="fas fa-history" style="color:#9ca3af"></i> Istorija
+                    <button class="calc-btn secondary" style="margin-left:auto; padding:6px 14px; font-size:0.78rem;" onclick="clearHistory()">Išvalyti</button>
+                </h3>
+                <div class="history-list" id="history-list">
+                    <div class="history-empty">Istorija tuščia. Skaičiuok ką nors!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════ EQUATIONS ═══════════ -->
+        <div class="calc-panel" id="panel-eq">
+            <div class="calc-card">
+                <h3><i class="fas fa-equals" style="color:var(--primary)"></i> Lygčių sprendimas</h3>
+                <div class="eq-type-tabs">
+                    <button class="eq-tab active" onclick="switchEqType('linear')" id="eqtab-linear">Tiesinė</button>
+                    <button class="eq-tab" onclick="switchEqType('quadratic')" id="eqtab-quadratic">Kvadratinė</button>
+                    <button class="eq-tab" onclick="switchEqType('system')" id="eqtab-system">Sistema (2×2)</button>
+                </div>
+
+                <!-- Linear -->
+                <div id="eq-linear">
+                    <p style="font-size:.83rem; color:var(--text-muted); margin-bottom:12px;">Forma: <code style="background:#f0f4ff;color:var(--primary);padding:2px 6px;border-radius:4px;">ax + b = c</code></p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;">
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>a (koeficientas)</label>
+                            <input type="number" id="lin-a" value="2" placeholder="a">
+                        </div>
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>b (laisvasis narys)</label>
+                            <input type="number" id="lin-b" value="3" placeholder="b">
+                        </div>
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>c (dešinė pusė)</label>
+                            <input type="number" id="lin-c" value="11" placeholder="c">
+                        </div>
+                        <button class="calc-btn" onclick="solveLinear()"><i class="fas fa-play"></i> Spręsti</button>
+                    </div>
+                    <div class="error-box" id="lin-error"></div>
+                    <div class="result-box" id="lin-result">
+                        <div class="result-label">Sprendinys</div>
+                        <div class="result-val" id="lin-val"></div>
+                        <div class="steps-list" id="lin-steps"></div>
+                    </div>
+                </div>
+
+                <!-- Quadratic -->
+                <div id="eq-quadratic" style="display:none;">
+                    <p style="font-size:.83rem; color:var(--text-muted); margin-bottom:12px;">Forma: <code style="background:#f0f4ff;color:var(--primary);padding:2px 6px;border-radius:4px;">ax² + bx + c = 0</code></p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;">
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>a</label>
+                            <input type="number" id="quad-a" value="1" placeholder="a">
+                        </div>
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>b</label>
+                            <input type="number" id="quad-b" value="-5" placeholder="b">
+                        </div>
+                        <div class="field-group" style="flex:1; min-width:80px;">
+                            <label>c</label>
+                            <input type="number" id="quad-c" value="6" placeholder="c">
+                        </div>
+                        <button class="calc-btn" onclick="solveQuadratic()"><i class="fas fa-play"></i> Spręsti</button>
+                    </div>
+                    <div class="error-box" id="quad-error"></div>
+                    <div class="result-box" id="quad-result">
+                        <div class="result-label">Sprendiniai</div>
+                        <div class="result-val" id="quad-val"></div>
+                        <div class="steps-list" id="quad-steps"></div>
+                    </div>
+                </div>
+
+                <!-- System -->
+                <div id="eq-system" style="display:none;">
+                    <p style="font-size:.83rem; color:var(--text-muted); margin-bottom:12px;">
+                        Sistema: <code style="background:#f0f4ff;color:var(--primary);padding:2px 6px;border-radius:4px;">a₁x + b₁y = c₁</code> ir <code style="background:#f0f4ff;color:var(--primary);padding:2px 6px;border-radius:4px;">a₂x + b₂y = c₂</code>
+                    </p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                        <div>
+                            <p style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">1-oji lygtis</p>
+                            <div style="display:flex; gap:8px;">
+                                <div class="field-group" style="flex:1;">
+                                    <label>a₁</label>
+                                    <input type="number" id="sys-a1" value="2">
+                                </div>
+                                <div class="field-group" style="flex:1;">
+                                    <label>b₁</label>
+                                    <input type="number" id="sys-b1" value="1">
+                                </div>
+                                <div class="field-group" style="flex:1;">
+                                    <label>c₁</label>
+                                    <input type="number" id="sys-c1" value="5">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">2-oji lygtis</p>
+                            <div style="display:flex; gap:8px;">
+                                <div class="field-group" style="flex:1;">
+                                    <label>a₂</label>
+                                    <input type="number" id="sys-a2" value="1">
+                                </div>
+                                <div class="field-group" style="flex:1;">
+                                    <label>b₂</label>
+                                    <input type="number" id="sys-b2" value="-1">
+                                </div>
+                                <div class="field-group" style="flex:1;">
+                                    <label>c₂</label>
+                                    <input type="number" id="sys-c2" value="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="solveSystem()"><i class="fas fa-play"></i> Spręsti</button>
+                    <div class="error-box" id="sys-error"></div>
+                    <div class="result-box" id="sys-result">
+                        <div class="result-label">Sprendiniai</div>
+                        <div class="result-val" id="sys-val"></div>
+                        <div class="steps-list" id="sys-steps"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════ GRAPH ═══════════ -->
+        <div class="calc-panel" id="panel-graph">
+            <div class="calc-card" style="max-width:900px;">
+                <h3><i class="fas fa-chart-line" style="color:var(--primary)"></i> Funkcijų grafikai</h3>
+                <div id="fn-list"></div>
+                <button class="add-fn-btn" onclick="addFnRow()"><i class="fas fa-plus"></i> Pridėti funkciją</button>
+                <div class="graph-hint" style="margin-top:10px;">
+                    Rašyk naudodamas <code>x</code> kaip kintamąjį. Pvz.: <code>x^2 - 3*x + 2</code>, <code>sin(x)</code>, <code>sqrt(x)</code>, <code>abs(x)</code>
+                </div>
+                <div class="graph-controls" style="margin-top:14px;">
+                    <label>x min:</label>
+                    <input type="number" id="g-xmin" value="-10">
+                    <label>x max:</label>
+                    <input type="number" id="g-xmax" value="10">
+                    <label>y min:</label>
+                    <input type="number" id="g-ymin" value="-10">
+                    <label>y max:</label>
+                    <input type="number" id="g-ymax" value="10">
+                    <button class="calc-btn" onclick="drawGraph()" style="padding:8px 18px;"><i class="fas fa-play"></i> Braižyti</button>
+                    <button class="calc-btn secondary" onclick="resetGraphView()" style="padding:8px 14px;"><i class="fas fa-expand"></i></button>
+                </div>
+                <div class="graph-canvas-wrap">
+                    <canvas id="graph-canvas" height="420"></canvas>
+                    <div id="graph-tooltip"></div>
+                </div>
+                <div id="graph-error" class="error-box"></div>
+            </div>
+        </div>
+
+        <!-- ═══════════ DERIVATIVES ═══════════ -->
+        <div class="calc-panel" id="panel-deriv">
+            <div class="calc-card">
+                <h3><i class="fas fa-wave-square" style="color:var(--primary)"></i> Išvestinės (skaitinis metodas)</h3>
+                <p style="font-size:.83rem; color:var(--text-muted); margin-bottom:14px;">
+                    Įvesk funkciją f(x) ir tašką x₀ — gausi f'(x₀) reikšmę ir žingsnis po žingsnio paaiškinimą.
+                </p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;">
+                    <div class="field-group" style="flex:2; min-width:180px;">
+                        <label>f(x) funkcija</label>
+                        <input type="text" id="deriv-fn" value="x^3 - 2*x^2 + x" placeholder="pvz. x^3 - 2*x + 1" style="font-family:'Courier New',monospace;">
+                    </div>
+                    <div class="field-group" style="flex:1; min-width:100px;">
+                        <label>x₀ taškas</label>
+                        <input type="number" id="deriv-x0" value="2" step="0.1">
+                    </div>
+                    <button class="calc-btn" onclick="calcDerivative()"><i class="fas fa-play"></i> Skaičiuoti</button>
+                </div>
+                <div class="error-box" id="deriv-error"></div>
+                <div class="result-box" id="deriv-result">
+                    <div class="result-label">f'(x₀)</div>
+                    <div class="result-val" id="deriv-val"></div>
+                    <div class="steps-list" id="deriv-steps"></div>
+                </div>
+            </div>
+
+            <!-- Integral -->
+            <div class="calc-card">
+                <h3><i class="fas fa-integral" style="color:var(--primary)"></i> Apibrėžtinis integralas (skaitinis)</h3>
+                <p style="font-size:.83rem; color:var(--text-muted); margin-bottom:14px;">
+                    Skaičiuoja ∫<sub>a</sub><sup>b</sup> f(x) dx Simpsono metodu.
+                </p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;">
+                    <div class="field-group" style="flex:2; min-width:180px;">
+                        <label>f(x) funkcija</label>
+                        <input type="text" id="int-fn" value="x^2" placeholder="pvz. x^2 + 1" style="font-family:'Courier New',monospace;">
+                    </div>
+                    <div class="field-group" style="min-width:80px;">
+                        <label>a (pradžia)</label>
+                        <input type="number" id="int-a" value="0">
+                    </div>
+                    <div class="field-group" style="min-width:80px;">
+                        <label>b (pabaiga)</label>
+                        <input type="number" id="int-b" value="3">
+                    </div>
+                    <button class="calc-btn" onclick="calcIntegral()"><i class="fas fa-play"></i> Skaičiuoti</button>
+                </div>
+                <div class="error-box" id="int-error"></div>
+                <div class="result-box" id="int-result">
+                    <div class="result-label">∫ f(x) dx</div>
+                    <div class="result-val" id="int-val"></div>
+                    <div class="steps-list" id="int-steps"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════ REFERENCE ═══════════ -->
+        <div class="calc-panel" id="panel-ref">
+            <div class="ref-wrap">
+                <div class="ref-title"><i class="fas fa-superscript" style="color:var(--primary);margin-right:6px;"></i> Pagrindinės formulės</div>
+                <table class="ref-table">
+                    <tr><th>Formulė</th><th>Aprašymas</th></tr>
+                    <tr><td>(a+b)² = a² + 2ab + b²</td><td>Sumos kvadratas</td></tr>
+                    <tr><td>(a-b)² = a² - 2ab + b²</td><td>Skirtumo kvadratas</td></tr>
+                    <tr><td>(a+b)(a-b) = a² - b²</td><td>Kvadratų skirtumas</td></tr>
+                    <tr><td>(a+b)³ = a³ + 3a²b + 3ab² + b³</td><td>Sumos kubas</td></tr>
+                    <tr><td>x = (-b ± √(b²-4ac)) / 2a</td><td>Kvadratinės lygties formulė</td></tr>
+                    <tr><td>D = b² - 4ac</td><td>Diskriminantas</td></tr>
+                </table>
+            </div>
+            <div class="ref-wrap">
+                <div class="ref-title"><i class="fas fa-draw-polygon" style="color:#059669;margin-right:6px;"></i> Geometrija</div>
+                <table class="ref-table">
+                    <tr><th>Formulė</th><th>Aprašymas</th></tr>
+                    <tr><td>S = a²</td><td>Kvadrato plotas</td></tr>
+                    <tr><td>S = a·b</td><td>Stačiakampio plotas</td></tr>
+                    <tr><td>S = πr²</td><td>Apskritimo plotas</td></tr>
+                    <tr><td>C = 2πr</td><td>Apskritimo ilgis</td></tr>
+                    <tr><td>S = ½·a·h</td><td>Trikampio plotas</td></tr>
+                    <tr><td>a² + b² = c²</td><td>Pitagoro teorema</td></tr>
+                    <tr><td>V = a³</td><td>Kubo tūris</td></tr>
+                    <tr><td>V = l·w·h</td><td>Stačiakampio gretasienio tūris</td></tr>
+                    <tr><td>V = πr²h</td><td>Cilindro tūris</td></tr>
+                    <tr><td>V = (4/3)πr³</td><td>Sferos tūris</td></tr>
+                </table>
+            </div>
+            <div class="ref-wrap">
+                <div class="ref-title"><i class="fas fa-wave-square" style="color:#ea580c;margin-right:6px;"></i> Trigonometrija</div>
+                <table class="ref-table">
+                    <tr><th>Formulė</th><th>Aprašymas</th></tr>
+                    <tr><td>sin²x + cos²x = 1</td><td>Pagrindinė tapatybė</td></tr>
+                    <tr><td>sin(2x) = 2·sin(x)·cos(x)</td><td>Dvigubo kampo sinusas</td></tr>
+                    <tr><td>cos(2x) = cos²x - sin²x</td><td>Dvigubo kampo kosinusas</td></tr>
+                    <tr><td>tan(x) = sin(x)/cos(x)</td><td>Tangentas</td></tr>
+                    <tr><td>sin(a±b) = sin·cos ± cos·sin</td><td>Sumos/skirtumo formulė</td></tr>
+                    <tr><td>a/sin(A) = b/sin(B) = c/sin(C)</td><td>Sinusų teorema</td></tr>
+                    <tr><td>c² = a² + b² - 2ab·cos(C)</td><td>Kosinusų teorema</td></tr>
+                </table>
+            </div>
+            <div class="ref-wrap">
+                <div class="ref-title"><i class="fas fa-wave-square" style="color:#6b21a8;margin-right:6px;"></i> Išvestinės</div>
+                <table class="ref-table">
+                    <tr><th>f(x)</th><th>f'(x)</th></tr>
+                    <tr><td>xⁿ</td><td>n·xⁿ⁻¹</td></tr>
+                    <tr><td>sin(x)</td><td>cos(x)</td></tr>
+                    <tr><td>cos(x)</td><td>-sin(x)</td></tr>
+                    <tr><td>tan(x)</td><td>1/cos²(x)</td></tr>
+                    <tr><td>eˣ</td><td>eˣ</td></tr>
+                    <tr><td>ln(x)</td><td>1/x</td></tr>
+                    <tr><td>aˣ</td><td>aˣ · ln(a)</td></tr>
+                    <tr><td>√x</td><td>1/(2√x)</td></tr>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="f-inner">
+        <div class="f-top">
+            <div class="f-brand">
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
+                <p>Lietuvos moksleiviams skirta mokymosi platforma — testai, pamokos ir VBE pasiruošimas vienoje vietoje.</p>
+                <div class="f-social">
+                    <a href="https://www.instagram.com/studijubankas/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/61590194202133/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@studiju_bankas" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="f-right">
+                <div>
+                    <p class="f-col-title">Kontaktai</p>
+                    <ul class="f-info-list">
+                        <li><i class="fas fa-envelope"></i><a href="mailto:studijubankas@gmail.com">studijubankas@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="f-bottom">
+            <p class="f-copy">&copy; <span id="sb-footer-year"></span> StudijųBankas. Visos teisės saugomos.</p>
+            <ul class="f-legal">
+                <li><a href="privacy.html">Privatumo politika</a></li>
+                <li><a href="kontaktai.html">Kontaktai</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts.js"></script>
+<script src="subscription.js"></script>
+<script>
+// ══════════════════════════════════════
+//  MODE SWITCHING
+// ══════════════════════════════════════
+function switchMode(mode) {
+    document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + mode).classList.add('active');
+    document.getElementById('tab-' + mode).classList.add('active');
+    if (mode === 'graph') { setTimeout(drawGraph, 50); }
+}
+
+// ══════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════
+function fmtNum(n) {
+    if (typeof n !== 'number' || !isFinite(n)) return String(n);
+    if (Math.abs(n) >= 1e12 || (Math.abs(n) < 1e-8 && n !== 0)) return n.toExponential(6);
+    // Try to show as nice fraction/integer
+    if (Number.isInteger(n)) return String(n);
+    return parseFloat(n.toPrecision(10)).toString();
+}
+
+function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = '⚠ ' + msg;
+    el.classList.add('visible');
+}
+function hideError(id) {
+    document.getElementById(id).classList.remove('visible');
+}
+function showResult(id) { document.getElementById(id).classList.add('visible'); }
+function hideResult(id) { document.getElementById(id).classList.remove('visible'); }
+
+function makeSteps(arr) {
+    return arr.map((s, i) => `
+        <div class="step-item">
+            <div class="step-num">${i+1}</div>
+            <div class="step-text">${s}</div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════
+//  CALCULATOR
+// ══════════════════════════════════════
+let history = [];
+
+function insertQuick(text) {
+    const inp = document.getElementById('calc-input');
+    const pos = inp.selectionStart;
+    const val = inp.value;
+    inp.value = val.slice(0, pos) + text + val.slice(pos);
+    inp.focus();
+    inp.setSelectionRange(pos + text.length, pos + text.length);
+}
+
+function calculate() {
+    const raw = document.getElementById('calc-input').value.trim();
+    if (!raw) return;
+    hideError('calc-error');
+    hideResult('calc-result');
+
+    try {
+        const result = math.evaluate(raw);
+        const steps = buildCalcSteps(raw, result);
+
+        document.getElementById('calc-result-val').textContent = fmtNum(result);
+        const dec = parseFloat(result);
+        if (!Number.isInteger(dec) && isFinite(dec)) {
+            document.getElementById('calc-result-dec').textContent = '≈ ' + dec.toFixed(8).replace(/\.?0+$/, '');
+        } else {
+            document.getElementById('calc-result-dec').textContent = '';
+        }
+        document.getElementById('calc-steps').innerHTML = makeSteps(steps);
+        showResult('calc-result');
+
+        // History
+        history.unshift({ expr: raw, res: fmtNum(result) });
+        if (history.length > 20) history.pop();
+        renderHistory();
+    } catch(e) {
+        showError('calc-error', 'Klaida: ' + e.message);
+    }
+}
+
+function buildCalcSteps(expr, result) {
+    const steps = [];
+    steps.push(`Pradinė išraiška: <code>${expr}</code>`);
+
+    // Detect operations
+    if (expr.includes('sqrt') || expr.includes('^0.5')) {
+        steps.push('Skaičiuojama kvadratinė šaknis √');
+    }
+    if (expr.includes('^')) {
+        steps.push('Skaičiuojamas laipsnis (^)');
+    }
+    if (expr.includes('sin') || expr.includes('cos') || expr.includes('tan')) {
+        steps.push('Trigonometrinė funkcija skaičiuojama radianais');
+    }
+    if (expr.includes('log') && !expr.includes('log2') && !expr.includes('log10')) {
+        steps.push('log(x) — natūrinis logaritmas (ln). log10(x) dešimtainis');
+    }
+    if (expr.includes('factorial')) {
+        steps.push('Faktorialas: n! = n × (n-1) × ... × 2 × 1');
+    }
+    if (/[\+\-\*\/]/.test(expr)) {
+        steps.push('Taikomos aritmetinės operacijos pagal prioritetą: (), ^, ×÷, +-');
+    }
+    steps.push(`Galutinis rezultatas: <code>${fmtNum(result)}</code>`);
+    return steps;
+}
+
+function clearCalc() {
+    document.getElementById('calc-input').value = '';
+    hideError('calc-error');
+    hideResult('calc-result');
+}
+
+function clearHistory() {
+    history = [];
+    renderHistory();
+}
+
+function renderHistory() {
+    const el = document.getElementById('history-list');
+    if (!history.length) {
+        el.innerHTML = '<div class="history-empty">Istorija tuščia. Skaičiuok ką nors!</div>';
+        return;
+    }
+    el.innerHTML = history.map(h => `
+        <div class="history-item" onclick="document.getElementById('calc-input').value='${h.expr.replace(/'/g,"\\'")}'; switchMode('calc');">
+            <span class="history-expr">${h.expr}</span>
+            <span class="history-res">= ${h.res}</span>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════
+//  EQUATIONS
+// ══════════════════════════════════════
+function switchEqType(type) {
+    ['linear','quadratic','system'].forEach(t => {
+        document.getElementById('eq-' + t).style.display = t === type ? 'block' : 'none';
+        document.getElementById('eqtab-' + t).classList.toggle('active', t === type);
+    });
+}
+
+function solveLinear() {
+    const a = parseFloat(document.getElementById('lin-a').value);
+    const b = parseFloat(document.getElementById('lin-b').value);
+    const c = parseFloat(document.getElementById('lin-c').value);
+    hideError('lin-error'); hideResult('lin-result');
+
+    if (isNaN(a)||isNaN(b)||isNaN(c)) { showError('lin-error','Įvesk visus koeficientus'); return; }
+    if (a === 0) { showError('lin-error', 'Koeficientas a negali būti 0 tiesinėje lygtyje'); return; }
+
+    const x = (c - b) / a;
+    const steps = [
+        `Pradinė lygtis: <code>${a}x + ${b} = ${c}</code>`,
+        `Perkeliame <code>${b}</code> į dešinę pusę: <code>${a}x = ${c} - ${b} = ${c-b}</code>`,
+        `Daliname iš <code>${a}</code>: <code>x = ${c-b} / ${a}</code>`,
+        `Atsakymas: <code>x = ${fmtNum(x)}</code>`,
+    ];
+    document.getElementById('lin-val').textContent = 'x = ' + fmtNum(x);
+    document.getElementById('lin-steps').innerHTML = makeSteps(steps);
+    showResult('lin-result');
+}
+
+function solveQuadratic() {
+    const a = parseFloat(document.getElementById('quad-a').value);
+    const b = parseFloat(document.getElementById('quad-b').value);
+    const c = parseFloat(document.getElementById('quad-c').value);
+    hideError('quad-error'); hideResult('quad-result');
+
+    if (isNaN(a)||isNaN(b)||isNaN(c)) { showError('quad-error','Įvesk visus koeficientus'); return; }
+    if (a === 0) { showError('quad-error','a ≠ 0 kvadratinėje lygtyje'); return; }
+
+    const D = b*b - 4*a*c;
+    const steps = [
+        `Pradinė lygtis: <code>${a}x² + (${b})x + (${c}) = 0</code>`,
+        `Skaičiuojame diskriminantą: <code>D = b² - 4ac = ${b}² - 4·${a}·${c} = ${b*b} - ${4*a*c} = ${D}</code>`,
+    ];
+
+    let valText;
+    if (D > 0) {
+        const x1 = (-b + Math.sqrt(D)) / (2*a);
+        const x2 = (-b - Math.sqrt(D)) / (2*a);
+        steps.push(`D > 0 → du sprendiniai`);
+        steps.push(`<code>x₁ = (-${b} + √${D}) / (2·${a}) = ${fmtNum(x1)}</code>`);
+        steps.push(`<code>x₂ = (-${b} - √${D}) / (2·${a}) = ${fmtNum(x2)}</code>`);
+        valText = `x₁ = ${fmtNum(x1)},   x₂ = ${fmtNum(x2)}`;
+    } else if (D === 0) {
+        const x = -b / (2*a);
+        steps.push(`D = 0 → vienas sprendinys (dviguba šaknis)`);
+        steps.push(`<code>x = -b / 2a = ${fmtNum(x)}</code>`);
+        valText = `x = ${fmtNum(x)}  (dviguba šaknis)`;
+    } else {
+        steps.push(`D < 0 → realių sprendinių nėra`);
+        const re = -b/(2*a);
+        const im = Math.sqrt(-D)/(2*a);
+        steps.push(`Kompleksiniai: <code>x = ${fmtNum(re)} ± ${fmtNum(im)}i</code>`);
+        valText = `Nėra realių sprendinių`;
+    }
+
+    document.getElementById('quad-val').textContent = valText;
+    document.getElementById('quad-steps').innerHTML = makeSteps(steps);
+    showResult('quad-result');
+}
+
+function solveSystem() {
+    const a1=parseFloat(document.getElementById('sys-a1').value);
+    const b1=parseFloat(document.getElementById('sys-b1').value);
+    const c1=parseFloat(document.getElementById('sys-c1').value);
+    const a2=parseFloat(document.getElementById('sys-a2').value);
+    const b2=parseFloat(document.getElementById('sys-b2').value);
+    const c2=parseFloat(document.getElementById('sys-c2').value);
+    hideError('sys-error'); hideResult('sys-result');
+
+    const det = a1*b2 - a2*b1;
+    if (det === 0) { showError('sys-error','Sistema neturi vieningo sprendinio (determinantas = 0)'); return; }
+
+    const x = (c1*b2 - c2*b1) / det;
+    const y = (a1*c2 - a2*c1) / det;
+
+    const steps = [
+        `Sistema: <code>${a1}x + ${b1}y = ${c1}</code> ir <code>${a2}x + ${b2}y = ${c2}</code>`,
+        `Skaičiuojame pagrindinį determinantą: <code>D = ${a1}·${b2} - ${a2}·${b1} = ${det}</code>`,
+        `<code>Dx = ${c1}·${b2} - ${c2}·${b1} = ${c1*b2-c2*b1}</code>`,
+        `<code>Dy = ${a1}·${c2} - ${a2}·${c1} = ${a1*c2-a2*c1}</code>`,
+        `<code>x = Dx / D = ${fmtNum(x)}</code>`,
+        `<code>y = Dy / D = ${fmtNum(y)}</code>`,
+    ];
+
+    document.getElementById('sys-val').textContent = `x = ${fmtNum(x)},   y = ${fmtNum(y)}`;
+    document.getElementById('sys-steps').innerHTML = makeSteps(steps);
+    showResult('sys-result');
+}
+
+// ══════════════════════════════════════
+//  GRAPH
+// ══════════════════════════════════════
+const FN_COLORS = ['#5d5fef','#059669','#ea580c','#9d174d','#0369a1','#713f12'];
+let fnRows = [];
+
+function addFnRow(expr='') {
+    const idx = fnRows.length;
+    const color = FN_COLORS[idx % FN_COLORS.length];
+    const id = 'fn-' + Date.now();
+    fnRows.push({ id, color, expr });
+
+    const div = document.createElement('div');
+    div.className = 'graph-fn-row';
+    div.id = id;
+    div.innerHTML = `
+        <span class="fn-color-dot" style="background:${color}"></span>
+        <input type="text" class="expr-input" style="font-size:.9rem;padding:9px 14px;"
+            value="${expr}" placeholder="pvz. x^2 - 3"
+            data-fn-id="${id}"
+            onkeydown="if(event.key==='Enter') drawGraph()">
+        <button class="remove-fn-btn" onclick="removeFnRow('${id}')"><i class="fas fa-times"></i></button>
+    `;
+    document.getElementById('fn-list').appendChild(div);
+}
+
+function removeFnRow(id) {
+    fnRows = fnRows.filter(f => f.id !== id);
+    document.getElementById(id)?.remove();
+    drawGraph();
+}
+
+function drawGraph() {
+    const canvas = document.getElementById('graph-canvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 700;
+    canvas.width = W;
+    canvas.height = 420;
+    const H = 420;
+
+    const xMin = parseFloat(document.getElementById('g-xmin').value) || -10;
+    const xMax = parseFloat(document.getElementById('g-xmax').value) || 10;
+    const yMin = parseFloat(document.getElementById('g-ymin').value) || -10;
+    const yMax = parseFloat(document.getElementById('g-ymax').value) || 10;
+
+    hideError('graph-error');
+
+    const toCanvasX = x => (x - xMin) / (xMax - xMin) * W;
+    const toCanvasY = y => H - (y - yMin) / (yMax - yMin) * H;
+
+    // Background
+    ctx.fillStyle = '#f8f9ff';
+    ctx.fillRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = '#e0e3ff';
+    ctx.lineWidth = 1;
+    const xStep = niceStep(xMax - xMin);
+    const yStep = niceStep(yMax - yMin);
+
+    ctx.font = '11px system-ui';
+    ctx.fillStyle = '#9ca3af';
+    ctx.textAlign = 'center';
+
+    for (let x = Math.ceil(xMin/xStep)*xStep; x <= xMax; x += xStep) {
+        const cx = toCanvasX(x);
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+        if (Math.abs(x) > 0.001) ctx.fillText(fmtNum(parseFloat(x.toPrecision(4))), cx, H-4);
+    }
+    ctx.textAlign = 'right';
+    for (let y = Math.ceil(yMin/yStep)*yStep; y <= yMax; y += yStep) {
+        const cy = toCanvasY(y);
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+        if (Math.abs(y) > 0.001) ctx.fillText(fmtNum(parseFloat(y.toPrecision(4))), toCanvasX(xMin)+36, cy-3);
+    }
+
+    // Axes
+    ctx.strokeStyle = '#6b7280';
+    ctx.lineWidth = 1.5;
+    const x0 = toCanvasX(0), y0 = toCanvasY(0);
+    if (x0 >= 0 && x0 <= W) { ctx.beginPath(); ctx.moveTo(x0,0); ctx.lineTo(x0,H); ctx.stroke(); }
+    if (y0 >= 0 && y0 <= H) { ctx.beginPath(); ctx.moveTo(0,y0); ctx.lineTo(W,y0); ctx.stroke(); }
+
+    // Functions
+    const inputs = document.querySelectorAll('[data-fn-id]');
+    inputs.forEach((inp, idx) => {
+        const expr = inp.value.trim();
+        if (!expr) return;
+        const color = FN_COLORS[idx % FN_COLORS.length];
+        try {
+            const compiled = math.compile(expr);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            let started = false;
+            const steps = W * 2;
+            for (let i = 0; i <= steps; i++) {
+                const x = xMin + (xMax - xMin) * i / steps;
+                let y;
+                try { y = compiled.evaluate({ x }); } catch(e) { started = false; continue; }
+                if (typeof y !== 'number' || !isFinite(y)) { started = false; continue; }
+                const cx = toCanvasX(x), cy = toCanvasY(y);
+                if (!started) { ctx.moveTo(cx, cy); started = true; }
+                else ctx.lineTo(cx, cy);
+            }
+            ctx.stroke();
+        } catch(e) {
+            showError('graph-error', 'Klaida funkcijoje "' + expr + '": ' + e.message);
+        }
+    });
+}
+
+function niceStep(range) {
+    const raw = range / 8;
+    const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const norm = raw / mag;
+    if (norm < 1.5) return mag;
+    if (norm < 3.5) return 2 * mag;
+    if (norm < 7.5) return 5 * mag;
+    return 10 * mag;
+}
+
+function resetGraphView() {
+    document.getElementById('g-xmin').value = -10;
+    document.getElementById('g-xmax').value = 10;
+    document.getElementById('g-ymin').value = -10;
+    document.getElementById('g-ymax').value = 10;
+    drawGraph();
+}
+
+// Mouse tooltip on graph
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('graph-canvas');
+    const tooltip = document.getElementById('graph-tooltip');
+    canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const W = canvas.width, H = canvas.height;
+        const xMin = parseFloat(document.getElementById('g-xmin').value) || -10;
+        const xMax = parseFloat(document.getElementById('g-xmax').value) || 10;
+        const x = xMin + (xMax - xMin) * mx / W;
+
+        const inputs = document.querySelectorAll('[data-fn-id]');
+        let lines = [`x = ${x.toFixed(3)}`];
+        inputs.forEach((inp, idx) => {
+            const expr = inp.value.trim();
+            if (!expr) return;
+            try {
+                const y = math.evaluate(expr, { x });
+                if (typeof y === 'number' && isFinite(y)) {
+                    const color = FN_COLORS[idx % FN_COLORS.length];
+                    lines.push(`<span style="color:${color}">f${idx+1}(x) = ${y.toFixed(4)}</span>`);
+                }
+            } catch(e) {}
+        });
+        tooltip.innerHTML = lines.join('<br>');
+        tooltip.style.display = 'block';
+        tooltip.style.left = (mx + 14) + 'px';
+        tooltip.style.top = (e.clientY - rect.top + 8) + 'px';
+    });
+    canvas.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+});
+
+// ══════════════════════════════════════
+//  DERIVATIVE (numerical)
+// ══════════════════════════════════════
+function calcDerivative() {
+    const fnStr = document.getElementById('deriv-fn').value.trim();
+    const x0 = parseFloat(document.getElementById('deriv-x0').value);
+    hideError('deriv-error'); hideResult('deriv-result');
+
+    if (!fnStr) { showError('deriv-error','Įvesk funkciją'); return; }
+    if (isNaN(x0)) { showError('deriv-error','Įvesk tašką x₀'); return; }
+
+    try {
+        const compiled = math.compile(fnStr);
+        const h = 1e-7;
+        const f = x => compiled.evaluate({ x });
+        const fp = (f(x0 + h) - f(x0 - h)) / (2*h);
+
+        const fx0 = f(x0);
+        const steps = [
+            `Funkcija: <code>f(x) = ${fnStr}</code>`,
+            `Taškas: <code>x₀ = ${x0}</code>`,
+            `Skaičiavimo metodas: centrinės baigtinės diferencijos`,
+            `<code>f'(x₀) ≈ [f(x₀+h) - f(x₀-h)] / (2h)</code>, kur <code>h = 10⁻⁷</code>`,
+            `<code>f(${x0}) = ${fmtNum(fx0)}</code>`,
+            `<code>f'(${x0}) ≈ ${fmtNum(fp)}</code>`,
+            `Liestinės lygtis taške: <code>y = ${fmtNum(fp)}·(x - ${x0}) + ${fmtNum(fx0)}</code>`,
+        ];
+
+        document.getElementById('deriv-val').textContent = `f'(${x0}) ≈ ${fmtNum(fp)}`;
+        document.getElementById('deriv-steps').innerHTML = makeSteps(steps);
+        showResult('deriv-result');
+    } catch(e) {
+        showError('deriv-error', 'Klaida: ' + e.message);
+    }
+}
+
+// ══════════════════════════════════════
+//  INTEGRAL (Simpson's rule)
+// ══════════════════════════════════════
+function calcIntegral() {
+    const fnStr = document.getElementById('int-fn').value.trim();
+    const a = parseFloat(document.getElementById('int-a').value);
+    const b = parseFloat(document.getElementById('int-b').value);
+    hideError('int-error'); hideResult('int-result');
+
+    if (!fnStr) { showError('int-error','Įvesk funkciją'); return; }
+    if (isNaN(a)||isNaN(b)) { showError('int-error','Įvesk ribas a ir b'); return; }
+    if (a === b) { showError('int-error','a ir b turi skirtis'); return; }
+
+    try {
+        const compiled = math.compile(fnStr);
+        const f = x => compiled.evaluate({ x });
+        const n = 1000; // must be even
+        const h = (b - a) / n;
+        let sum = f(a) + f(b);
+        for (let i = 1; i < n; i++) {
+            sum += (i % 2 === 0 ? 2 : 4) * f(a + i*h);
+        }
+        const result = sum * h / 3;
+
+        const fa = f(a), fb = f(b), fmid = f((a+b)/2);
+        const steps = [
+            `Funkcija: <code>f(x) = ${fnStr}</code>`,
+            `Integravimo ribos: <code>a = ${a}</code>, <code>b = ${b}</code>`,
+            `Metodas: Simpsono taisyklė (n = ${n} dalių)`,
+            `<code>∫f(x)dx ≈ (h/3)[f(a) + 4f(x₁) + 2f(x₂) + ... + f(b)]</code>`,
+            `<code>f(${a}) = ${fmtNum(fa)}</code>, <code>f(${(a+b)/2}) = ${fmtNum(fmid)}</code>, <code>f(${b}) = ${fmtNum(fb)}</code>`,
+            `Rezultatas: <code>∫ = ${fmtNum(result)}</code>`,
+        ];
+
+        document.getElementById('int-val').textContent = `∫ = ${fmtNum(result)}`;
+        document.getElementById('int-steps').innerHTML = makeSteps(steps);
+        showResult('int-result');
+    } catch(e) {
+        showError('int-error', 'Klaida: ' + e.message);
+    }
+}
+
+// ══════════════════════════════════════
+//  SIDEBAR
+// ══════════════════════════════════════
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("mobile-open");
+    document.getElementById("sidebar-overlay").classList.toggle("active");
+    document.getElementById("hamburger").classList.toggle("open");
+}
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("mobile-open");
+    document.getElementById("sidebar-overlay").classList.remove("active");
+    document.getElementById("hamburger").classList.remove("open");
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+addFnRow('x^2 - 3');
+addFnRow('sin(x) * 3');
+drawGraph();
+</script>
+</body>
+</html>

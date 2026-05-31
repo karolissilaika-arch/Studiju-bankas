@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vienetų konverteris | StudijųBankas</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* Category tabs */
+        .cat-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .cat-tab {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1.5px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            transition: all 0.2s;
+        }
+        .cat-tab:hover { border-color: var(--primary); color: var(--primary); }
+        .cat-tab.active {
+            background: #eef2ff;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .cat-tab i { font-size: 0.9rem; }
+
+        /* Main converter card */
+        .converter-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+            max-width: 680px;
+        }
+
+        .converter-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 20px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .conv-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: end;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .conv-field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .conv-field select,
+        .conv-field input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+        .conv-field input:focus,
+        .conv-field select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(93,95,239,0.1);
+        }
+        .conv-field input.result-input {
+            background: #f8f9ff;
+            border-color: #e0e3ff;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .swap-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 1.5px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-bottom: 2px;
+        }
+        .swap-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #eef2ff;
+            transform: rotate(180deg);
+        }
+
+        /* Formula hint */
+        .formula-hint {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+            font-size: 0.83rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+        .formula-hint strong { color: var(--primary); }
+
+        /* Quick reference table */
+        .ref-table-wrap {
+            margin-top: 28px;
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            max-width: 680px;
+        }
+        .ref-table-title {
+            padding: 14px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        .ref-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .ref-table th {
+            text-align: left;
+            padding: 10px 20px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        .ref-table td {
+            padding: 10px 20px;
+            border-bottom: 1px solid #f7f7f7;
+            color: var(--text-dark);
+        }
+        .ref-table tr:last-child td { border-bottom: none; }
+        .ref-table tr:hover td { background: #fafbff; }
+        .ref-table td:first-child { font-weight: 600; color: var(--primary); }
+    </style>
+</head>
+<body class="dashboard-bg">
+<div class="dashboard-layout">
+
+    <aside class="sidebar-nav" id="sidebar">
+        <a href="index.html" class="logo-link">
+            <div class="logo">Studijų<span>Bankas</span></div>
+        </a>
+        <nav id="main-nav">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
+            <a href="topics.html"><i class="fas fa-book"></i> Temos</a>
+            <a href="quizzes.html"><i class="fas fa-vial"></i> Testai</a>
+            <a href="exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
+            <a href="vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+            <a href="tools.html" class="active"><i class="fas fa-flask"></i> Įrankiai</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profilis</a>
+            <hr>
+            <div id="auth-section"></div>
+        </nav>
+    </aside>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <main class="dashboard-main">
+        <header class="page-header">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu"><span></span><span></span><span></span></button>
+                    <div>
+                        <div class="breadcrumb">
+                            <a href="tools.html"><i class="fas fa-flask"></i> Įrankiai</a>
+                            <i class="fas fa-chevron-right" style="font-size:0.65rem;"></i>
+                            <span>Vienetų konverteris</span>
+                        </div>
+                        <h2 style="margin:0;">Vienetų konverteris</h2>
+                    </div>
+                </div>
+                <p style="margin-top:4px; color:var(--text-gray); font-size:14px;">Greitas matavimo vienetų keitimas fizikai ir matematikai.</p>
+            </div>
+            <div id="user-header-info" onclick="window.location.href='profile.html'" class="user-header-pill">
+                <div>
+                    <div id="header-username" class="pill-name">Moksleivis</div>
+                    <small id="header-xp" class="pill-xp">0 XP</small>
+                </div>
+                <img id="header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis">
+            </div>
+        </header>
+
+        <!-- Category tabs -->
+        <div class="cat-tabs" id="cat-tabs"></div>
+
+        <!-- Converter -->
+        <div class="converter-card">
+            <h3 id="conv-title"><i class="fas fa-ruler"></i> <span id="conv-title-text">Ilgis</span></h3>
+            <div class="conv-row">
+                <div class="conv-field">
+                    <label>Reikšmė</label>
+                    <input type="number" id="input-val" value="1" oninput="convert()">
+                </div>
+                <button class="swap-btn" onclick="swapUnits()" title="Sukeisti vienetus">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                <div class="conv-field">
+                    <label>Rezultatas</label>
+                    <input type="number" id="output-val" class="result-input" readonly>
+                </div>
+            </div>
+            <div class="conv-row" style="margin-bottom:0;">
+                <div class="conv-field">
+                    <label>Iš</label>
+                    <select id="from-unit" onchange="convert()"></select>
+                </div>
+                <div style="width:40px;"></div>
+                <div class="conv-field">
+                    <label>Į</label>
+                    <select id="to-unit" onchange="convert()"></select>
+                </div>
+            </div>
+            <div class="formula-hint" id="formula-hint"></div>
+        </div>
+
+        <!-- Quick reference -->
+        <div class="ref-table-wrap" id="ref-table-wrap">
+            <div class="ref-table-title"><i class="fas fa-table" style="margin-right:6px;"></i>Greita nuoroda</div>
+            <table class="ref-table" id="ref-table">
+                <thead><tr><th>Vienetai</th><th>Ryšys</th></tr></thead>
+                <tbody id="ref-body"></tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="f-inner">
+        <div class="f-top">
+            <div class="f-brand">
+                <a href="index.html" class="logo">Studijų<span>Bankas</span></a>
+                <p>Lietuvos moksleiviams skirta mokymosi platforma — testai, pamokos ir VBE pasiruošimas vienoje vietoje.</p>
+                <div class="f-social" aria-label="Socialiniai tinklai">
+                    <a href="https://www.instagram.com/studijubankas/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/61590194202133/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@studiju_bankas" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="f-right">
+                <div>
+                    <p class="f-col-title">Kontaktai</p>
+                    <ul class="f-info-list">
+                        <li><i class="fas fa-envelope"></i><a href="mailto:studijubankas@gmail.com">studijubankas@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="f-bottom">
+            <p class="f-copy">&copy; <span id="sb-footer-year"></span> StudijųBankas. Visos teisės saugomos.</p>
+            <ul class="f-legal">
+                <li><a href="privacy.html">Privatumo politika</a></li>
+                <li><a href="kontaktai.html">Kontaktai</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="scripts.js"></script>
+<script src="subscription.js"></script>
+<script>
+// ===================== DUOMENYS =====================
+const CATEGORIES = [
+    {
+        id: 'ilgis', name: 'Ilgis', icon: 'fas fa-ruler-horizontal',
+        units: [
+            { id: 'km',  name: 'Kilometras (km)',   toBase: 1000 },
+            { id: 'm',   name: 'Metras (m)',         toBase: 1 },
+            { id: 'dm',  name: 'Decimetras (dm)',    toBase: 0.1 },
+            { id: 'cm',  name: 'Centimetras (cm)',   toBase: 0.01 },
+            { id: 'mm',  name: 'Milimetras (mm)',    toBase: 0.001 },
+            { id: 'um',  name: 'Mikrometras (μm)',   toBase: 1e-6 },
+            { id: 'nm',  name: 'Nanometras (nm)',    toBase: 1e-9 },
+            { id: 'mi',  name: 'Mylia (mi)',         toBase: 1609.344 },
+            { id: 'yd',  name: 'Jardas (yd)',        toBase: 0.9144 },
+            { id: 'ft',  name: 'Pėda (ft)',          toBase: 0.3048 },
+            { id: 'in',  name: 'Colis (in)',         toBase: 0.0254 },
+            { id: 'au',  name: 'Astronominis vienetas (au)', toBase: 1.496e11 },
+            { id: 'ly',  name: 'Šviesos metai (ly)', toBase: 9.461e15 },
+        ],
+        refs: [
+            ['1 km', '1 000 m'],
+            ['1 m', '100 cm = 1 000 mm'],
+            ['1 cm', '10 mm'],
+            ['1 in (colis)', '2,54 cm'],
+            ['1 ft (pėda)', '30,48 cm'],
+            ['1 mi (mylia)', '1 609,344 m'],
+            ['1 au', '≈ 1,496 × 10¹¹ m'],
+        ]
+    },
+    {
+        id: 'mase', name: 'Masė', icon: 'fas fa-weight-hanging',
+        units: [
+            { id: 't',   name: 'Tona (t)',        toBase: 1000 },
+            { id: 'kg',  name: 'Kilogramas (kg)', toBase: 1 },
+            { id: 'g',   name: 'Gramas (g)',       toBase: 0.001 },
+            { id: 'mg',  name: 'Miligramas (mg)',  toBase: 1e-6 },
+            { id: 'ug',  name: 'Mikrogramas (μg)', toBase: 1e-9 },
+            { id: 'lb',  name: 'Svaras (lb)',      toBase: 0.453592 },
+            { id: 'oz',  name: 'Uncija (oz)',      toBase: 0.0283495 },
+            { id: 'u',   name: 'Atominė masės vnt. (u)', toBase: 1.66054e-27 },
+        ],
+        refs: [
+            ['1 t', '1 000 kg'],
+            ['1 kg', '1 000 g'],
+            ['1 g', '1 000 mg'],
+            ['1 lb (svaras)', '≈ 453,59 g'],
+            ['1 oz (uncija)', '≈ 28,35 g'],
+        ]
+    },
+    {
+        id: 'laikas', name: 'Laikas', icon: 'fas fa-clock',
+        units: [
+            { id: 'y',   name: 'Metai (m.)',      toBase: 31557600 },
+            { id: 'w',   name: 'Savaitė (sav.)',  toBase: 604800 },
+            { id: 'd',   name: 'Para (d.)',        toBase: 86400 },
+            { id: 'h',   name: 'Valanda (val.)',  toBase: 3600 },
+            { id: 'min', name: 'Minutė (min)',     toBase: 60 },
+            { id: 's',   name: 'Sekundė (s)',      toBase: 1 },
+            { id: 'ms',  name: 'Milisekundė (ms)', toBase: 0.001 },
+            { id: 'us',  name: 'Mikrosekundė (μs)',toBase: 1e-6 },
+            { id: 'ns',  name: 'Nanosekundė (ns)', toBase: 1e-9 },
+        ],
+        refs: [
+            ['1 para', '24 val. = 86 400 s'],
+            ['1 val.', '60 min = 3 600 s'],
+            ['1 min', '60 s'],
+            ['1 s', '1 000 ms'],
+            ['1 metai', '365,25 d. ≈ 3,156 × 10⁷ s'],
+        ]
+    },
+    {
+        id: 'greitis', name: 'Greitis', icon: 'fas fa-tachometer-alt',
+        units: [
+            { id: 'ms',   name: 'm/s',    toBase: 1 },
+            { id: 'kmh',  name: 'km/h',   toBase: 1/3.6 },
+            { id: 'mph',  name: 'mph',    toBase: 0.44704 },
+            { id: 'kn',   name: 'Mazgas (kn)', toBase: 0.514444 },
+            { id: 'c',    name: 'Šviesos greitis (c)', toBase: 2.998e8 },
+        ],
+        refs: [
+            ['1 m/s', '3,6 km/h'],
+            ['1 km/h', '≈ 0,278 m/s'],
+            ['1 mph', '≈ 1,609 km/h'],
+            ['Garso greitis', '≈ 340 m/s (ore)'],
+            ['Šviesos greitis', '≈ 3 × 10⁸ m/s'],
+        ]
+    },
+    {
+        id: 'jega', name: 'Jėga', icon: 'fas fa-fist-raised',
+        units: [
+            { id: 'kn',  name: 'Kilonewtonas (kN)', toBase: 1000 },
+            { id: 'n',   name: 'Newtonas (N)',       toBase: 1 },
+            { id: 'mn',  name: 'MiliNewtonas (mN)', toBase: 0.001 },
+            { id: 'kgf', name: 'Kilogramo jėga (kgf)', toBase: 9.80665 },
+            { id: 'lbf', name: 'Svaro jėga (lbf)',  toBase: 4.44822 },
+            { id: 'dyn', name: 'Dinas (dyn)',        toBase: 1e-5 },
+        ],
+        refs: [
+            ['1 N', '1 kg·m/s²'],
+            ['1 kN', '1 000 N'],
+            ['1 kgf', '≈ 9,807 N'],
+            ['1 lbf', '≈ 4,448 N'],
+        ]
+    },
+    {
+        id: 'energija', name: 'Energija', icon: 'fas fa-bolt',
+        units: [
+            { id: 'tj',  name: 'Teradžaulis (TJ)',  toBase: 1e12 },
+            { id: 'gj',  name: 'Gigadžaulis (GJ)',  toBase: 1e9 },
+            { id: 'mj',  name: 'Megadžaulis (MJ)',  toBase: 1e6 },
+            { id: 'kj',  name: 'Kilodžaulis (kJ)',  toBase: 1000 },
+            { id: 'j',   name: 'Džaulis (J)',        toBase: 1 },
+            { id: 'mj2', name: 'Milidžaulis (mJ)',  toBase: 0.001 },
+            { id: 'ev',  name: 'Elektronvoltas (eV)', toBase: 1.602e-19 },
+            { id: 'kwh', name: 'Kilovatvalandė (kWh)', toBase: 3.6e6 },
+            { id: 'cal', name: 'Kalorija (cal)',     toBase: 4.184 },
+            { id: 'kcal',name: 'Kilokalorija (kcal)', toBase: 4184 },
+        ],
+        refs: [
+            ['1 kJ', '1 000 J'],
+            ['1 kWh', '3 600 000 J = 3,6 MJ'],
+            ['1 kcal', '4 184 J'],
+            ['1 eV', '≈ 1,602 × 10⁻¹⁹ J'],
+        ]
+    },
+    {
+        id: 'galia', name: 'Galia', icon: 'fas fa-plug',
+        units: [
+            { id: 'gw',  name: 'Gigavatas (GW)',   toBase: 1e9 },
+            { id: 'mw',  name: 'Megavatas (MW)',   toBase: 1e6 },
+            { id: 'kw',  name: 'Kilovatas (kW)',   toBase: 1000 },
+            { id: 'w',   name: 'Vatas (W)',         toBase: 1 },
+            { id: 'mw2', name: 'Milivatas (mW)',   toBase: 0.001 },
+            { id: 'hp',  name: 'Arklio galia (hp)', toBase: 745.7 },
+        ],
+        refs: [
+            ['1 kW', '1 000 W'],
+            ['1 hp', '≈ 745,7 W'],
+            ['1 W', '1 J/s'],
+        ]
+    },
+    {
+        id: 'slėgis', name: 'Slėgis', icon: 'fas fa-compress-arrows-alt',
+        units: [
+            { id: 'pa',   name: 'Paskalis (Pa)',      toBase: 1 },
+            { id: 'hpa',  name: 'Hektopaskalis (hPa)',toBase: 100 },
+            { id: 'kpa',  name: 'Kilopaskalis (kPa)', toBase: 1000 },
+            { id: 'mpa',  name: 'Megapaskalis (MPa)', toBase: 1e6 },
+            { id: 'atm',  name: 'Atmosfera (atm)',    toBase: 101325 },
+            { id: 'bar',  name: 'Baras (bar)',         toBase: 100000 },
+            { id: 'mbar', name: 'Milibaris (mbar)',    toBase: 100 },
+            { id: 'mmhg', name: 'mm Hg (Torr)',        toBase: 133.322 },
+            { id: 'psi',  name: 'PSI (lb/in²)',        toBase: 6894.76 },
+        ],
+        refs: [
+            ['1 atm', '101 325 Pa ≈ 1 013 hPa'],
+            ['1 bar', '100 000 Pa'],
+            ['1 mmHg', '≈ 133,3 Pa'],
+            ['1 kPa', '1 000 Pa'],
+        ]
+    },
+    {
+        id: 'temperatura', name: 'Temperatūra', icon: 'fas fa-thermometer-half',
+        units: [
+            { id: 'c',  name: 'Celsijus (°C)',   toBase: null },
+            { id: 'k',  name: 'Kelvinas (K)',     toBase: null },
+            { id: 'f',  name: 'Farenheitas (°F)', toBase: null },
+        ],
+        special: true,
+        refs: [
+            ['0 °C', '273,15 K = 32 °F'],
+            ['100 °C', '373,15 K = 212 °F'],
+            ['−273,15 °C', '0 K (absoliutus nulis)'],
+            ['°F → °C', '(°F − 32) × 5/9'],
+            ['°C → K', '°C + 273,15'],
+        ]
+    },
+    {
+        id: 'plotas', name: 'Plotas', icon: 'fas fa-vector-square',
+        units: [
+            { id: 'km2', name: 'km²',   toBase: 1e6 },
+            { id: 'm2',  name: 'm²',    toBase: 1 },
+            { id: 'dm2', name: 'dm²',   toBase: 0.01 },
+            { id: 'cm2', name: 'cm²',   toBase: 0.0001 },
+            { id: 'mm2', name: 'mm²',   toBase: 1e-6 },
+            { id: 'ha',  name: 'Hektaras (ha)', toBase: 10000 },
+            { id: 'a',   name: 'Aras (a)',       toBase: 100 },
+            { id: 'ft2', name: 'ft²',   toBase: 0.092903 },
+            { id: 'in2', name: 'in²',   toBase: 0.000645 },
+            { id: 'mi2', name: 'mi²',   toBase: 2.59e6 },
+        ],
+        refs: [
+            ['1 km²', '1 000 000 m²'],
+            ['1 ha', '10 000 m²'],
+            ['1 m²', '10 000 cm²'],
+            ['1 a (aras)', '100 m²'],
+        ]
+    },
+    {
+        id: 'turis', name: 'Tūris', icon: 'fas fa-cube',
+        units: [
+            { id: 'm3',  name: 'm³',              toBase: 1000 },
+            { id: 'dm3', name: 'dm³ = l (litras)', toBase: 1 },
+            { id: 'cm3', name: 'cm³ = ml',         toBase: 0.001 },
+            { id: 'mm3', name: 'mm³',              toBase: 1e-6 },
+            { id: 'l',   name: 'Litras (l)',        toBase: 1 },
+            { id: 'ml',  name: 'Mililitras (ml)',   toBase: 0.001 },
+            { id: 'cl',  name: 'Centilitras (cl)',  toBase: 0.01 },
+            { id: 'gal', name: 'Galonas (gal US)',  toBase: 3.78541 },
+            { id: 'pt',  name: 'Pinta (pt US)',     toBase: 0.473176 },
+        ],
+        refs: [
+            ['1 m³', '1 000 l'],
+            ['1 l', '1 dm³ = 1 000 ml'],
+            ['1 ml', '1 cm³'],
+            ['1 gal (US)', '≈ 3,785 l'],
+        ]
+    },
+    {
+        id: 'kampas', name: 'Kampas', icon: 'fas fa-drafting-compass',
+        units: [
+            { id: 'deg', name: 'Laipsnis (°)',    toBase: Math.PI/180 },
+            { id: 'rad', name: 'Radianas (rad)',  toBase: 1 },
+            { id: 'grad',name: 'Gradas (grad)',   toBase: Math.PI/200 },
+            { id: 'rev', name: 'Apsisukimas (rev)', toBase: 2*Math.PI },
+            { id: 'arcmin', name: 'Kampinė minutė (\')', toBase: Math.PI/10800 },
+            { id: 'arcsec', name: 'Kampinė sekundė (")', toBase: Math.PI/648000 },
+        ],
+        refs: [
+            ['360°', '2π rad ≈ 6,2832 rad'],
+            ['1 rad', '≈ 57,296°'],
+            ['90°', 'π/2 rad'],
+            ['180°', 'π rad'],
+            ['1°', '60\' = 3 600"'],
+        ]
+    },
+];
+
+// ===================== STATE =====================
+let activeCat = CATEGORIES[0];
+
+// ===================== INIT =====================
+function init() {
+    // Sukurti tabs
+    const tabsEl = document.getElementById('cat-tabs');
+    tabsEl.innerHTML = CATEGORIES.map(cat => `
+        <button class="cat-tab ${cat.id === activeCat.id ? 'active' : ''}" onclick="selectCat('${cat.id}')">
+            <i class="${cat.icon}"></i> ${cat.name}
+        </button>
+    `).join('');
+
+    loadCat(activeCat);
+}
+
+function selectCat(id) {
+    activeCat = CATEGORIES.find(c => c.id === id);
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.cat-tab[onclick="selectCat('${id}')"]`).classList.add('active');
+    loadCat(activeCat);
+}
+
+function loadCat(cat) {
+    document.getElementById('conv-title-text').textContent = cat.name;
+    document.querySelector('#conv-title i').className = cat.icon;
+
+    const fromSel = document.getElementById('from-unit');
+    const toSel   = document.getElementById('to-unit');
+
+    fromSel.innerHTML = cat.units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+    toSel.innerHTML   = cat.units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+
+    // Numatytieji: pirmas → antras vienetas
+    fromSel.selectedIndex = 0;
+    toSel.selectedIndex   = Math.min(1, cat.units.length - 1);
+
+    document.getElementById('input-val').value = 1;
+    convert();
+    renderRefTable(cat);
+}
+
+// ===================== KONVERTAVIMAS =====================
+function convert() {
+    const cat     = activeCat;
+    const inputV  = parseFloat(document.getElementById('input-val').value);
+    const fromId  = document.getElementById('from-unit').value;
+    const toId    = document.getElementById('to-unit').value;
+    const outEl   = document.getElementById('output-val');
+    const hintEl  = document.getElementById('formula-hint');
+
+    if (isNaN(inputV)) { outEl.value = ''; hintEl.innerHTML = ''; return; }
+
+    let result;
+    let formula = '';
+
+    if (cat.special && cat.id === 'temperatura') {
+        result = convertTemp(inputV, fromId, toId);
+        formula = getTempFormula(fromId, toId);
+    } else {
+        const fromU = cat.units.find(u => u.id === fromId);
+        const toU   = cat.units.find(u => u.id === toId);
+        const baseVal = inputV * fromU.toBase;
+        result = baseVal / toU.toBase;
+        formula = `${inputV} ${fromId} × ${fromU.toBase} ÷ ${toU.toBase}`;
+    }
+
+    // Formatuojame rezultatą
+    if (Math.abs(result) >= 1e10 || (Math.abs(result) < 1e-6 && result !== 0)) {
+        outEl.value = result.toExponential(6);
+    } else {
+        outEl.value = parseFloat(result.toPrecision(10));
+    }
+
+    const fromName = cat.units.find(u => u.id === fromId)?.name || fromId;
+    const toName   = cat.units.find(u => u.id === toId)?.name || toId;
+    hintEl.innerHTML = `<strong>${inputV} ${fromName}</strong> = <strong>${outEl.value} ${toName}</strong>`;
+}
+
+function convertTemp(val, from, to) {
+    // Pirma verčiame į Celsijų
+    let celsius;
+    if      (from === 'c') celsius = val;
+    else if (from === 'k') celsius = val - 273.15;
+    else if (from === 'f') celsius = (val - 32) * 5/9;
+
+    if      (to === 'c') return celsius;
+    else if (to === 'k') return celsius + 273.15;
+    else if (to === 'f') return celsius * 9/5 + 32;
+    return celsius;
+}
+
+function getTempFormula(from, to) {
+    const map = {
+        'c-k': '°C + 273,15', 'k-c': 'K − 273,15',
+        'c-f': '°C × 9/5 + 32', 'f-c': '(°F − 32) × 5/9',
+        'k-f': '(K − 273,15) × 9/5 + 32', 'f-k': '(°F − 32) × 5/9 + 273,15',
+    };
+    return map[`${from}-${to}`] || '';
+}
+
+function swapUnits() {
+    const fromSel = document.getElementById('from-unit');
+    const toSel   = document.getElementById('to-unit');
+    const tmp = fromSel.value;
+    fromSel.value = toSel.value;
+    toSel.value = tmp;
+
+    // Sukeičiame input/output reikšmes
+    const outVal = document.getElementById('output-val').value;
+    if (outVal) document.getElementById('input-val').value = parseFloat(outVal);
+    convert();
+}
+
+function renderRefTable(cat) {
+    const body = document.getElementById('ref-body');
+    body.innerHTML = (cat.refs || []).map(([a, b]) => `
+        <tr><td>${a}</td><td>${b}</td></tr>
+    `).join('');
+}
+
+// ===================== SIDEBAR =====================
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("mobile-open");
+    document.getElementById("sidebar-overlay").classList.toggle("active");
+    document.getElementById("hamburger").classList.toggle("open");
+}
+function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("mobile-open");
+    document.getElementById("sidebar-overlay").classList.remove("active");
+    document.getElementById("hamburger").classList.remove("open");
+}
+
+init();
+</script>
+</body>
+</html>

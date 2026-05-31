@@ -30,21 +30,27 @@
     <a href="/index.html" class="logo-link">
       <div class="logo">Studijų<span>Bankas</span></div>
     </a>
-    <nav>
+    <nav id="main-nav">
       <a href="/dashboard.html"><i class="fas fa-home"></i> Pradžia</a>
       <a href="/topics.html" class="active"><i class="fas fa-book"></i> Temos</a>
       <a href="/quizzes.html"><i class="fas fa-vial"></i> Testai</a>
       <a href="/exam-prep.html"><i class="fas fa-graduation-cap"></i> Egzaminai</a>
       <a href="/vbe.html"><i class="fas fa-star"></i> VBE Pasiruošimas</a>
       <a href="/analytics.html"><i class="fas fa-chart-bar"></i> Analitika</a>
+      <a href="/tools.html"><i class="fas fa-flask"></i> Įrankiai</a>
       <a href="/profile.html"><i class="fas fa-user"></i> Profilis</a>
+      <hr>
+      <div id="auth-section"></div>
     </nav>
   </aside>
 
   <main class="dashboard-main">
     <header class="page-header">
       <div>
-        <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="hamburger-btn" id="hamburger" onclick="toggleSidebar()" aria-label="Meniu"><span></span><span></span><span></span></button>
+          <a href="/topics.html" class="back-link"><i class="fas fa-arrow-left"></i> Grįžti į temas</a>
+        </div>
         <h1 style="font-size:1.6rem; margin-top:8px;">Kvadratinė funkcija ir parabolė</h1>
         <span class="category-badge">Matematika</span>
       </div>
@@ -118,6 +124,7 @@ li{margin-bottom:.35rem}
   </main>
 
 </div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <footer class="site-footer">
   <div class="f-inner">
@@ -134,5 +141,17 @@ li{margin-bottom:.35rem}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/scripts.js"></script>
 <script src="/subscription.js"></script>
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("mobile-open");
+  document.getElementById("sidebar-overlay").classList.toggle("active");
+  document.getElementById("hamburger").classList.toggle("open");
+}
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("mobile-open");
+  document.getElementById("sidebar-overlay").classList.remove("active");
+  document.getElementById("hamburger").classList.remove("open");
+}
+</script>
 </body>
 </html>
