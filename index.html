@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudijųBankas | Tavo AI Korepetitorius</title>
+<script>
+    // Dark mode taikomas iš karto — be mirksėjimo
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.style.background = '#13131f';
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+    }
+</script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,6 +18,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445"
      crossorigin="anonymous"></script>
+<style>
+body.dark-mode { background: #13131f !important; color: #e5e7eb !important; }
+body.dark-mode header,
+body.dark-mode .navbar { background: #16162a !important; border-bottom: 1px solid #2a2a3e !important; }
+body.dark-mode .navbar .logo,
+body.dark-mode .logo span { color: #f3f4f6 !important; }
+body.dark-mode .nav-links a { color: #d1d5db !important; }
+body.dark-mode .nav-links a:hover { color: var(--primary) !important; }
+body.dark-mode #nav-username { color: #f3f4f6 !important; }
+body.dark-mode .hero { background: linear-gradient(135deg, #13131f 0%, #1e1e2e 100%) !important; }
+body.dark-mode .hero h1 { color: #f3f4f6 !important; }
+body.dark-mode .hero p { color: #9ca3af !important; }
+body.dark-mode .mockup-card { background: #1e1e2e !important; box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important; }
+body.dark-mode .features { background: #13131f !important; }
+body.dark-mode .feature { background: #1e1e2e !important; border-color: #2a2a3e !important; }
+body.dark-mode .feature h3 { color: #f3f4f6 !important; }
+body.dark-mode .feature p { color: #9ca3af !important; }
+body.dark-mode .pricing { background: #1a1a2e !important; }
+body.dark-mode .pricing h2 { color: #f3f4f6 !important; }
+body.dark-mode .price-card { background: #1e1e2e !important; border-color: #2a2a3e !important; }
+body.dark-mode .price-card h3 { color: #f3f4f6 !important; }
+body.dark-mode .price-card .price { color: #f3f4f6 !important; }
+body.dark-mode .price-card li { color: #9ca3af !important; }
+body.dark-mode .price-card li.disabled { color: #4b5563 !important; }
+body.dark-mode .price-card.featured { background: linear-gradient(135deg, #252545, #1e1e3a) !important; border-color: var(--primary) !important; }
+body.dark-mode .btn-outline { border-color: #3a3a5e !important; color: #d1d5db !important; }
+body.dark-mode .site-footer { background: #16162a !important; border-top: 1px solid #2a2a3e !important; }
+body.dark-mode .f-copy, body.dark-mode .f-col-title,
+body.dark-mode .f-info-list a, body.dark-mode .f-legal a { color: #9ca3af !important; }
+</style>
 </head>
 <body>
 
