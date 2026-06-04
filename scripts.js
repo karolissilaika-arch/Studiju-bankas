@@ -1,3 +1,10 @@
+// --- DARK MODE (greitas taikymas prieš DOM) ---
+(function() {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.classList.add('dark-mode-pending');
+    }
+})();
+
 const supabaseUrl = 'https://spuweynlvomzqujwpmld.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwdXdleW5sdm9tenF1andwbWxkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDQwNDQsImV4cCI6MjA5MzQ4MDA0NH0.pArChw3WCkMw5UZU1vB2POSXbvC6PpcB3SdHTMYUokk'
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
@@ -5,6 +12,12 @@ const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
 const DEFAULT_AVATAR = 'https://api.dicebear.com/7.x/bottts/svg?seed=1';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Taikome dark mode iš localStorage iš karto
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    document.documentElement.classList.remove('dark-mode-pending');
+
     await updateNavigation(); 
     await updateHeaderUserInfo();
     await checkUserStatus();
@@ -65,6 +78,14 @@ async function updateHeaderUserInfo() {
         const finalName = profile?.username || user.user_metadata?.full_name || "Moksleivis";
         const finalAvatar = profile?.avatar_url || DEFAULT_AVATAR;
         const finalXP = profile?.total_xp || 0;
+
+        // Sinchronizuojame dark mode iš profilio (jei skiriasi nuo localStorage)
+        if (profile?.dark_mode !== undefined && profile.dark_mode !== null) {
+            const currentLocal = localStorage.getItem('darkMode') === 'true';
+            if (profile.dark_mode !== currentLocal) {
+                applyDarkMode(profile.dark_mode);
+            }
+        }
 
         const headerName = document.getElementById('nav-username') || document.getElementById('header-username');
         const headerAvatar = document.getElementById('nav-avatar') || document.getElementById('header-avatar');
@@ -243,3 +264,20 @@ async function resetPasswordRequest(event) {
 }
 /*Footerio metai*/
 document.getElementById('sb-footer-year').textContent = new Date().getFullYear();
+
+// --- DARK MODE FUNKCIJOS ---
+function applyDarkMode(enabled) {
+    document.body.classList.toggle('dark-mode', enabled);
+    localStorage.setItem('darkMode', enabled ? 'true' : 'false');
+    // Sinchronizuojame visus toggles puslapyje
+    document.querySelectorAll('.dark-mode-checkbox').forEach(cb => cb.checked = enabled);
+}
+
+async function toggleDarkMode(checked) {
+    applyDarkMode(checked);
+    try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (!user) return;
+        await supabaseClient.from('profiles').update({ dark_mode: checked }).eq('id', user.id);
+    } catch {}
+}

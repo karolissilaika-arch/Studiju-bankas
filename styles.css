@@ -1563,3 +1563,215 @@ body {
 .score-counters { display: flex; gap: 15px; font-size: 14px; }
 .score-counters .ok   { color: #27ae60; font-weight: 600; }
 .score-counters .fail { color: #e74c3c; font-weight: 600; }
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+body.dark-mode {
+    --text:          #e5e7eb;
+    --text-dark:     #f3f4f6;
+    --text-gray:     #9ca3af;
+    --text-muted:    #6b7280;
+    --bg:            #1e1e2e;
+    --bg-page:       #13131f;
+    --white:         #1e1e2e;
+    --gray-light:    #252535;
+    --shadow-sm:     0 2px 8px rgba(0,0,0,0.3);
+    --shadow-md:     0 4px 15px rgba(0,0,0,0.3);
+    --shadow-lg:     0 8px 30px rgba(0,0,0,0.4);
+    --primary-light: #1e1d3a;
+    --accent-light:  #2d1f4e;
+}
+
+body.dark-mode .sidebar-nav {
+    background: #16162a;
+    border-right-color: #2a2a3e;
+}
+
+body.dark-mode .sidebar-nav a.active,
+body.dark-mode .sidebar-nav a:hover {
+    background: #252545;
+    color: var(--primary);
+}
+
+body.dark-mode .page-header {
+    background: #16162a;
+    border-bottom-color: #2a2a3e;
+}
+
+body.dark-mode .question-card,
+body.dark-mode .course-item,
+body.dark-mode .card {
+    background: #1e1e2e;
+    border-color: #2a2a3e;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background: #252535;
+    border-color: #3a3a5e;
+    color: var(--text);
+}
+
+body.dark-mode .user-header-pill {
+    background: #252535;
+    border-color: #3a3a5e;
+}
+
+/* Dark mode toggle mygtukas */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s;
+    user-select: none;
+    gap: 10px;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 20px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--primary);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(16px);
+}
+
+/* Dark mode — papildomos baltos vietos */
+body.dark-mode {
+    color-scheme: dark;
+}
+body.dark-mode .dashboard-main,
+body.dark-mode .dashboard-bg,
+body.dark-mode main {
+    background: var(--bg-page);
+}
+body.dark-mode .stat-card,
+body.dark-mode .analytics-main,
+body.dark-mode .filter-section,
+body.dark-mode .chart-section,
+body.dark-mode .result-box,
+body.dark-mode .items-list,
+body.dark-mode .filter-bar,
+body.dark-mode .quiz-result-box,
+body.dark-mode .quiz-submit-wrap,
+body.dark-mode .practice-container,
+body.dark-mode .lesson-card,
+body.dark-mode .topic-card,
+body.dark-mode .quiz-card,
+body.dark-mode .admin-list-row,
+body.dark-mode .xp-banner {
+    background: #1e1e2e;
+    border-color: #2a2a3e;
+}
+body.dark-mode .course-item,
+body.dark-mode .auth-card,
+body.dark-mode .progress-panel,
+body.dark-mode .paywall-box,
+body.dark-mode .vbe-card {
+    background: #1e1e2e !important;
+    border-color: #2a2a3e;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+body.dark-mode .page-header {
+    background: #16162a !important;
+    border-bottom: 1px solid #2a2a3e;
+}
+body.dark-mode .site-footer {
+    background: #16162a;
+    border-top: 1px solid #2a2a3e;
+    color: var(--text-gray);
+}
+body.dark-mode .site-footer a,
+body.dark-mode .f-copy,
+body.dark-mode .f-col-title {
+    color: var(--text-gray);
+}
+body.dark-mode .option-item,
+body.dark-mode .option-label {
+    background: #252535;
+    border-color: #3a3a5e;
+    color: var(--text);
+}
+body.dark-mode .option-item:hover {
+    background: #2d2d4e;
+}
+body.dark-mode .btn-outline {
+    border-color: #3a3a5e;
+    color: var(--text);
+}
+body.dark-mode .btn-outline:hover {
+    background: #252535;
+}
+body.dark-mode .form-select,
+body.dark-mode .search-input,
+body.dark-mode .form-input {
+    background: #252535 !important;
+    border-color: #3a3a5e !important;
+    color: var(--text) !important;
+}
+body.dark-mode hr {
+    border-color: #2a2a3e;
+}
+body.dark-mode .password-card {
+    background: #252535;
+    border-color: #3a3a5e;
+}
+
+/* Dark mode — įrankių kortelės ir tools puslapiai */
+body.dark-mode .tool-card {
+    background: #1e1e2e !important;
+    border-color: #2a2a3e !important;
+    color: var(--text);
+}
+body.dark-mode .tool-card-title { color: #f3f4f6 !important; }
+body.dark-mode .tool-card-desc  { color: #9ca3af !important; }
+body.dark-mode .tool-card-icon.physics   { background: #1e1d3a !important; }
+body.dark-mode .tool-card-icon.math      { background: #0d2a1f !important; }
+body.dark-mode .tool-card-icon.chemistry { background: #2a1a0a !important; }
+body.dark-mode .section-label { color: #6b7280 !important; }

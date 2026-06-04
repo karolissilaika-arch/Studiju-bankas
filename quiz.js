@@ -181,7 +181,6 @@ function showResultUI(score, total) {
         </div>
     `;
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // --- 5. XP ĮRAŠYMAS (VISIEMS VARTOTOJAMS) ---

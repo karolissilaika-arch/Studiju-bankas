@@ -10,6 +10,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5404880047208445"
      crossorigin="anonymous"></script>
+
+<style>
+.profile-main-card {
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.profile-stat-box {
+    background: #f8f9ff;
+}
+.profile-divider {
+    border-top: 1px solid #f0f0f0;
+}
+/* Dark mode */
+body.dark-mode .profile-main-card {
+    background: #1e1e2e !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+}
+body.dark-mode .profile-stat-box {
+    background: #252535 !important;
+}
+body.dark-mode .profile-stat-box h3 {
+    color: #f3f4f6 !important;
+}
+body.dark-mode .profile-stat-box p {
+    color: #6b7280 !important;
+}
+body.dark-mode .profile-divider {
+    border-top-color: #2a2a3e !important;
+}
+body.dark-mode #avatar-gallery > div {
+    background: #252535 !important;
+    border-color: #3a3a5e !important;
+}
+body.dark-mode #avatar-gallery > div[style*="border: 2px solid #5d5fef"],
+body.dark-mode #avatar-gallery > div[style*="background: #f0f0ff"] {
+    background: #252545 !important;
+}
+body.dark-mode #profile-name { color: #f3f4f6 !important; }
+body.dark-mode #profile-email { color: #9ca3af !important; }
+body.dark-mode .password-card { background: #252535 !important; border-color: #3a3a5e !important; }
+body.dark-mode .password-card h3 { color: #f3f4f6 !important; }
+body.dark-mode #new-password { background: #1e1e2e !important; border-color: #3a3a5e !important; color: #e5e7eb !important; }
+</style>
+
 </head>
 <body class="dashboard-bg">
     <div class="dashboard-layout">
@@ -41,7 +85,7 @@
             </header>
 
             <div class="container" style="max-width: 500px; margin: 40px auto;">
-                <div class="course-item" style="display: block; text-align: center; padding: 30px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <div class="course-item" class="profile-main-card" style="display: block; text-align: center; padding: 30px; border-radius: 20px;">
                     
                     <div style="margin-bottom: 20px;">
                         <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" alt="Profilis" 
@@ -52,24 +96,35 @@
                     <p id="profile-email" style="color: #888; font-size: 14px; margin-top: 5px; margin-bottom: 25px;">Kraunama...</p>
 
                     <div style="display: flex; gap: 10px; margin-bottom: 30px;">
-                        <div style="flex: 1; background: #f8f9ff; padding: 15px; border-radius: 12px;">
+                        <div class="profile-stat-box" style="flex: 1; padding: 15px; border-radius: 12px;">
                             <h3 id="xp-count" style="margin: 0; font-size: 20px;">0</h3>
                             <p style="margin: 0; font-size: 10px; font-weight: bold; color: #aaa; text-transform: uppercase;">XP Taškai</p>
                         </div>
-                        <div style="flex: 1; background: #f8f9ff; padding: 15px; border-radius: 12px;">
+                        <div class="profile-stat-box" style="flex: 1; padding: 15px; border-radius: 12px;">
                             <h3 id="quizzes-count" style="margin: 0; font-size: 20px;">0</h3>
                             <p style="margin: 0; font-size: 10px; font-weight: bold; color: #aaa; text-transform: uppercase;">Testai</p>
                         </div>
                     </div>
 
-                    <div style="text-align: left; border-top: 1px solid #f0f0f0; padding-top: 20px;">
+                    <div class="profile-divider" style="text-align: left; padding-top: 20px;">
                         <h4 style="margin-bottom: 15px; font-size: 16px; color: #333;"><i class="fas fa-lock" style="font-size: 12px;"></i> Atrakinami avatarai</h4>
                         <div id="avatar-gallery" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
                             </div>
                     </div>
-                    <div id="premium-section" style="margin-top: 20px; border-top: 1px solid #f0f0f0; padding-top: 20px;">
+                    <div id="premium-section" class="profile-divider" style="margin-top: 20px; padding-top: 20px;">
     <!-- Pildoma subscription.js automatiškai -->
 </div>
+                    
+                    <!-- Dark mode toggle -->
+                    <div class="profile-divider" style="margin-top: 20px; padding-top: 20px; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 14px; font-weight: 600; color: var(--text-dark);">
+                            <i class="fas fa-moon" style="margin-right: 8px; color: var(--primary);"></i> Tamsi tema
+                        </span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="dark-mode-checkbox" onchange="toggleDarkMode(this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                     <div class="password-change-section">
   <div class="password-card">
     <h3><i class="fas fa-lock"></i> Keisti slaptažodį</h3>

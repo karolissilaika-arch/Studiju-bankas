@@ -11,6 +11,10 @@ const availableAvatars = [
 ];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Nustatome dark mode toggle būseną iš localStorage
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    document.querySelectorAll('.dark-mode-checkbox').forEach(cb => cb.checked = isDark);
+
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) {
         window.location.href = 'login.html';
@@ -134,7 +138,7 @@ function renderGallery(xp, currentUrl) {
                         border-radius: 12px;
                         transition: 0.2s;
                         border: 2px solid ${isActive ? '#5d5fef' : 'transparent'};
-                        background: ${isActive ? '#f0f0ff' : 'transparent'};
+                        background: ${isActive ? 'var(--primary-light)' : 'transparent'};
                         opacity: ${isLocked ? '0.4' : '1'};">
                 <img src="${avatar.url}" style="width: 100%; border-radius: 10px; background: #eee;">
                 ${isLocked
